@@ -11,3 +11,13 @@ VSCode extension to edit markdown table.
 - Add shortcut
     - Shift+Alt+T : Convert selected lines from TSV style to markdown table style (with format indent).
     - Shift+Alt+F : Format indent of all markdown tables in current document. 
+
+## Demonstrations
+
+### Convert selected lines from TSV style to markdown table style (with format indent).
+
+### Format indent of all markdown tables in current document.
+
+### Insert row in the right.
+
+### Insert row in the left.
