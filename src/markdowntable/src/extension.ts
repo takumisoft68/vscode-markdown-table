@@ -9,7 +9,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 	// Use the console to output diagnostic information (console.log) and errors (console.error)
 	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "markdowntable" is now active!');
+	//console.log('Congratulations, your extension "markdowntable" is now active!');
 
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with registerCommand
@@ -30,9 +30,6 @@ export function activate(context: vscode.ExtensionContext) {
 
 		let text = doc.getText(cur_selection); //取得されたテキスト
 
-		/**
-		* ここでテキストを加工します。
-		**/
 		let mdt = new markdowntable.MarkdownTable();
 		let tableData = mdt.tsvToTableData(text);
 		let tableStr = mdt.tableDataToTableStr(tableData);
@@ -55,12 +52,12 @@ export function activate(context: vscode.ExtensionContext) {
 		let all_selection = new vscode.Selection(
 								new vscode.Position(0, 0), 
 								new vscode.Position(doc.lineCount - 1, 10000));
+
 		let text = doc.getText(all_selection); //取得されたテキスト
 		let lines = text.split(/\r\n|\n|\r/);
 
 		// 変換のリスト
-		let table_selection_list : vscode.Selection[] = new Array();
-		let table_formatted_str : string[] = new Array();
+		let format_list = [] as [vscode.Selection, string][];
 
 		// テーブルの変形処理クラス
 		let mdt = new markdowntable.MarkdownTable();
@@ -96,17 +93,15 @@ export function activate(context: vscode.ExtensionContext) {
 			let tableStrFormatted = mdt.tableDataToFormatTableStr(tableData);
 
 			// 変換内容をリストに保持する
-			table_selection_list.push(table_selection);
-			table_formatted_str.push(tableStrFormatted);
+			format_list.push([table_selection, tableStrFormatted]);
 
 			preSearchedLine = endLine;
 		}
 
 		//エディタ選択範囲にテキストを反映
 		editor.edit(edit => {
-			while (table_selection_list.length > 0) {
-				let selection = table_selection_list.pop() as vscode.Selection;
-				let text = table_formatted_str.pop() as string;
+			while (format_list.length > 0) {
+				let [selection, text] = format_list.pop() as [vscode.Selection, string];
 				edit.replace(selection, text);
 			}
 		});
