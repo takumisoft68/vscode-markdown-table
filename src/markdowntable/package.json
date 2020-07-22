@@ -1,7 +1,7 @@
 {
 	"name": "markdowntable",
-	"displayName": "MarkdownTable",
-	"description": "Add context menu to edit markdown table.",
+	"displayName": "Markdown Table",
+	"description": "A minimul extension for markdown table. Add context menu to edit markdown table.",
 	"version": "0.0.1",
 	"engines": {
 		"vscode": "^1.47.0"
@@ -10,7 +10,6 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:markdowntable.helloWorld",
 		"onCommand:markdowntable.tsvToTable",
 		"onCommand:markdowntable.format",
 		"onCommand:markdowntable.insertRight",
@@ -20,41 +19,63 @@
 	"contributes": {
 		"commands": [
 			{
-				"command": "markdowntable.helloWorld",
-				"title": "Hello World"
-			},
-			{
 				"command": "markdowntable.tsvToTable",
-				"title": "MarkdownTable: Convert to table."
+				"title": "Markdown Table: Convert to table."
 			},
 			{
 				"command": "markdowntable.format",
-				"title": "MarkdownTable: Format all tables."
+				"title": "Markdown Table: Format all tables."
 			},
 			{
 				"command": "markdowntable.insertRight",
-				"title": "MarkdownTable: Insert row in the right."
+				"title": "Markdown Table: Insert row in the right."
 			},
 			{
 				"command": "markdowntable.insertLeft",
-				"title": "MarkdownTable: Insert row in the left."
+				"title": "Markdown Table: Insert row in the left."
 			}
 		],
 		"menus": {
 			"editor/context": [
 				{
+					"when": "editorLangId == markdown && editorHasSelection",
 					"command": "markdowntable.tsvToTable",
 					"group": "markdowntable@1"
 				},
 				{
+					"when": "editorLangId == markdown",
 					"command": "markdowntable.format",
 					"group": "markdowntable@1"
 				},
 				{
+					"when": "editorLangId == markdown && !editorHasSelection",
 					"command": "markdowntable.insertRight",
 					"group": "markdowntable@1"
 				},
 				{
+					"when": "editorLangId == markdown && !editorHasSelection",
+					"command": "markdowntable.insertLeft",
+					"group": "markdowntable@1"
+				}
+			],
+			"commandPalette": [
+				{
+					"when": "editorLangId == markdown && editorHasSelection",
+					"command": "markdowntable.tsvToTable",
+					"group": "markdowntable@1"
+				},
+				{
+					"when": "editorLangId == markdown",
+					"command": "markdowntable.format",
+					"group": "markdowntable@1"
+				},
+				{
+					"when": "editorLangId == markdown && !editorHasSelection",
+					"command": "markdowntable.insertRight",
+					"group": "markdowntable@1"
+				},
+				{
+					"when": "editorLangId == markdown && !editorHasSelection",
 					"command": "markdowntable.insertLeft",
 					"group": "markdowntable@1"
 				}
