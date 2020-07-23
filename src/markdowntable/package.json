@@ -40,6 +40,11 @@
 				"command": "markdowntable.format",
 				"key": "shift+alt+f",
 				"when": "editorLangId == markdown && editorTextFocus"
+			},
+			{
+				"command": "markdowntable.tsvToTable",
+				"key": "shift+alt+t",
+				"when": "editorLangId == markdown && editorTextFocus && editorHasSelection"
 			}
 		],
 		"menus": {
