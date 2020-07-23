@@ -19,12 +19,12 @@
 	"contributes": {
 		"commands": [
 			{
-				"command": "markdowntable.tsvToTable",
-				"title": "Markdown Table: Convert to table."
-			},
-			{
 				"command": "markdowntable.format",
 				"title": "Markdown Table: Format all tables."
+			},
+			{
+				"command": "markdowntable.tsvToTable",
+				"title": "Markdown Table: Convert CSV to table."
 			},
 			{
 				"command": "markdowntable.insertRight",
@@ -35,49 +35,56 @@
 				"title": "Markdown Table: Insert row in the left."
 			}
 		],
+		"keybindings": [
+			{
+				"command": "markdowntable.format",
+				"key": "shift+ctrl+f",
+				"when": "editorLangId == markdown && editorTextFocus"
+			}
+		],
 		"menus": {
 			"editor/context": [
-				{
-					"when": "editorLangId == markdown && editorHasSelection",
-					"command": "markdowntable.tsvToTable",
-					"group": "markdowntable@1"
-				},
 				{
 					"when": "editorLangId == markdown",
 					"command": "markdowntable.format",
 					"group": "markdowntable@1"
 				},
 				{
+					"when": "editorLangId == markdown && editorHasSelection",
+					"command": "markdowntable.tsvToTable",
+					"group": "markdowntable2@2"
+				},
+				{
 					"when": "editorLangId == markdown && !editorHasSelection",
 					"command": "markdowntable.insertRight",
-					"group": "markdowntable@1"
+					"group": "markdowntable2@3"
 				},
 				{
 					"when": "editorLangId == markdown && !editorHasSelection",
 					"command": "markdowntable.insertLeft",
-					"group": "markdowntable@1"
+					"group": "markdowntable2@4"
 				}
 			],
 			"commandPalette": [
 				{
-					"when": "editorLangId == markdown && editorHasSelection",
-					"command": "markdowntable.tsvToTable",
-					"group": "markdowntable@1"
-				},
-				{
 					"when": "editorLangId == markdown",
 					"command": "markdowntable.format",
 					"group": "markdowntable@1"
 				},
 				{
+					"when": "editorLangId == markdown && editorHasSelection",
+					"command": "markdowntable.tsvToTable",
+					"group": "markdowntable2@2"
+				},
+				{
 					"when": "editorLangId == markdown && !editorHasSelection",
 					"command": "markdowntable.insertRight",
-					"group": "markdowntable@1"
+					"group": "markdowntable2@3"
 				},
 				{
 					"when": "editorLangId == markdown && !editorHasSelection",
 					"command": "markdowntable.insertLeft",
-					"group": "markdowntable@1"
+					"group": "markdowntable2@4"
 				}
 			]
 		}
