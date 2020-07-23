@@ -107,70 +107,90 @@ export function activate(context: vscode.ExtensionContext) {
 		});
 	});
 
-	let insertRight = vscode.commands.registerCommand('markdowntable.insertRight', () => {
-		// The code you place here will be executed every time your command is executed
-
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Insert row in the right from MarkdownTable!');
-
+	let insertRow = (isLeft :boolean) => {
 		// エディタ取得
 		let editor = vscode.window.activeTextEditor as vscode.TextEditor;
 		// ドキュメント取得
 		let doc = editor.document;
 		// 選択範囲取得
 		let cur_selection = editor.selection;
-		if(editor.selection.isEmpty){         
-			// 選択範囲が空であれば全てを選択範囲にする
-			let startPos = new vscode.Position(0, 0);
-			let endPos = new vscode.Position(doc.lineCount - 1, 10000);
-			cur_selection = new vscode.Selection(startPos, endPos);
+		if(!editor.selection.isEmpty){
+			vscode.window.showErrorMessage('Markdown Table : Insert command doesn\'t allowed range selection.');
+			return;
 		}
 
-		let text = doc.getText(cur_selection); //取得されたテキスト
+		let selected_column = -1;
+		{
+			let line_selection = new vscode.Selection(
+								new vscode.Position(cur_selection.anchor.line, 0), 
+								new vscode.Position(cur_selection.anchor.line, 10000));
+			let line_text = doc.getText(line_selection);
+			let line_chars = line_text.split('');
+			for(let i = 0; i < cur_selection.anchor.character; i++)
+			{
+				if(line_chars[i] === '|') 
+				{
+					selected_column++;
+				}
+			}
+		}
 
-		/**
-		* ここでテキストを加工します。
-		**/
-		text += "test"
+		let insertPosition = isLeft ? selected_column : selected_column + 1;
 
+		let startLine = cur_selection.anchor.line;
+		let endLine = cur_selection.anchor.line;
+		while (startLine - 1 >= 0)
+		{
+			let line_selection = new vscode.Selection(
+								new vscode.Position(startLine - 1, 0), 
+								new vscode.Position(startLine - 1, 10000));
+
+			let line_text = doc.getText(line_selection);
+			if(!line_text.trim().startsWith('|'))
+			{
+				break;
+			}
+			startLine--;
+		}
+		while (endLine + 1 < doc.lineCount)
+		{
+			let line_selection = new vscode.Selection(
+								new vscode.Position(endLine + 1, 0), 
+								new vscode.Position(endLine + 1, 10000));
+
+			let line_text = doc.getText(line_selection);
+			if(!line_text.trim().startsWith('|'))
+			{
+				break;
+			}
+			endLine++;
+		}
+
+		let table_selection = new vscode.Selection(
+							new vscode.Position(startLine, 0), 
+							new vscode.Position(endLine, 10000));
+		let table_text = doc.getText(table_selection);
+
+		// テーブルの変形処理クラス
+		let mdt = new markdowntable.MarkdownTable();
+		let tableData = mdt.stringToTableData(table_text);
+		tableData = mdt.insertRow(tableData, insertPosition);
+		table_text = mdt.tableDataToFormatTableStr(tableData);
 
 		//エディタ選択範囲にテキストを反映
 		editor.edit(edit => {
-			edit.replace(cur_selection, text);
+			edit.replace(table_selection, table_text);
 		});
+	};
+
+	let insertRight = vscode.commands.registerCommand('markdowntable.insertRight', () => {
+		// The code you place here will be executed every time your command is executed
+		insertRow(false);
 	});
 
 	let insertLeft = vscode.commands.registerCommand('markdowntable.insertLeft', () => {
 		// The code you place here will be executed every time your command is executed
-
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Insert row in the left from MarkdownTable!');
-
-		// エディタ取得
-		let editor = vscode.window.activeTextEditor as vscode.TextEditor;
-		// ドキュメント取得
-		let doc = editor.document;
-		// 選択範囲取得
-		let cur_selection = editor.selection;
-		if(editor.selection.isEmpty){         
-			// 選択範囲が空であれば全てを選択範囲にする
-			let startPos = new vscode.Position(0, 0);
-			let endPos = new vscode.Position(doc.lineCount - 1, 10000);
-			cur_selection = new vscode.Selection(startPos, endPos);
-		}
-
-		let text = doc.getText(cur_selection); //取得されたテキスト
-
-		/**
-		* ここでテキストを加工します。
-		**/
-		text += "test"
-
-
-		//エディタ選択範囲にテキストを反映
-		editor.edit(edit => {
-			edit.replace(cur_selection, text);
-		});
+		insertRow(true);
 	});
 
 	context.subscriptions.push(tsvToTable);

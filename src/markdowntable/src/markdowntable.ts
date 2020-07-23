@@ -261,4 +261,23 @@ export class MarkdownTable {
 
 		return formatted.join('\r\n');
 	}
+
+	public insertRow(tableData :TableData, insertAt :number) : TableData {
+		let columns = tableData.columns;
+		let aligns = tableData.aligns;
+		let cells = tableData.cells;
+		let leftovers = tableData.leftovers;
+		let column_num = tableData.columns.length;
+
+		columns.splice(insertAt, 0, '');
+		aligns.splice(insertAt, 0, ['-', '-']);
+		for (let i = 0; i < cells.length; i++)
+		{
+			cells[i].splice(insertAt, 0, '');
+		}
+
+		//cells.splice(insertAt, 0, Array.from({length: column_num}, () => ''));
+		
+		return new TableData(aligns, columns, cells, leftovers);
+	}
 }
