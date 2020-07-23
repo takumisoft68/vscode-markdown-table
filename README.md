@@ -1,17 +1,17 @@
 # Markdown Table
 
-Markdown table features (convert from CSV, insert column, format table column width).
+Markdown table features (convert from TSV, insert column, format table column width).
 
 ## 1. Features
 
 - Format all tables (in current document)
-- Convert to table from CSV text
+- Convert to table from TSV text
 - Insert column in the right
 - Insert column in the left
 
 ## 2. Demo
 
-### 2.1. Convert to table from CSV text
+### 2.1. Convert to table from TSV text
 
 **Tips: This feature is supposed to make table from excel cells.**
 

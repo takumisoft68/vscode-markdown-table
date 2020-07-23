@@ -3,7 +3,7 @@
 	"publisher": "TakumiI",
 	"displayName": "Markdown Table",
 	"description": "A minimul extension for markdown table. Add context menu to edit markdown table.",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/takumisoft68/vscode-markdown-table"
@@ -29,7 +29,7 @@
 			},
 			{
 				"command": "markdowntable.tsvToTable",
-				"title": "Markdown Table: Convert CSV to table."
+				"title": "Markdown Table: Convert TSV to table."
 			},
 			{
 				"command": "markdowntable.insertRight",
