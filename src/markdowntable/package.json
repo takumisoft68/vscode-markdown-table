@@ -38,7 +38,7 @@
 		"keybindings": [
 			{
 				"command": "markdowntable.format",
-				"key": "shift+ctrl+f",
+				"key": "shift+alt+f",
 				"when": "editorLangId == markdown && editorTextFocus"
 			}
 		],

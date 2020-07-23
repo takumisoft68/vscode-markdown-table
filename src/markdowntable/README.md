@@ -1,65 +1,38 @@
-# markdowntable README
+# Markdown Table
 
-This is the README for your extension "markdowntable". After writing up a brief description, we recommend including the following sections.
+Markdown table features (convert from CSV, insert column, format table column width).
 
-## Features
+## 1. Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+- Format all tables (in current document)
+- Convert to table from CSV text
+- Insert column in the right
+- Insert column in the left
 
-For example if there is an image subfolder under your extension project workspace:
+## 2. Demo
 
-\!\[feature X\]\(images/feature-x.png\)
+### 2.1. Convert to table from CSV text
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+**Tips: This feature is supposed to make table from excel cells.**
 
-## Requirements
+![convert](images/table_from_excel.gif)
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+### 2.2. Format table
 
-## Extension Settings
+Key binding to `Shift + Alt + F`.
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+![formattable](images/format_table.gif)
 
-For example:
+### 2.3. Insert column
 
-This extension contributes the following settings:
+![insert](images/insert.gif)
 
-* `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something
+## 3. Extension Settings
 
-## Known Issues
+This extension has no settings.
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+## 4. Release Notes
 
-## Release Notes
+### 4.1. 1
 
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
------------------------------------------------------------------------------------------------------------
-
-## Working with Markdown
-
-**Note:** You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+CMD+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (macOS) to see a list of Markdown snippets
-
-### For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+Initial release.
