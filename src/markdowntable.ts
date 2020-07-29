@@ -18,24 +18,40 @@ export class MarkdownTable {
 
 
     public stringToTableData(tableText :string) :TableData {
-        let lines = tableText.split(/\r\n|\n|\r/);
+		let lines = tableText.split(/\r\n|\n|\r/);
+		
+		// 行文字列をセルデータ配列に分解する
+		// datasNumMin に指定したデータ数に満たない行は '' で埋める
+		let splitline = (linestr: string, datasNumMin :number, fillstr :string = '') => {
+			linestr = linestr.trim();
+			if (linestr.startsWith('|')) {
+				linestr = linestr.slice(1);
+			}
+			if (linestr.endsWith('|')) {
+				linestr = linestr.slice(0, -1);
+			}
+			let linedatas =linestr.split('|');
 
-		let columns = lines[0].split('|').slice(1, -1);
-		for (var i = 0; i < columns.length; i++) {
-			columns[i] = columns[i].trim();
-		}
+			// 最低データ数分を''で埋めておく
+			let datas : string[] = new Array(datasNumMin).fill(fillstr);
+			// 行文字列から取得したデータに置き換える
+			for (var i = 0; i < linedatas.length; i++) {
+				datas[i] = linedatas[i];
+			}
+			return datas;
+		};
+
+		// 1行目
+		let columns = splitline(lines[0], 0).map((v)=> v.trim());
         let columnNum = columns.length;
 
         // 2行目の寄せ記号
-        let aligns : [string, string][] = new Array();
-        for (let row = 1; row <= 1; row++) {
-			// 2行目のデータ（最初の|より前と最後の|より後ろは不要なのでsliceで削る）
-            let cells = lines[row].split('|').slice(1, -1);
-            for (let i = 0; i < columnNum; i++) {
-                let celldata = cells[i].trim();
-                aligns[i] = [celldata[0], celldata.slice(-1)];
-            }
-        }
+		let aligns : [string, string][] = new Array();
+		let aligndatas = splitline(lines[1], columnNum, '---').map((v)=> v.trim());
+		for (let i = 0; i < columnNum; i++) {
+			let celldata = aligndatas[i];
+			aligns[i] = [celldata[0], celldata.slice(-1)];
+		}
 
         // セルの値を取得
 		let cells : string [][] = new Array();
@@ -43,31 +59,21 @@ export class MarkdownTable {
 		let cellrow = -1;
         for (let row = 2; row < lines.length; row++) {
 			cellrow++;
-			cells[cellrow] = new Array();
 
-            let linedatas = lines[row].split('|');
-			let cellnum = -1;
-            for (let i = 1; i <= columnNum; i++) {
-                let celldata = '';
-                if (i < linedatas.length) {
-                    celldata = linedatas[i].trim();
-                }
-				cellnum++;
-				cells[cellrow][cellnum] = celldata;
-            }
+			let linedatas = splitline(lines[row], columnNum);
+			cells[cellrow] = linedatas.slice(0, columnNum).map((v)=> v.trim());
 
-            // あまりデータを末尾に着ける
+            // あまりデータを収集する
 			leftovers[cellrow] = '';
-            for(let n = columnNum + 1; n < linedatas.length; n++) {
-                leftovers[cellrow] += linedatas[n];
-                if (n+1 < linedatas.length) {
-                    leftovers[cellrow] += '|';
-                }
-            }
-        }
-
+			if (linedatas.length > columnNum)
+			{
+				let leftoverdatas = linedatas.slice(columnNum, linedatas.length);
+				leftovers[cellrow] = leftoverdatas.join('|');
+			}
+		}
+		
 		return new TableData(aligns, columns, cells, leftovers);
-    }
+	}
 
 	public tsvToTableData(srcText :string) : TableData {
 		// 入力データを行ごとに分割する
