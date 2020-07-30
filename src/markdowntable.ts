@@ -9,8 +9,6 @@ class TableData {
 		this.columns = _columns;
 		this.cells = _cells;
 		this.leftovers = _leftovers;
-
-
 	}
 };
 
@@ -35,7 +33,7 @@ export class MarkdownTable {
 			// 最低データ数分を''で埋めておく
 			let datas : string[] = new Array(datasNumMin).fill(fillstr);
 			// 行文字列から取得したデータに置き換える
-			for (var i = 0; i < linedatas.length; i++) {
+			for (let i = 0; i < linedatas.length; i++) {
 				datas[i] = linedatas[i];
 			}
 			return datas;
@@ -285,5 +283,47 @@ export class MarkdownTable {
 		//cells.splice(insertAt, 0, Array.from({length: column_num}, () => ''));
 		
 		return new TableData(aligns, columns, cells, leftovers);
+	}
+
+	// return [line, character]
+	public getPositionOfCell(tableText :string, cellRow :number, cellColumn :number) : [number, number] {
+		let line = (cellRow <= 0) ? 0 : cellRow + 1;
+		let character = 0;
+
+		let lines = tableText.split(/\r\n|\n|\r/);
+		let linestr = lines[line];
+		let column = -1;
+		for (let n = 0; n < linestr.length; n++) {
+			if (linestr[n] === '|') {
+				column++;
+			}
+
+			if (column >= cellColumn) {
+				character = n + 1;
+				break;
+			}
+
+			character = n;
+		}
+
+		return [line, character];
+	}
+
+	// return [row, column]
+	public getCellAtPosition(tableText :string, line :number, character :number) {
+		let row = (line <= 0 || line === 1) ? 0 : line - 1;
+
+		let lines = tableText.split(/\r\n|\n|\r/);
+		let linestr = lines[line];
+
+		let column = -1;
+
+		for (let n = 0; n < character; n++) {
+			if (linestr[n] === '|') {
+				column++;
+			}
+		}
+
+		return [row, column];
 	}
 }

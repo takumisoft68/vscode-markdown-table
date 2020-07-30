@@ -19,25 +19,25 @@ export function activate(context: vscode.ExtensionContext) {
 		// The code you place here will be executed every time your command is executed
 
 		// エディタ取得
-		let editor = vscode.window.activeTextEditor as vscode.TextEditor;
+		const editor = vscode.window.activeTextEditor as vscode.TextEditor;
 		// ドキュメント取得
-		let doc = editor.document;
+		const doc = editor.document;
 		// 選択範囲取得
-		let cur_selection = editor.selection;
+		const cur_selection = editor.selection;
 		if(editor.selection.isEmpty){         
 			return;
 		}
 
-		let text = doc.getText(cur_selection); //取得されたテキスト
+		const text = doc.getText(cur_selection); //取得されたテキスト
 
-		let mdt = new markdowntable.MarkdownTable();
-		let tableData = mdt.tsvToTableData(text);
-		let tableStr = mdt.tableDataToTableStr(tableData);
-		tableStr = mdt.tableDataToFormatTableStr(tableData);
+		const mdt = new markdowntable.MarkdownTable();
+		const tableData = mdt.tsvToTableData(text);
+		const tableStr = mdt.tableDataToTableStr(tableData);
+		const newTableStr = mdt.tableDataToFormatTableStr(tableData);
 
 		//エディタ選択範囲にテキストを反映
 		editor.edit(edit => {
-			edit.replace(cur_selection, tableStr);
+			edit.replace(cur_selection, newTableStr);
 		});
 	});
 
@@ -45,22 +45,22 @@ export function activate(context: vscode.ExtensionContext) {
 		// The code you place here will be executed every time your command is executed
 
 		// エディタ取得
-		let editor = vscode.window.activeTextEditor as vscode.TextEditor;
+		const editor = vscode.window.activeTextEditor as vscode.TextEditor;
 		// ドキュメント取得
-		let doc = editor.document;
+		const doc = editor.document;
 		// ドキュメント全てを取得する
-		let all_selection = new vscode.Selection(
+		const all_selection = new vscode.Selection(
 								new vscode.Position(0, 0), 
 								new vscode.Position(doc.lineCount - 1, 10000));
 
-		let text = doc.getText(all_selection); //取得されたテキスト
-		let lines = text.split(/\r\n|\n|\r/);
+		const text = doc.getText(all_selection); //取得されたテキスト
+		const lines = text.split(/\r\n|\n|\r/);
 
 		// 変換のリスト
 		let format_list = [] as [vscode.Selection, string][];
 
 		// テーブルの変形処理クラス
-		let mdt = new markdowntable.MarkdownTable();
+		const mdt = new markdowntable.MarkdownTable();
 
 
 		// 表を探す
@@ -83,14 +83,14 @@ export function activate(context: vscode.ExtensionContext) {
 				}
 			}
 			// 表のテキストを取得
-			let table_selection = new vscode.Selection(
+			const table_selection = new vscode.Selection(
 								new vscode.Position(startLine, 0), 
 								new vscode.Position(endLine, lines[endLine].length));
-			let table_text = doc.getText(table_selection);
+			const table_text = doc.getText(table_selection);
 
 			// 表をフォーマットする
-			let tableData = mdt.stringToTableData(table_text);
-			let tableStrFormatted = mdt.tableDataToFormatTableStr(tableData);
+			const tableData = mdt.stringToTableData(table_text);
+			const tableStrFormatted = mdt.tableDataToFormatTableStr(tableData);
 
 			// 変換内容をリストに保持する
 			format_list.push([table_selection, tableStrFormatted]);
@@ -98,22 +98,52 @@ export function activate(context: vscode.ExtensionContext) {
 			preSearchedLine = endLine;
 		}
 
+		// 新しいカーソル位置（editor.editでの処理が完了してから動かさないとずれるため外に置く）
+		let newSelection = new vscode.Selection(editor.selection.active, editor.selection.active);
+
 		//エディタ選択範囲にテキストを反映
 		editor.edit(edit => {
-			while (format_list.length > 0) {
-				let [selection, text] = format_list.pop() as [vscode.Selection, string];
-				edit.replace(selection, text);
+			for (let i = 0; i < format_list.length; i++) {
+				const [selection, text] = format_list[i] as [vscode.Selection, string];
+
+				// カーソルを元のセルと同じ位置にするためにカーソル位置を特定しておく
+				if (selection.contains(editor.selection.active)) {
+					// テーブルの変形処理クラス
+					const mdt = new markdowntable.MarkdownTable();
+					const prevText = doc.getText(selection);
+					const [prevline, prevcharacter] = [editor.selection.active.line - selection.start.line, editor.selection.active.character];
+					const [prevRow, prevColumn] = mdt.getCellAtPosition(prevText, prevline, prevcharacter);
+			
+					// テキストを置換
+					edit.replace(selection, text);
+
+					// 新しいカーソル位置を計算
+					// character の +1 は表セル内の|とデータの間の半角スペース分
+					const [newline, newcharacter] = mdt.getPositionOfCell(text, prevRow, prevColumn);
+					const newPosition = new vscode.Position(
+						selection.start.line + newline, 
+						selection.start.character + newcharacter + 1);
+					newSelection = new vscode.Selection(newPosition, newPosition);
+				}
+				else {
+					// テキストを置換
+					edit.replace(selection, text);
+				}
 			}
 		});
+
+		// カーソル位置を移動
+		editor.selection = newSelection;
+
 	});
 
 	let insertRow = (isLeft :boolean) => {
 		// エディタ取得
-		let editor = vscode.window.activeTextEditor as vscode.TextEditor;
+		const editor = vscode.window.activeTextEditor as vscode.TextEditor;
 		// ドキュメント取得
-		let doc = editor.document;
+		const doc = editor.document;
 		// 選択範囲取得
-		let cur_selection = editor.selection;
+		const cur_selection = editor.selection;
 		if(!editor.selection.isEmpty){
 			vscode.window.showErrorMessage('Markdown Table : Insert command doesn\'t allowed range selection.');
 			return;
@@ -121,11 +151,11 @@ export function activate(context: vscode.ExtensionContext) {
 
 		let selected_column = -1;
 		{
-			let line_selection = new vscode.Selection(
+			const line_selection = new vscode.Selection(
 								new vscode.Position(cur_selection.anchor.line, 0), 
 								new vscode.Position(cur_selection.anchor.line, 10000));
-			let line_text = doc.getText(line_selection);
-			let line_chars = line_text.split('');
+			const line_text = doc.getText(line_selection);
+			const line_chars = line_text.split('');
 			for(let i = 0; i < cur_selection.anchor.character; i++)
 			{
 				if(line_chars[i] === '|') 
@@ -135,17 +165,17 @@ export function activate(context: vscode.ExtensionContext) {
 			}
 		}
 
-		let insertPosition = isLeft ? selected_column : selected_column + 1;
+		const insertPosition = isLeft ? selected_column : selected_column + 1;
 
 		let startLine = cur_selection.anchor.line;
 		let endLine = cur_selection.anchor.line;
 		while (startLine - 1 >= 0)
 		{
-			let line_selection = new vscode.Selection(
+			const line_selection = new vscode.Selection(
 								new vscode.Position(startLine - 1, 0), 
 								new vscode.Position(startLine - 1, 10000));
 
-			let line_text = doc.getText(line_selection);
+			const line_text = doc.getText(line_selection);
 			if(!line_text.trim().startsWith('|'))
 			{
 				break;
@@ -154,11 +184,11 @@ export function activate(context: vscode.ExtensionContext) {
 		}
 		while (endLine + 1 < doc.lineCount)
 		{
-			let line_selection = new vscode.Selection(
+			const line_selection = new vscode.Selection(
 								new vscode.Position(endLine + 1, 0), 
 								new vscode.Position(endLine + 1, 10000));
 
-			let line_text = doc.getText(line_selection);
+			const line_text = doc.getText(line_selection);
 			if(!line_text.trim().startsWith('|'))
 			{
 				break;
@@ -166,21 +196,37 @@ export function activate(context: vscode.ExtensionContext) {
 			endLine++;
 		}
 
-		let table_selection = new vscode.Selection(
+		const table_selection = new vscode.Selection(
 							new vscode.Position(startLine, 0), 
 							new vscode.Position(endLine, 10000));
-		let table_text = doc.getText(table_selection);
+		const table_text = doc.getText(table_selection);
 
 		// テーブルの変形処理クラス
-		let mdt = new markdowntable.MarkdownTable();
-		let tableData = mdt.stringToTableData(table_text);
-		tableData = mdt.insertRow(tableData, insertPosition);
-		table_text = mdt.tableDataToFormatTableStr(tableData);
+		const mdt = new markdowntable.MarkdownTable();
+		const tableData = mdt.stringToTableData(table_text);
+		const newTableData = mdt.insertRow(tableData, insertPosition);
+		const newTableText = mdt.tableDataToFormatTableStr(newTableData);
+
+		// カーソルを元のセルと同じ位置にするためにカーソル位置を特定しておく
+		const [prevline, prevcharacter] = [cur_selection.active.line - startLine, cur_selection.active.character];
+		const [prevRow, prevColumn] = mdt.getCellAtPosition(table_text, prevline, prevcharacter);
 
 		//エディタ選択範囲にテキストを反映
 		editor.edit(edit => {
-			edit.replace(table_selection, table_text);
+			edit.replace(table_selection, newTableText);
 		});
+
+		// 新しいカーソル位置を計算
+		// character の +1 は表セル内の|とデータの間の半角スペース分
+		const newColumn = isLeft ? prevColumn : prevColumn + 1;
+		const [newline, newcharacter] = mdt.getPositionOfCell(newTableText, prevRow, newColumn);
+		const newPosition = new vscode.Position(
+			table_selection.start.line + newline, 
+			table_selection.start.character + newcharacter + 1);
+		const newSelection = new vscode.Selection(newPosition, newPosition);
+	
+		// カーソル位置を移動
+		editor.selection = newSelection;
 	};
 
 	let insertRight = vscode.commands.registerCommand('markdowntable.insertRight', () => {
