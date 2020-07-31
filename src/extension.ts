@@ -15,7 +15,12 @@ export function activate(context: vscode.ExtensionContext) {
 	// Now provide the implementation of the command with registerCommand
 	// The commandId parameter must match the command field in package.json
 
-	let tsvToTable = vscode.commands.registerCommand('markdowntable.tsvToTable', () => {
+	function registerCommandNice(commandId: string, run: (...args: any[]) => void): void {
+		let command = vscode.commands.registerCommand(commandId, run);
+		context.subscriptions.push(command);
+	}
+
+	registerCommandNice('markdowntable.tsvToTable', () => {
 		// The code you place here will be executed every time your command is executed
 
 		// エディタ取得
@@ -41,7 +46,7 @@ export function activate(context: vscode.ExtensionContext) {
 		});
 	});
 
-	let format = vscode.commands.registerCommand('markdowntable.format', () => {
+	registerCommandNice('markdowntable.format', () => {
 		// The code you place here will be executed every time your command is executed
 
 		// エディタ取得
@@ -229,20 +234,15 @@ export function activate(context: vscode.ExtensionContext) {
 		editor.selection = newSelection;
 	};
 
-	let insertRight = vscode.commands.registerCommand('markdowntable.insertRight', () => {
+	registerCommandNice('markdowntable.insertRight', () => {
 		// The code you place here will be executed every time your command is executed
 		insertRow(false);
 	});
 
-	let insertLeft = vscode.commands.registerCommand('markdowntable.insertLeft', () => {
+	registerCommandNice('markdowntable.insertLeft', () => {
 		// The code you place here will be executed every time your command is executed
 		insertRow(true);
 	});
-
-	context.subscriptions.push(tsvToTable);
-	context.subscriptions.push(format);
-	context.subscriptions.push(insertRight);
-	context.subscriptions.push(insertLeft);
 }
 
 // this method is called when your extension is deactivated
