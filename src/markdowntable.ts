@@ -298,7 +298,7 @@ export class MarkdownTable {
 
 	// return [line, character]
 	public getPositionOfCell(tableText :string, cellRow :number, cellColumn :number) : [number, number] {
-		let line = (cellRow <= 0) ? 0 : cellRow + 1;
+		let line = (cellRow <= 0) ? 0 : cellRow;
 		let character = 0;
 
 		let lines = tableText.split(/\r\n|\n|\r/);
@@ -322,7 +322,7 @@ export class MarkdownTable {
 
 	// return [row, column]
 	public getCellAtPosition(tableText :string, line :number, character :number) {
-		let row = (line <= 0) ? 0 : (line === 1) ? 1 : line - 1;
+		let row = (line <= 0) ? 0 : line;
 
 		let lines = tableText.split(/\r\n|\n|\r/);
 		let linestr = lines[line];

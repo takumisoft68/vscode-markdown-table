@@ -87,11 +87,15 @@ export function activate(context: vscode.ExtensionContext) {
 		let tableData = mdt.stringToTableData(table_text);
 		// 次のセルが新しい行になるかどうか
 		const isNextRow = (prevColumn + 1 >= tableData.columns.length);
-		const isInsertNewRow = isNextRow && (prevRow >= tableData.cells.length);
-		const isFirstCell = prevRow === 1 && tableData.cells.length === 0;
+		const isInsertNewRow =  (
+			// カラム行、または寄せ記号行の場合は3行目を作成する
+			(prevRow <= 1 && tableData.cells.length === 0) ||
+			// 現在の行が最終行で、かつ次の行に進む場合は末尾に1行追加する
+			(isNextRow && prevRow >= tableData.cells.length + 1)
+			);
 
 		// 次の行が必要なら追加する
-		if (isInsertNewRow === true || isFirstCell === true) {
+		if (isInsertNewRow === true) {
 			tableData = mdt.insertRow(tableData, tableData.cells.length);
 		}
 
@@ -105,12 +109,8 @@ export function activate(context: vscode.ExtensionContext) {
 
 		// 新しいカーソル位置を計算
 		// character の +1 は表セル内の|とデータの間の半角スペース分
-		let newColumn = (isNextRow === true) ? 0 :  prevColumn + 1;
-		let newRow = (isNextRow === true) ? prevRow + 1 : prevRow;
-		if (isFirstCell === true) {
-			newColumn = 0;
-			newRow = 1;
-		}
+		const newColumn = (isNextRow === true) ? 0 :  prevColumn + 1;
+		const newRow = (isNextRow === true) ? prevRow + 1 : prevRow;
 		const [newline, newcharacter] = mdt.getPositionOfCell(newTableText, newRow, newColumn);
 		const newPosition = new vscode.Position(
 			table_selection.start.line + newline, 
