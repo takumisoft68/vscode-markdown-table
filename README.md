@@ -56,3 +56,4 @@ This extension has no settings.
 ## 5. Links
 
 - [Source Code](https://github.com/takumisoft68/vscode-markdown-table)
+- [Marketplace](https://marketplace.visualstudio.com/items?itemName=TakumiI.markdowntable)
