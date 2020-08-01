@@ -20,6 +20,107 @@ export function activate(context: vscode.ExtensionContext) {
 		context.subscriptions.push(command);
 	}
 
+	registerCommandNice('markdowntable.nextCell', (args) => {
+		// エディタ取得
+		const editor = vscode.window.activeTextEditor as vscode.TextEditor;
+		// ドキュメント取得
+		const doc = editor.document;
+		// 選択範囲取得
+		const cur_selection = editor.selection;
+		// カーソル行
+		const currentLine = doc.getText(new vscode.Selection(
+			new vscode.Position(cur_selection.active.line, 0), 
+			new vscode.Position(cur_selection.active.line, 10000)));
+		// テーブル内ではなかったら終了
+		if (!currentLine.trim().startsWith('|')) {
+			// 通常のVSCodeの入力処理
+			vscode.commands.executeCommand('default:type', {
+				text: ' '.repeat(editor.options.tabSize as number)
+			});
+			return;
+		}
+
+		// 表を探す
+		let startLine = cur_selection.anchor.line;
+		let endLine = cur_selection.anchor.line;
+		while (startLine - 1 >= 0)
+		{
+			const line_selection = new vscode.Selection(
+								new vscode.Position(startLine - 1, 0), 
+								new vscode.Position(startLine - 1, 10000));
+
+			const line_text = doc.getText(line_selection);
+			if(!line_text.trim().startsWith('|'))
+			{
+				break;
+			}
+			startLine--;
+		}
+		while (endLine + 1 < doc.lineCount)
+		{
+			const line_selection = new vscode.Selection(
+								new vscode.Position(endLine + 1, 0), 
+								new vscode.Position(endLine + 1, 10000));
+
+			const line_text = doc.getText(line_selection);
+			if(!line_text.trim().startsWith('|'))
+			{
+				break;
+			}
+			endLine++;
+		}
+		const table_selection = new vscode.Selection(
+			new vscode.Position(startLine, 0), 
+			new vscode.Position(endLine, 10000));
+		const table_text = doc.getText(table_selection);
+
+
+
+		// テーブルの変形処理クラス
+		const mdt = new markdowntable.MarkdownTable();
+
+		// 元のカーソル位置を取得
+		const [prevline, prevcharacter] = [cur_selection.active.line - startLine, cur_selection.active.character];
+		const [prevRow, prevColumn] = mdt.getCellAtPosition(table_text, prevline, prevcharacter);
+
+		// テーブルをTableDataにシリアライズ
+		let tableData = mdt.stringToTableData(table_text);
+		// 次のセルが新しい行になるかどうか
+		const isNextRow = (prevColumn + 1 >= tableData.columns.length);
+		const isInsertNewRow = isNextRow && (prevRow >= tableData.cells.length);
+		const isFirstCell = prevRow === 1 && tableData.cells.length === 0;
+
+		// 次の行が必要なら追加する
+		if (isInsertNewRow === true || isFirstCell === true) {
+			tableData = mdt.insertRow(tableData, tableData.cells.length);
+		}
+
+		// テーブルをフォーマット
+		const newTableText = mdt.tableDataToFormatTableStr(tableData);
+
+		//エディタ選択範囲にテキストを反映
+		editor.edit(edit => {
+			edit.replace(table_selection, newTableText);
+		});
+
+		// 新しいカーソル位置を計算
+		// character の +1 は表セル内の|とデータの間の半角スペース分
+		let newColumn = (isNextRow === true) ? 0 :  prevColumn + 1;
+		let newRow = (isNextRow === true) ? prevRow + 1 : prevRow;
+		if (isFirstCell === true) {
+			newColumn = 0;
+			newRow = 1;
+		}
+		const [newline, newcharacter] = mdt.getPositionOfCell(newTableText, newRow, newColumn);
+		const newPosition = new vscode.Position(
+			table_selection.start.line + newline, 
+			table_selection.start.character + newcharacter + 1);
+		const newSelection = new vscode.Selection(newPosition, newPosition);
+	
+		// カーソル位置を移動
+		editor.selection = newSelection;
+	});
+	
 	registerCommandNice('markdowntable.tsvToTable', () => {
 		// The code you place here will be executed every time your command is executed
 
@@ -154,24 +255,7 @@ export function activate(context: vscode.ExtensionContext) {
 			return;
 		}
 
-		let selected_column = -1;
-		{
-			const line_selection = new vscode.Selection(
-								new vscode.Position(cur_selection.anchor.line, 0), 
-								new vscode.Position(cur_selection.anchor.line, 10000));
-			const line_text = doc.getText(line_selection);
-			const line_chars = line_text.split('');
-			for(let i = 0; i < cur_selection.anchor.character; i++)
-			{
-				if(line_chars[i] === '|') 
-				{
-					selected_column++;
-				}
-			}
-		}
-
-		const insertPosition = isLeft ? selected_column : selected_column + 1;
-
+		// 表を探す
 		let startLine = cur_selection.anchor.line;
 		let endLine = cur_selection.anchor.line;
 		while (startLine - 1 >= 0)
@@ -200,21 +284,26 @@ export function activate(context: vscode.ExtensionContext) {
 			}
 			endLine++;
 		}
-
 		const table_selection = new vscode.Selection(
 							new vscode.Position(startLine, 0), 
 							new vscode.Position(endLine, 10000));
 		const table_text = doc.getText(table_selection);
 
+
 		// テーブルの変形処理クラス
 		const mdt = new markdowntable.MarkdownTable();
+
+		// 元のカーソル位置を取得
+		const [prevline, prevcharacter] = [cur_selection.active.line - startLine, cur_selection.active.character];
+		const [prevRow, prevColumn] = mdt.getCellAtPosition(table_text, prevline, prevcharacter);
+
+		// 挿入位置
+		const insertPosition = isLeft ? prevColumn : prevColumn + 1;
+
+		// テーブルをフォーマット
 		const tableData = mdt.stringToTableData(table_text);
 		const newTableData = mdt.insertRow(tableData, insertPosition);
 		const newTableText = mdt.tableDataToFormatTableStr(newTableData);
-
-		// カーソルを元のセルと同じ位置にするためにカーソル位置を特定しておく
-		const [prevline, prevcharacter] = [cur_selection.active.line - startLine, cur_selection.active.character];
-		const [prevRow, prevColumn] = mdt.getCellAtPosition(table_text, prevline, prevcharacter);
 
 		//エディタ選択範囲にテキストを反映
 		editor.edit(edit => {
@@ -223,7 +312,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 		// 新しいカーソル位置を計算
 		// character の +1 は表セル内の|とデータの間の半角スペース分
-		const newColumn = isLeft ? prevColumn : prevColumn + 1;
+		const newColumn = insertPosition;
 		const [newline, newcharacter] = mdt.getPositionOfCell(newTableText, prevRow, newColumn);
 		const newPosition = new vscode.Position(
 			table_selection.start.line + newline, 

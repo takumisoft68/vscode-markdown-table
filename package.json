@@ -3,7 +3,7 @@
 	"publisher": "TakumiI",
 	"displayName": "Markdown Table",
 	"description": "A minimul extension for markdown table. Add context menu to edit markdown table.",
-	"version": "0.0.2",
+	"version": "0.1.0",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/takumisoft68/vscode-markdown-table"
@@ -18,7 +18,8 @@
 		"onCommand:markdowntable.tsvToTable",
 		"onCommand:markdowntable.format",
 		"onCommand:markdowntable.insertRight",
-		"onCommand:markdowntable.insertLeft"
+		"onCommand:markdowntable.insertLeft",
+		"onCommand:markdowntable.nextCell"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -50,6 +51,11 @@
 				"command": "markdowntable.tsvToTable",
 				"key": "shift+alt+t",
 				"when": "editorLangId == markdown && editorTextFocus && editorHasSelection"
+			},
+			{
+				"command": "markdowntable.nextCell",
+				"key": "tab",
+				"when": "editorLangId == markdown && editorTextFocus"
 			}
 		],
 		"menus": {
