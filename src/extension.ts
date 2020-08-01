@@ -85,6 +85,10 @@ export function activate(context: vscode.ExtensionContext) {
 
 		// テーブルをTableDataにシリアライズ
 		let tableData = mdt.stringToTableData(table_text);
+		if (tableData.aligns[0][0] === undefined) {
+			return;
+		}
+
 		// 次のセルが新しい行になるかどうか
 		const isNextRow = (prevColumn + 1 >= tableData.columns.length);
 		const isInsertNewRow =  (
