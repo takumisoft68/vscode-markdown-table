@@ -2,8 +2,11 @@
 
 All notable changes to the "markdowntable" extension will be documented in this file.
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+## 0.1.0 (2020/08/01)
 
-## [Unreleased]
+- Add
+    - Navigate to next cell when you press Tab key in table.
+
+## 0.0.2 (2020/07/23)
 
 - Initial release
