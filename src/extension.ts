@@ -243,7 +243,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 	});
 
-	let insertRow = (isLeft :boolean) => {
+	let insertColumn = (isLeft :boolean) => {
 		// エディタ取得
 		const editor = vscode.window.activeTextEditor as vscode.TextEditor;
 		// ドキュメント取得
@@ -302,7 +302,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 		// テーブルをフォーマット
 		const tableData = mdt.stringToTableData(table_text);
-		const newTableData = mdt.insertRow(tableData, insertPosition);
+		const newTableData = mdt.insertColumn(tableData, insertPosition);
 		const newTableText = mdt.tableDataToFormatTableStr(newTableData);
 
 		//エディタ選択範囲にテキストを反映
@@ -325,12 +325,12 @@ export function activate(context: vscode.ExtensionContext) {
 
 	registerCommandNice('markdowntable.insertRight', () => {
 		// The code you place here will be executed every time your command is executed
-		insertRow(false);
+		insertColumn(false);
 	});
 
 	registerCommandNice('markdowntable.insertLeft', () => {
 		// The code you place here will be executed every time your command is executed
-		insertRow(true);
+		insertColumn(true);
 	});
 }
 
