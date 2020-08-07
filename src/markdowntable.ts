@@ -166,6 +166,7 @@ export class MarkdownTable {
         for(let i=0; i<str.length; i++) {
             let chr = str.charCodeAt(i);
             if( (chr >= 0x00 && chr <= 0x80) ||
+                (chr >= 0xa0 && chr <= 0xff) ||
                 (chr === 0xf8f0) ||
                 (chr >= 0xff61 && chr <= 0xff9f) ||
                 (chr >= 0xf8f1 && chr <= 0xf8f3)){
