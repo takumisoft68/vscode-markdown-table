@@ -1,6 +1,6 @@
 # Markdown Table
 
-Markdown table features (convert from TSV, insert column, format table column width).
+Markdown table features.
 
 ## 1. Features
 
@@ -46,14 +46,24 @@ Key binding to `Shift + Alt + F`.
 
 This extension has no settings.
 
-## 4. Release Notes
+## 4. Policy
 
-### 0.1.0
+What's focused on.
 
-- Add
-    - Navigate to next cell when you press Tab key in table.
+- As minimal
+    - Not enhance or change markdown markup spec.
+    - Not implement features they cna be done by vscode box selection.
+        - [https://code.visualstudio.com/docs/editor/codebasics#_column-box-selection](https://code.visualstudio.com/docs/editor/codebasics#_column-box-selection)
+- Support full-width characters
+    - Because author is Japanese
 
-## 5. Links
+## 5. Release Notes
+
+## 6. (2020/08/07)
+
+- Treat "umlauts" as half-width character.
+
+## 7. Links
 
 - [Source Code](https://github.com/takumisoft68/vscode-markdown-table)
 - [Marketplace](https://marketplace.visualstudio.com/items?itemName=TakumiI.markdowntable)

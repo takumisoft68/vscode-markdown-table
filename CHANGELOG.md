@@ -2,6 +2,10 @@
 
 All notable changes to the "markdowntable" extension will be documented in this file.
 
+## 0.1.1 (2020/08/07)
+
+- Treat "umlauts" as half-width character.
+
 ## 0.1.0 (2020/08/01)
 
 - Add

@@ -2,7 +2,7 @@
 	"name": "markdowntable",
 	"publisher": "TakumiI",
 	"displayName": "Markdown Table",
-	"description": "A minimul extension for markdown table. Add context menu to edit markdown table.",
+	"description": "A minimal extension for markdown table. Add context menu to edit markdown table.",
 	"version": "0.1.0",
 	"repository": {
 		"type": "git",
