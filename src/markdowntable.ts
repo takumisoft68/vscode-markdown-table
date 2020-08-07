@@ -165,10 +165,10 @@ export class MarkdownTable {
         let length = 0;
         for(let i=0; i<str.length; i++) {
             let chr = str.charCodeAt(i);
-            if((chr >= 0x00 && chr < 0x81) ||
+            if( (chr >= 0x00 && chr <= 0x80) ||
                 (chr === 0xf8f0) ||
-                (chr >= 0xff61 && chr < 0xffa0) ||
-                (chr >= 0xf8f1 && chr < 0xf8f4)){
+                (chr >= 0xff61 && chr <= 0xff9f) ||
+                (chr >= 0xf8f1 && chr <= 0xf8f3)){
                 //半角文字の場合は1を加算
                 length += 1;
             }else{
