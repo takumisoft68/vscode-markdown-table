@@ -138,7 +138,7 @@ export function activate(context: vscode.ExtensionContext) {
 
         const mdt = new markdowntable.MarkdownTable();
         const tableData = mdt.tsvToTableData(text);
-        const tableStr = mdt.tableDataToTableStr(tableData);
+        //const tableStr = mdt.tableDataToTableStr(tableData);
         const newTableStr = mdt.tableDataToFormatTableStr(tableData);
 
         //エディタ選択範囲にテキストを反映
