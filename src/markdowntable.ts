@@ -3,12 +3,14 @@ class TableData {
     public columns : string[];
     public cells: string [][];
     public leftovers : string[];
+    public indent : string;
 
-    constructor(_aligns: [string, string][], _columns : string[], _cells: string [][], _leftovers : string[]){
+    constructor(_aligns: [string, string][], _columns : string[], _cells: string [][], _leftovers : string[], _indent : string){
         this.aligns = _aligns;
         this.columns = _columns;
         this.cells = _cells;
         this.leftovers = _leftovers;
+        this.indent = _indent;
     }
 };
 
@@ -28,7 +30,7 @@ export class MarkdownTable {
             if (linestr.endsWith('|')) {
                 linestr = linestr.slice(0, -1);
             }
-            let linedatas =linestr.split('|');
+            let linedatas = linestr.split('|');
 
             // 最低データ数分を''で埋めておく
             let datas : string[] = new Array(datasNumMin).fill(fillstr);
@@ -39,9 +41,20 @@ export class MarkdownTable {
             return datas;
         };
 
+        let getIndent = (linestr: string) => {
+            if (linestr.trim().startsWith('|')) {
+                let linedatas = linestr.split('|');
+                return linedatas[0];
+            }
+            else {
+                return '';
+            }
+        };
+
         // 1行目
         let columns = splitline(lines[0], 0).map((v)=> v.trim());
         let columnNum = columns.length;
+        let indent = getIndent(lines[0]);
 
         // 2行目の寄せ記号
         let aligns : [string, string][] = new Array();
@@ -70,7 +83,7 @@ export class MarkdownTable {
             }
         }
         
-        return new TableData(aligns, columns, cells, leftovers);
+        return new TableData(aligns, columns, cells, leftovers, indent);
     }
 
     public tsvToTableData(srcText :string) : TableData {
@@ -122,18 +135,20 @@ export class MarkdownTable {
             aligns[column] = [':', '-'];
         }
 
-        return new TableData(aligns, columns, cells, leftovers);
+        return new TableData(aligns, columns, cells, leftovers, '');
     }
 
     public tableDataToTableStr(data :TableData) : string {
         let tableString = "";
 
         // カラムヘッダー行の作成
+        tableString += data.indent;
         for (let i = 0; i < data.columns.length; i++) {
             tableString += '| ' + data.columns[i] + ' ';
         }
         tableString += '|\r\n';
         // テーブル記号
+        tableString += data.indent;
         for (let i = 0; i < data.columns.length; i++) {
             let [front, end] = data.aligns[i];
             tableString += '| ' + front + '-' + end + ' ';
@@ -141,6 +156,7 @@ export class MarkdownTable {
         tableString += '|\r\n';
         // テーブル内の各行
         for (let row = 0; row < data.cells.length; row++) {
+            tableString += data.indent;
             for (let i = 0; i < data.cells[row].length; i++) {
                 tableString += '| ' + data.cells[row][i] + ' ';
             }
@@ -207,6 +223,7 @@ export class MarkdownTable {
         // 列幅をそろえていく
         for (let row = 0; row < tableData.cells.length; row++) {
             formatted[row] = '';
+            formatted[row] += tableData.indent;
             let cells = tableData.cells[row];
             for (let i = 0; i < columnNum; i++) {
                 let celldata = '';
@@ -234,6 +251,7 @@ export class MarkdownTable {
 
         // 1行目を成形する
         let columnHeader = '';
+        columnHeader += tableData.indent;
         for (let i = 0; i < columnNum; i++) {
             columnHeader += '| ' + tableData.columns[i];
             let columnHeader_length = this.getLen(tableData.columns[i]);
@@ -249,6 +267,7 @@ export class MarkdownTable {
 
         // 2行目を成形する
         let tablemark = '';
+        tablemark += tableData.indent;
         for (let i = 0; i < columnNum; i++) {
             let [front, end] = tableData.aligns[i];
             tablemark += '| ' + front;
@@ -273,11 +292,12 @@ export class MarkdownTable {
         let cells = tableData.cells;
         let leftovers = tableData.leftovers;
         let column_num = tableData.columns.length;
+        let indent = tableData.indent;
 
         cells.splice(insertAt, 0, Array.from({length: column_num}, () => ''));
         leftovers.splice(insertAt, 0, '');
         
-        return new TableData(aligns, columns, cells, leftovers);
+        return new TableData(aligns, columns, cells, leftovers, indent);
     }
 
     public insertColumn(tableData :TableData, insertAt :number) : TableData {
@@ -286,6 +306,7 @@ export class MarkdownTable {
         let cells = tableData.cells;
         let leftovers = tableData.leftovers;
         let column_num = tableData.columns.length;
+        let indent = tableData.indent;
 
         columns.splice(insertAt, 0, '');
         aligns.splice(insertAt, 0, ['-', '-']);
@@ -294,7 +315,7 @@ export class MarkdownTable {
             cells[i].splice(insertAt, 0, '');
         }
 
-        return new TableData(aligns, columns, cells, leftovers);
+        return new TableData(aligns, columns, cells, leftovers, indent);
     }
 
     // return [line, character]
