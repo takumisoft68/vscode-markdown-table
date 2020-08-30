@@ -51,8 +51,8 @@ This extension has no settings.
 What's focused on.
 
 - As minimal
-    - Not enhance or change markdown markup spec.
-    - Not implement features they cna be done by vscode box selection.
+    - Not enhance or change markdown syntax spec.
+    - Not implement features they can be done by vscode's box selection.
         - [https://code.visualstudio.com/docs/editor/codebasics#_column-box-selection](https://code.visualstudio.com/docs/editor/codebasics#_column-box-selection)
 - Support full-width characters
     - Because author is Japanese
