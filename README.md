@@ -59,9 +59,13 @@ What's focused on.
 
 ## 5. Release Notes
 
-## 6. (2020/08/07)
+### - 0.1.2 (2020/8/31)
 
-- Treat "umlauts" as half-width character.
+- Keep white spaces indentation on the left of table when formatting.
+    - before
+    ![keepindent_before](images/keep_indent_before.gif)
+    - after
+    ![keepindent](images/keep_indent.gif)
 
 ## 7. Links
 
