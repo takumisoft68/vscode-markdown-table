@@ -14,33 +14,39 @@ Markdown table features.
 
 ### 2.1. Navigate to next cell (with auto insert row)
 
-- **Auto navigate to next cell when you press tab key in table.**
-- **Auto insert new row, when the cursor is in last row in table.**
-- with auto format
-
 Key binding to `Tab`.
 
-![navigate](images/navigate_next_cell.gif)
+- **Auto navigate to next cell when you press Tab key in table.**
+- **Auto insert new row, when the cursor is in last row in table.**
+- with auto format
+    ![navigate](images/navigate_next_cell.gif)
+
+### 2.1. Navigate to prev cell
+
+Key binding to `Shift`+`Tab`.
+
+- **Auto navigate to prev cell when you press Shift+Tab key in table.**
+- with auto format
+    ![navigate_prev](images/navigate_prev_cell.gif)
 
 ### 2.2. Convert to table from TSV text
 
-**Tips: This feature is supposed to make table from excel cells.**
-
 Key binding to `Shift + Alt + T`.
 
-![convert](images/table_from_excel.gif)
+- **Tips: This feature is supposed to make table from excel cells.**
+    ![convert](images/table_from_excel.gif)
 
 ### 2.3. Format table
 
-- **Auto format column width of all tables in current document**
-
 Key binding to `Shift + Alt + F`.
 
-![formattable](images/format_table.gif)
+- **Auto format column width of all tables in current document**
+    ![formattable](images/format_table.gif)
 
 ### 2.4. Insert column
 
-![insert](images/insert.gif)
+- Add context menu to insert column
+    ![insert](images/insert.gif)
 
 ## 3. Extension Settings
 
@@ -59,13 +65,15 @@ What's focused on.
 
 ## 5. Release Notes
 
-### - 0.1.2 (2020/8/31)
+### - 0.2.0 (2020/9/1)
 
 - Keep white spaces indentation on the left of table when formatting.
     - before
     ![keepindent_before](images/keep_indent_before.gif)
     - after
     ![keepindent](images/keep_indent.gif)
+- [Add] Navigate to prev cell when you press Shift+Tab key in table.
+    ![navigate_prev](images/navigate_prev_cell.gif)
 
 ## 7. Links
 

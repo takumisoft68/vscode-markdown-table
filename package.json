@@ -19,7 +19,8 @@
 		"onCommand:markdowntable.format",
 		"onCommand:markdowntable.insertRight",
 		"onCommand:markdowntable.insertLeft",
-		"onCommand:markdowntable.nextCell"
+		"onCommand:markdowntable.nextCell",
+		"onCommand:markdowntable.prevCell"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -55,6 +56,11 @@
 			{
 				"command": "markdowntable.nextCell",
 				"key": "tab",
+				"when": "editorLangId == markdown && editorTextFocus"
+			},
+			{
+				"command": "markdowntable.prevCell",
+				"key": "shift+tab",
 				"when": "editorLangId == markdown && editorTextFocus"
 			}
 		],
