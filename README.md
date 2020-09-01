@@ -4,11 +4,10 @@ Markdown table features.
 
 ## 1. Features
 
-- Navigate to next cell
+- Navigate to next/prev cell
 - Convert to table from TSV text
 - Format all tables
-- Insert column in the right
-- Insert column in the left
+- Insert column in the right/left
 
 ## 2. Demo
 
