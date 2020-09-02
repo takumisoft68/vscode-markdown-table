@@ -33,10 +33,8 @@ export function activate(context: vscode.ExtensionContext) {
             new vscode.Position(cur_selection.active.line, 10000)));
         // テーブル内ではなかったら終了
         if (!currentLine.trim().startsWith('|')) {
-            // 通常のVSCodeの入力処理
-            vscode.commands.executeCommand('default:type', {
-                text: ' '.repeat(editor.options.tabSize as number)
-            });
+            // 通常のインデント
+            vscode.commands.executeCommand('tab');
             return;
         }
 
@@ -134,10 +132,8 @@ export function activate(context: vscode.ExtensionContext) {
             new vscode.Position(cur_selection.active.line, 10000)));
         // テーブル内ではなかったら終了
         if (!currentLine.trim().startsWith('|')) {
-            // 通常のVSCodeの入力処理
-            vscode.commands.executeCommand('default:type', {
-                text: ' '.repeat(editor.options.tabSize as number)
-            });
+            // 通常のアウトデント
+            vscode.commands.executeCommand('outdent');
             return;
         }
 

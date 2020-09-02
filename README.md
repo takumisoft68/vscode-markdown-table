@@ -15,37 +15,39 @@ Markdown table features.
 
 Key binding to `Tab`.
 
-- **Auto navigate to next cell when you press Tab key in table.**
+- **Auto navigate to next cell when pressing Tab key in table.**
+    - When out of table, vscode's default "tab" behavior is operated.
 - **Auto insert new row, when the cursor is in last row in table.**
 - with auto format
-    ![navigate](images/navigate_next_cell.gif)
+    - ![navigate](images/navigate_next_cell.gif)
 
 ### 2.1. Navigate to prev cell
 
 Key binding to `Shift`+`Tab`.
 
-- **Auto navigate to prev cell when you press Shift+Tab key in table.**
+- **Auto navigate to prev cell when pressing Shift+Tab key in table.**
+    - When out of table, vscode's default "outdent" behavior is operated.
 - with auto format
-    ![navigate_prev](images/navigate_prev_cell.gif)
+    - ![navigate_prev](images/navigate_prev_cell.gif)
 
 ### 2.2. Convert to table from TSV text
 
 Key binding to `Shift + Alt + T`.
 
 - **Tips: This feature is supposed to make table from excel cells.**
-    ![convert](images/table_from_excel.gif)
+    - ![convert](images/table_from_excel.gif)
 
 ### 2.3. Format table
 
 Key binding to `Shift + Alt + F`.
 
 - **Auto format column width of all tables in current document**
-    ![formattable](images/format_table.gif)
+    - ![formattable](images/format_table.gif)
 
 ### 2.4. Insert column
 
 - Add context menu to insert column
-    ![insert](images/insert.gif)
+    - ![insert](images/insert.gif)
 
 ## 3. Extension Settings
 
@@ -64,15 +66,11 @@ What's focused on.
 
 ## 5. Release Notes
 
-### - 0.2.0 (2020/9/1)
+### - 0.2.1 (2020/9/2)
 
-- Keep white spaces indentation on the left of table when formatting.
-    - before
-    ![keepindent_before](images/keep_indent_before.gif)
-    - after
-    ![keepindent](images/keep_indent.gif)
-- [Add] Navigate to prev cell when you press Shift+Tab key in table.
-    ![navigate_prev](images/navigate_prev_cell.gif)
+- Fix bugs of navigate to next/prev cell
+    - Bahavior when Tab key pressing out of table.
+    - Bahavior when Shift+Tab key pressing out of table.
 
 ## 7. Links
 

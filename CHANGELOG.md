@@ -2,16 +2,22 @@
 
 All notable changes to the "markdowntable" extension will be documented in this file.
 
+### - 0.2.1 (2020/9/2)
+
+- Fix bugs of navigate to next/prev cell
+    - Bahavior when Tab key pressing out of table.
+    - Bahavior when Shift+Tab key pressing out of table.
+
 ## 0.2.0 (2020/9/1)
 
 - [Fix] Keep white spaces indentation on the left of table when formatting.
     - before
-    ![keepindent_before](images/keep_indent_before.gif)
+    - ![keepindent_before](images/keep_indent_before.gif)
     - after
-    ![keepindent](images/keep_indent.gif)
+    - ![keepindent](images/keep_indent.gif)
 
 - [Add] Navigate to prev cell when you press Shift+Tab key in table.
-    ![navigate_prev](images/navigate_prev_cell.gif)
+    - ![navigate_prev](images/navigate_prev_cell.gif)
 
 ## 0.1.1 (2020/08/07)
 
