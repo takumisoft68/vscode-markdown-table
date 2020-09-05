@@ -66,11 +66,10 @@ What's focused on.
 
 ## 5. Release Notes
 
-### - 0.2.1 (2020/9/2)
+### - 0.2.2 (2020/9/5)
 
-- Fix bugs of navigate to next/prev cell
-    - Bahavior when Tab key pressing out of table.
-    - Bahavior when Shift+Tab key pressing out of table.
+- Fix
+    - Tab key confliction with accepting suggestion or snippet.
 
 ## 7. Links
 

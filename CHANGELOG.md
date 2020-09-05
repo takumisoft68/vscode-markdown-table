@@ -2,6 +2,11 @@
 
 All notable changes to the "markdowntable" extension will be documented in this file.
 
+### - 0.2.2 (2020/9/5)
+
+- Fix
+    - Tab key confliction with accepting suggestion or snippet.
+
 ### - 0.2.1 (2020/9/2)
 
 - Fix bugs of navigate to next/prev cell
