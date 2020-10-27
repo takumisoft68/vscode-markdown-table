@@ -2,8 +2,8 @@
 	"name": "markdowntable",
 	"publisher": "TakumiI",
 	"displayName": "Markdown Table",
-	"description": "A minimal extension for markdown table. Add context menu to edit markdown table.",
-	"version": "0.2.2",
+	"description": "A minimal extension for markdown table. Add features to edit markdown table.",
+	"version": "0.3.0",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/takumisoft68/vscode-markdown-table"
@@ -20,7 +20,10 @@
 		"onCommand:markdowntable.insertRight",
 		"onCommand:markdowntable.insertLeft",
 		"onCommand:markdowntable.nextCell",
-		"onCommand:markdowntable.prevCell"
+		"onCommand:markdowntable.prevCell",
+		"onCommand:markdowntable.alignLeft",
+		"onCommand:markdowntable.alignCenter",
+		"onCommand:markdowntable.alignRight"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -43,11 +46,23 @@
 			},
 			{
 				"command": "markdowntable.nextCell",
-				"title": "Markdown Table: Move cursor into next cell."
+				"title": "Markdown Table: Navigate to next cell."
 			},
 			{
 				"command": "markdowntable.prevCell",
-				"title": "Markdown Table: Move cursor into previous cell."
+				"title": "Markdown Table: Navigate to previous cell."
+			},
+			{
+				"command": "markdowntable.alignLeft",
+				"title": "Markdown Table: Align to Left."
+			},
+			{
+				"command": "markdowntable.alignCenter",
+				"title": "Markdown Table: Align to Center."
+			},
+			{
+				"command": "markdowntable.alignRight",
+				"title": "Markdown Table: Align to Right."
 			}
 		],
 		"keybindings": [
@@ -93,6 +108,21 @@
 					"when": "editorLangId == markdown && !editorHasSelection",
 					"command": "markdowntable.insertLeft",
 					"group": "markdowntable@4"
+				},
+				{
+					"when": "editorLangId == markdown",
+					"command": "markdowntable.alignLeft",
+					"group": "markdowntable@5"
+				},
+				{
+					"when": "editorLangId == markdown",
+					"command": "markdowntable.alignCenter",
+					"group": "markdowntable@6"
+				},
+				{
+					"when": "editorLangId == markdown",
+					"command": "markdowntable.alignRight",
+					"group": "markdowntable@7"
 				}
 			]
 		}

@@ -2,14 +2,22 @@
 
 All notable changes to the "markdowntable" extension will be documented in this file.
 
+### - 0.3.0 (2020/10/27)
+
+- [Add] Align column/columns commands
+    - Align column to left/center/right.
+    - ![align](images/align_column.gif)
+    - Align selected multi columns at once.
+    - ![align](images/align_columns_at_once.gif)
+
 ### - 0.2.2 (2020/9/5)
 
-- Fix
+- [Fix]
     - Tab key confliction with accepting suggestion or snippet.
 
 ### - 0.2.1 (2020/9/2)
 
-- Fix bugs of navigate to next/prev cell
+- [Fix] bugs of navigate to next/prev cell
     - Bahavior when Tab key pressing out of table.
     - Bahavior when Shift+Tab key pressing out of table.
 

@@ -416,6 +416,131 @@ export function activate(context: vscode.ExtensionContext) {
         // The code you place here will be executed every time your command is executed
         insertColumn(true);
     });
+
+
+    let alignColumns = (alignMark: [string, string]) => {
+        // エディタ取得
+        const editor = vscode.window.activeTextEditor as vscode.TextEditor;
+        // ドキュメント取得
+        const doc = editor.document;
+        // 選択範囲取得
+        const cur_selection = editor.selection;
+        // 選択範囲の始まり行
+        const currentLine = doc.getText(new vscode.Selection(
+            new vscode.Position(cur_selection.start.line, 0),
+            new vscode.Position(cur_selection.start.line, 10000)));
+        // テーブル内ではなかったら終了
+        if (!currentLine.trim().startsWith('|')) {
+            vscode.window.showErrorMessage('Markdown Table : Align command failed, because your selection is not starting from inside of a table.');
+            return;
+        }
+
+        // 表を探す
+        let startLine = cur_selection.start.line;
+        let endLine = cur_selection.start.line;
+        while (startLine - 1 >= 0) {
+            const line_selection = new vscode.Selection(
+                new vscode.Position(startLine - 1, 0),
+                new vscode.Position(startLine - 1, 10000));
+
+            const line_text = doc.getText(line_selection);
+            if (!line_text.trim().startsWith('|')) {
+                break;
+            }
+            startLine--;
+        }
+        while (endLine + 1 < doc.lineCount) {
+            const line_selection = new vscode.Selection(
+                new vscode.Position(endLine + 1, 0),
+                new vscode.Position(endLine + 1, 10000));
+
+            const line_text = doc.getText(line_selection);
+            if (!line_text.trim().startsWith('|')) {
+                break;
+            }
+            endLine++;
+        }
+        if (endLine < cur_selection.end.line) {
+            vscode.window.showErrorMessage('Markdown Table : Align command failed, because your selection is hanging out of the table.');
+            return;
+        }
+        const table_selection = new vscode.Selection(
+            new vscode.Position(startLine, 0),
+            new vscode.Position(endLine, 10000));
+        const table_text = doc.getText(table_selection);
+
+        // テーブルの変形処理クラス
+        const mdt = new markdowntable.MarkdownTable();
+
+        // 選択セルを取得
+        const [startline, startcharacter] = [cur_selection.start.line - startLine, cur_selection.start.character];
+        const [startRow, startColumn] = mdt.getCellAtPosition(table_text, startline, startcharacter);
+        const [endline, endcharacter] = [cur_selection.end.line - startLine, cur_selection.end.character];
+        const [endRow, endColumn] = mdt.getCellAtPosition(table_text, endline, endcharacter);
+
+        // テーブルをTableDataにシリアライズ
+        let tableData = mdt.stringToTableData(table_text);
+        if (tableData.aligns[0][0] === undefined) {
+            return;
+        }
+
+        // 選択範囲の列のAlignを変更する
+        if (startRow === endRow) {
+            // 選択範囲の開始位置と終了位置が同じ行内の場合
+            for (let column = startColumn; column <= endColumn; column++) {
+                tableData.aligns[column] = alignMark;
+            }
+        }
+        else if (startRow + 1 === endRow) {
+            // 選択範囲が2行にまたがる場合
+            for (let column = startColumn; column <= tableData.columns.length; column++) {
+                tableData.aligns[column] = alignMark;
+            }
+            for (let column = 0; column <= endColumn; column++) {
+                tableData.aligns[column] = alignMark;
+            }
+        }
+        else {
+            // 選択範囲が3行以上にまたがる場合はすべての列が対象
+            for (let column = 0; column < tableData.columns.length; column++) {
+                tableData.aligns[column] = alignMark;
+            }
+        }
+
+        // テーブルをフォーマット
+        const newTableText = mdt.tableDataToFormatTableStr(tableData);
+
+        //エディタ選択範囲にテキストを反映
+        editor.edit(edit => {
+            edit.replace(table_selection, newTableText);
+        });
+
+        // 元のカーソル選択位置を計算
+        const [anchorline, anchorcharacter] = [cur_selection.anchor.line - startLine, cur_selection.anchor.character];
+        const [anchorRow, anchorColumn] = mdt.getCellAtPosition(table_text, anchorline, anchorcharacter);
+
+        // 新しいカーソル位置をフォーマット後のテキストから計算
+        const [newline, newcharacter] = mdt.getPositionOfCell(newTableText, anchorRow, anchorColumn);
+        const newPosition = new vscode.Position(
+            table_selection.start.line + newline,
+            table_selection.start.character + newcharacter + 1);
+        const newSelection = new vscode.Selection(newPosition, newPosition);
+
+        // カーソル位置を移動
+        editor.selection = newSelection;
+    };
+
+    registerCommandNice('markdowntable.alignLeft', () => {
+        alignColumns([':', '-']);
+    });
+
+    registerCommandNice('markdowntable.alignCenter', () => {
+        alignColumns([':', ':']);
+    });
+
+    registerCommandNice('markdowntable.alignRight', () => {
+        alignColumns(['-', ':']);
+    });
 }
 
 // this method is called when your extension is deactivated
