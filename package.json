@@ -82,17 +82,17 @@
 				{
 					"when": "editorLangId == markdown && editorHasSelection",
 					"command": "markdowntable.tsvToTable",
-					"group": "markdowntable2@2"
+					"group": "markdowntable@2"
 				},
 				{
 					"when": "editorLangId == markdown && !editorHasSelection",
 					"command": "markdowntable.insertRight",
-					"group": "markdowntable2@3"
+					"group": "markdowntable@3"
 				},
 				{
 					"when": "editorLangId == markdown && !editorHasSelection",
 					"command": "markdowntable.insertLeft",
-					"group": "markdowntable2@4"
+					"group": "markdowntable@4"
 				}
 			],
 			"commandPalette": [
