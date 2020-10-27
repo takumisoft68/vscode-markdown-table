@@ -20,7 +20,10 @@
 		"onCommand:markdowntable.insertRight",
 		"onCommand:markdowntable.insertLeft",
 		"onCommand:markdowntable.nextCell",
-		"onCommand:markdowntable.prevCell"
+		"onCommand:markdowntable.prevCell",
+		"onCommand:markdowntable.alignLeft",
+		"onCommand:markdowntable.alignCenter",
+		"onCommand:markdowntable.alignRight"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -48,6 +51,18 @@
 			{
 				"command": "markdowntable.prevCell",
 				"title": "Markdown Table: Move cursor into previous cell."
+			},
+			{
+				"command": "markdowntable.alignLeft",
+				"title": "Markdown Table: Align to Left."
+			},
+			{
+				"command": "markdowntable.alignCenter",
+				"title": "Markdown Table: Align to Center."
+			},
+			{
+				"command": "markdowntable.alignRight",
+				"title": "Markdown Table: Align to Right."
 			}
 		],
 		"keybindings": [
@@ -93,6 +108,21 @@
 					"when": "editorLangId == markdown && !editorHasSelection",
 					"command": "markdowntable.insertLeft",
 					"group": "markdowntable@4"
+				},
+				{
+					"when": "editorLangId == markdown",
+					"command": "markdowntable.alignLeft",
+					"group": "markdowntable@5"
+				},
+				{
+					"when": "editorLangId == markdown",
+					"command": "markdowntable.alignCenter",
+					"group": "markdowntable@6"
+				},
+				{
+					"when": "editorLangId == markdown",
+					"command": "markdowntable.alignRight",
+					"group": "markdowntable@7"
 				}
 			]
 		}
