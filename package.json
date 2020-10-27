@@ -40,6 +40,14 @@
 			{
 				"command": "markdowntable.insertLeft",
 				"title": "Markdown Table: Insert row in the left."
+			},
+			{
+				"command": "markdowntable.nextCell",
+				"title": "Markdown Table: Move cursor into next cell."
+			},
+			{
+				"command": "markdowntable.prevCell",
+				"title": "Markdown Table: Move cursor into previous cell."
 			}
 		],
 		"keybindings": [
@@ -74,39 +82,17 @@
 				{
 					"when": "editorLangId == markdown && editorHasSelection",
 					"command": "markdowntable.tsvToTable",
-					"group": "markdowntable2@2"
+					"group": "markdowntable@2"
 				},
 				{
 					"when": "editorLangId == markdown && !editorHasSelection",
 					"command": "markdowntable.insertRight",
-					"group": "markdowntable2@3"
+					"group": "markdowntable@3"
 				},
 				{
 					"when": "editorLangId == markdown && !editorHasSelection",
 					"command": "markdowntable.insertLeft",
-					"group": "markdowntable2@4"
-				}
-			],
-			"commandPalette": [
-				{
-					"when": "editorLangId == markdown",
-					"command": "markdowntable.format",
-					"group": "markdowntable@1"
-				},
-				{
-					"when": "editorLangId == markdown && editorHasSelection",
-					"command": "markdowntable.tsvToTable",
-					"group": "markdowntable2@2"
-				},
-				{
-					"when": "editorLangId == markdown && !editorHasSelection",
-					"command": "markdowntable.insertRight",
-					"group": "markdowntable2@3"
-				},
-				{
-					"when": "editorLangId == markdown && !editorHasSelection",
-					"command": "markdowntable.insertLeft",
-					"group": "markdowntable2@4"
+					"group": "markdowntable@4"
 				}
 			]
 		}
@@ -120,16 +106,16 @@
 		"test": "node ./out/test/runTest.js"
 	},
 	"devDependencies": {
-		"@types/vscode": "^1.47.0",
 		"@types/glob": "^7.1.1",
 		"@types/mocha": "^7.0.2",
-		"@types/node": "^13.11.0",
-		"eslint": "^6.8.0",
-		"@typescript-eslint/parser": "^2.30.0",
+		"@types/node": "^13.13.29",
+		"@types/vscode": "^1.50.0",
 		"@typescript-eslint/eslint-plugin": "^2.30.0",
+		"@typescript-eslint/parser": "^2.30.0",
+		"eslint": "^6.8.0",
 		"glob": "^7.1.6",
 		"mocha": "^7.1.2",
-		"typescript": "^3.8.3",
+		"typescript": "^3.9.7",
 		"vscode-test": "^1.3.0"
 	}
 }
