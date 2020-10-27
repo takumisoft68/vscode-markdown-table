@@ -40,6 +40,14 @@
 			{
 				"command": "markdowntable.insertLeft",
 				"title": "Markdown Table: Insert row in the left."
+			},
+			{
+				"command": "markdowntable.nextCell",
+				"title": "Markdown Table: Move cursor into next cell."
+			},
+			{
+				"command": "markdowntable.prevCell",
+				"title": "Markdown Table: Move cursor into previous cell."
 			}
 		],
 		"keybindings": [
