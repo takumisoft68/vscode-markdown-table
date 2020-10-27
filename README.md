@@ -4,10 +4,19 @@ Markdown table features.
 
 ## 1. Features
 
-- Navigate to next/prev cell
-- Convert to table from TSV text
-- Format all tables
-- Insert column in the right/left
+| Title                      | Command                   | Default Keybinding | In the Editor Right Click Menu      |
+| :------------------------- | :------------------------ | :----------------- | :---------------------------------- |
+| Format all tables.         | markdowntable.format      | Shift + Alt + F    | Yes                                 |
+| Convert TSV to table.      | markdowntable.tsvToTable  | Shift + Alt + T    | Yes (only when selecting range)     |
+| Navigate to next cell.     | markdowntable.nextCell    | Tab                |                                     |
+| Navigate to previous cell. | markdowntable.prevCell    | Shift + Tab        |                                     |
+| Insert row in the right.   | markdowntable.insertRight |                    | Yes (only when not selecting range) |
+| Insert row in the left.    | markdowntable.insertLeft  |                    | Yes (only when not selecting range) |
+| Align to Left.             | markdowntable.alignLeft   |                    | Yes                                 |
+| Align to Center.           | markdowntable.alignCenter |                    | Yes                                 |
+| Align to Right.            | markdowntable.alignRight  |                    | Yes                                 |
+
+---
 
 ## 2. Demo
 
@@ -21,7 +30,7 @@ Key binding to `Tab`.
 - with auto format
     - ![navigate](images/navigate_next_cell.gif)
 
-### 2.1. Navigate to prev cell
+### 2.2. Navigate to prev cell
 
 Key binding to `Shift`+`Tab`.
 
@@ -30,21 +39,29 @@ Key binding to `Shift`+`Tab`.
 - with auto format
     - ![navigate_prev](images/navigate_prev_cell.gif)
 
-### 2.2. Convert to table from TSV text
+### 2.3. Convert to table from TSV text
 
 Key binding to `Shift + Alt + T`.
 
 - **Tips: This feature is supposed to make table from excel cells.**
     - ![convert](images/table_from_excel.gif)
 
-### 2.3. Format table
+### 2.4. Align column/columns
+
+- **Align column to left/center/right.**
+    - ![align](images/align_column.gif)
+
+- **Align selected multi columns at once.**
+    - ![align](images/align_columns_at_once.gif)
+
+### 2.5. Format table
 
 Key binding to `Shift + Alt + F`.
 
 - **Auto format column width of all tables in current document**
     - ![formattable](images/format_table.gif)
 
-### 2.4. Insert column
+### 2.6. Insert column
 
 - Add context menu to insert column
     - ![insert](images/insert.gif)
@@ -66,12 +83,11 @@ What's focused on.
 
 ## 5. Release Notes
 
-### - 0.2.2 (2020/9/5)
+### - 0.3.0 (2020/10/27)
 
-- Fix
-    - Tab key confliction with accepting suggestion or snippet.
+- [Add] Align column/columns commands
 
-## 7. Links
+## 6. Links
 
 - [Source Code](https://github.com/takumisoft68/vscode-markdown-table)
 - [Marketplace](https://marketplace.visualstudio.com/items?itemName=TakumiI.markdowntable)
