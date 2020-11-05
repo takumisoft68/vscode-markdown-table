@@ -15,7 +15,7 @@ Markdown table features.
 | Align to Left.             | markdowntable.alignLeft   |                    | Yes                                 |
 | Align to Center.           | markdowntable.alignCenter |                    | Yes                                 |
 | Align to Right.            | markdowntable.alignRight  |                    | Yes                                 |
-s
+
 ---
 
 ## 2. Demo
