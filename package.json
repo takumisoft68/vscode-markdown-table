@@ -38,11 +38,11 @@
 			},
 			{
 				"command": "markdowntable.insertRight",
-				"title": "Markdown Table: Insert row in the right."
+				"title": "Markdown Table: Insert column to the right."
 			},
 			{
 				"command": "markdowntable.insertLeft",
-				"title": "Markdown Table: Insert row in the left."
+				"title": "Markdown Table: Insert column to the left."
 			},
 			{
 				"command": "markdowntable.nextCell",
