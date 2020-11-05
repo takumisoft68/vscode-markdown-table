@@ -10,8 +10,8 @@ Markdown table features.
 | Convert TSV to table.      | markdowntable.tsvToTable  | Shift + Alt + T    | Yes (only when selecting range)     |
 | Navigate to next cell.     | markdowntable.nextCell    | Tab                |                                     |
 | Navigate to previous cell. | markdowntable.prevCell    | Shift + Tab        |                                     |
-| Insert row in the right.   | markdowntable.insertRight |                    | Yes (only when not selecting range) |
-| Insert row in the left.    | markdowntable.insertLeft  |                    | Yes (only when not selecting range) |
+| Insert column to the right.| markdowntable.insertRight |                    | Yes (only when not selecting range) |
+| Insert column to the left. | markdowntable.insertLeft  |                    | Yes (only when not selecting range) |
 | Align to Left.             | markdowntable.alignLeft   |                    | Yes                                 |
 | Align to Center.           | markdowntable.alignCenter |                    | Yes                                 |
 | Align to Right.            | markdowntable.alignRight  |                    | Yes                                 |
