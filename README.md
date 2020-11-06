@@ -95,9 +95,14 @@ What's focused on.
 
 ## 5. Release Notes
 
-### 5.1. - 0.3.0 (2020/10/27)
+### - 0.4.1 (2020/11/05)
 
-- [Add] Align column/columns commands
+- Readme update only
+
+### - 0.4.0 (2020/11/05)
+
+- [Add] Navigate next/prev cell without auto format command.
+- [Fix] Typo: "Insert Row" command should be "Insert Column".
 
 ## 6. Links
 

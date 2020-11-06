@@ -2,6 +2,15 @@
 
 All notable changes to the "markdowntable" extension will be documented in this file.
 
+### - 0.4.1 (2020/11/05)
+
+- Readme update only
+
+### - 0.4.0 (2020/11/05)
+
+- [Add] Navigate next/prev cell without auto format command.
+- [Fix] Typo: "Insert Row" command should be "Insert Column".
+
 ### - 0.3.0 (2020/10/27)
 
 - [Add] Align column/columns commands
