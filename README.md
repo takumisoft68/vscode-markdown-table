@@ -4,23 +4,25 @@ Markdown table features.
 
 ## 1. Features
 
-| Title                      | Command                   | Default Keybinding | In the Editor Right Click Menu      |
-| :------------------------- | :------------------------ | :----------------- | :---------------------------------- |
-| Format all tables.         | markdowntable.format      | Shift + Alt + F    | Yes                                 |
-| Convert TSV to table.      | markdowntable.tsvToTable  | Shift + Alt + T    | Yes (only when selecting range)     |
-| Navigate to next cell.     | markdowntable.nextCell    | Tab                |                                     |
-| Navigate to previous cell. | markdowntable.prevCell    | Shift + Tab        |                                     |
-| Insert column to the right.| markdowntable.insertRight |                    | Yes (only when not selecting range) |
-| Insert column to the left. | markdowntable.insertLeft  |                    | Yes (only when not selecting range) |
-| Align to Left.             | markdowntable.alignLeft   |                    | Yes                                 |
-| Align to Center.           | markdowntable.alignCenter |                    | Yes                                 |
-| Align to Right.            | markdowntable.alignRight  |                    | Yes                                 |
+| Title                                   | Command                             | Default Keybinding | In the Editor Right Click Menu      |
+| :-------------------------------------- | :---------------------------------- | :----------------- | :---------------------------------- |
+| Format all tables.                      | markdowntable.format                | Shift + Alt + F    | Yes                                 |
+| Convert TSV to table.                   | markdowntable.tsvToTable            | Shift + Alt + T    | Yes (only when selecting range)     |
+| Navigate to next cell.                  | markdowntable.nextCell              | Tab                | No                                  |
+| Navigate to previous cell.              | markdowntable.prevCell              | Shift + Tab        | No                                  |
+| Navigate to next cell (w/o format).     | markdowntable.nextCellWithoutFormat |                    | No                                  |
+| Navigate to previous cell (w/o format). | markdowntable.prevCellWithoutFormat |                    | No                                  |
+| Insert column in the right.             | markdowntable.insertRight           |                    | Yes (only when not selecting range) |
+| Insert column in the left.              | markdowntable.insertLeft            |                    | Yes (only when not selecting range) |
+| Align to Left.                          | markdowntable.alignLeft             |                    | Yes                                 |
+| Align to Center.                        | markdowntable.alignCenter           |                    | Yes                                 |
+| Align to Right.                         | markdowntable.alignRight            |                    | Yes                                 |
 
 ---
 
 ## 2. Demo
 
-### 2.1. Navigate to next cell (with auto insert row)
+### 2.1. Navigate to next cell (with auto format & auto insert row)
 
 Key binding to `Tab`.
 
@@ -30,6 +32,11 @@ Key binding to `Tab`.
 - with auto format
     - ![navigate](images/navigate_next_cell.gif)
 
+#### 2.1.1 Without auto format
+
+- Use markdowntable.nextCellWithoutFormat command
+- If you want, you need to assign this command to some key binding by yourself.
+
 ### 2.2. Navigate to prev cell
 
 Key binding to `Shift`+`Tab`.
@@ -38,6 +45,11 @@ Key binding to `Shift`+`Tab`.
     - When out of table, vscode's default "outdent" behavior is operated.
 - with auto format
     - ![navigate_prev](images/navigate_prev_cell.gif)
+
+#### 2.2.1 Without auto format
+
+- Use markdowntable.prevCellWithoutFormat command
+- If you want, you need to assign this command to some key binding by yourself.
 
 ### 2.3. Convert to table from TSV text
 
@@ -83,7 +95,7 @@ What's focused on.
 
 ## 5. Release Notes
 
-### - 0.3.0 (2020/10/27)
+### 5.1. - 0.3.0 (2020/10/27)
 
 - [Add] Align column/columns commands
 
