@@ -3,7 +3,7 @@
 	"publisher": "TakumiI",
 	"displayName": "Markdown Table",
 	"description": "A minimal extension for markdown table. Add features to edit markdown table.",
-	"version": "0.3.1",
+	"version": "0.4.0",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/takumisoft68/vscode-markdown-table"
@@ -21,6 +21,8 @@
 		"onCommand:markdowntable.insertLeft",
 		"onCommand:markdowntable.nextCell",
 		"onCommand:markdowntable.prevCell",
+		"onCommand:markdowntable.nextCellWithoutFormat",
+		"onCommand:markdowntable.prevCellWithoutFormat",
 		"onCommand:markdowntable.alignLeft",
 		"onCommand:markdowntable.alignCenter",
 		"onCommand:markdowntable.alignRight"
@@ -51,6 +53,14 @@
 			{
 				"command": "markdowntable.prevCell",
 				"title": "Markdown Table: Navigate to previous cell."
+			},
+			{
+				"command": "markdowntable.nextCellWithoutFormat",
+				"title": "Markdown Table: Navigate to next cell (without auto format)."
+			},
+			{
+				"command": "markdowntable.prevCellWithoutFormat",
+				"title": "Markdown Table: Navigate to previous cell (without auto format)."
 			},
 			{
 				"command": "markdowntable.alignLeft",
