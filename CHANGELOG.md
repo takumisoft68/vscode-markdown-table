@@ -2,6 +2,11 @@
 
 All notable changes to the "markdowntable" extension will be documented in this file.
 
+### - 0.4.2 (2021/01/13)
+
+- [Fix]
+    - Change supported vscode version to "upper than 1.40.0" from "upper than 1.50.0"
+
 ### - 0.4.1 (2020/11/05)
 
 - Readme update only

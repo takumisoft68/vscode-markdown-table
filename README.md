@@ -95,6 +95,10 @@ What's focused on.
 
 ## 5. Release Notes
 
+### - 0.4.2 (2021/01/13)
+
+- Change supported vscode version to "upper than 1.40.0" from "upper than 1.50.0"
+
 ### - 0.4.1 (2020/11/05)
 
 - Readme update only
