@@ -79,12 +79,12 @@ Key binding to `Shift + Alt + F`.
 - Add context menu to insert column
     - ![insert](images/insert.gif)
 
-## 3. Extension Settings
+## 3. Extension Configurations
 
 | Configuration ID                | Description                                      | Type    | Default |
 | :------------------------------ | :----------------------------------------------- | :------ | :------ |
-| markdowntable.alignColumnHeader | Align column header in the table when formatting | boolean | false   |
-| markdowntable.alignData         | Align data in the table when formatting          | boolean | false   |
+| markdowntable.alignColumnHeader | Align column header in the table when formatting | boolean | true    |
+| markdowntable.alignData         | Align data in the table when formatting          | boolean | true    |
 
 ## 4. Policy
 
@@ -98,6 +98,11 @@ What's focused on.
     - Because author is Japanese
 
 ## 5. Release Notes
+
+### - 0.5.1 (2021/03/19)
+
+- Fix Readme only
+    - Default value of configuration
 
 ### - 0.5.0 (2021/03/19)
 

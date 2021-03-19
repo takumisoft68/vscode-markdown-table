@@ -2,6 +2,11 @@
 
 All notable changes to the "markdowntable" extension will be documented in this file.
 
+### - 0.5.1 (2021/03/19)
+
+- Fix Readme only
+    - Default value of configuration
+
 ### - 0.5.0 (2021/03/19)
 
 - [Add]
