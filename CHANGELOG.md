@@ -2,6 +2,12 @@
 
 All notable changes to the "markdowntable" extension will be documented in this file.
 
+### - 0.5.0 (2021/03/19)
+
+- [Add]
+    - Align data and column header when formatting table
+        - It can be disabled by configuration
+
 ### - 0.4.2 (2021/01/13)
 
 - [Fix]

@@ -1,3 +1,5 @@
+import { workspace } from "vscode";
+
 class TableData {
     public aligns : [string, string][] ;
     public columns : string[];
@@ -198,6 +200,8 @@ export class MarkdownTable {
     };
 
     public tableDataToFormatTableStr(tableData :TableData) :string {
+        let alignData = <boolean> workspace.getConfiguration('markdowntable').get('alignData');
+        let alignHeader = <boolean> workspace.getConfiguration('markdowntable').get('alignColumnHeader');
         let columnNum = tableData.columns.length;
 
         // 各列の最大文字数を調べる
@@ -232,11 +236,42 @@ export class MarkdownTable {
                 }
                 let celldata_length = this.getLen(celldata);
 
-                // | の後にスペースを入れてデータ
-                formatted[row] += '| ' + celldata;
-                // 余白を半角スペースで埋める
-                for(let n = celldata_length; n < maxWidths[i]; n++) {
-                    formatted[row] += ' ';
+                // | の後にスペースを入れる
+                formatted[row] += '| ';
+                if (alignData) {
+                    let [front, end] = tableData.aligns[i];
+                    if (front === ':' && end === ':') {
+                        // 中央ぞろえ
+                        for(let n = 0; n < (maxWidths[i] - celldata_length) / 2 - 0.5; n++) {
+                            formatted[row] += ' ';
+                        }
+                        formatted[row] += celldata;
+                        for(let n = 0; n < (maxWidths[i] - celldata_length) / 2; n++) {
+                            formatted[row] += ' ';
+                        }
+                    }
+                    else if (front === '-' && end === ':') {
+                        // 右揃え
+                        for(let n = 0; n < maxWidths[i] - celldata_length; n++) {
+                            formatted[row] += ' ';
+                        }
+                        formatted[row] += celldata;
+                    }
+                    else {
+                        // 左揃え
+                        formatted[row] += celldata;
+                        for(let n = 0; n < maxWidths[i] - celldata_length; n++) {
+                            formatted[row] += ' ';
+                        }
+                    }
+                }
+                else {
+                    // データ
+                    formatted[row] += celldata;
+                    // 余白を半角スペースで埋める
+                    for(let n = celldata_length; n < maxWidths[i]; n++) {
+                        formatted[row] += ' ';
+                    }
                 }
                 // | の前にスペースを入れる
                 formatted[row] += ' ';
@@ -253,12 +288,43 @@ export class MarkdownTable {
         let columnHeader = '';
         columnHeader += tableData.indent;
         for (let i = 0; i < columnNum; i++) {
-            columnHeader += '| ' + tableData.columns[i];
             let columnHeader_length = this.getLen(tableData.columns[i]);
 
-            // 余白を-で埋める
-            for(let n = columnHeader_length; n < maxWidths[i]; n++) {
-                columnHeader += ' ';
+            columnHeader += '| ';
+            if (alignHeader) {
+                let [front, end] = tableData.aligns[i];
+                if (front === ':' && end === ':') {
+                    // 中央ぞろえ
+                    for(let n = 0; n < (maxWidths[i] - columnHeader_length) / 2 - 0.5; n++) {
+                        columnHeader += ' ';
+                    }
+                    columnHeader += tableData.columns[i];
+                    for(let n = 0; n < (maxWidths[i] - columnHeader_length) / 2; n++) {
+                        columnHeader += ' ';
+                    }
+                }
+                else if (front === '-' && end === ':') {
+                    // 右揃え
+                    for(let n = 0; n < maxWidths[i] - columnHeader_length; n++) {
+                        columnHeader += ' ';
+                    }
+                    columnHeader += tableData.columns[i];
+                }
+                else {
+                    // 左揃え
+                    columnHeader += tableData.columns[i];
+                    for(let n = 0; n < maxWidths[i] - columnHeader_length; n++) {
+                        columnHeader += ' ';
+                    }
+                }
+
+            }
+            else {
+                columnHeader += tableData.columns[i];
+                // 余白を-で埋める
+                for(let n = columnHeader_length; n < maxWidths[i]; n++) {
+                    columnHeader += ' ';
+                }
             }
             columnHeader += ' ';
         }
