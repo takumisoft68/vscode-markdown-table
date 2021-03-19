@@ -135,6 +135,21 @@
 					"group": "markdowntable@7"
 				}
 			]
+		},
+		"configuration": {
+			"title": "Markdown Table Configuration",
+			"properties": {
+				"markdowntable.alignData": {
+					"type": "boolean",
+					"default": true,
+					"description": "Align data in the table when formatting"
+				},
+				"markdowntable.alignColumnHeader": {
+					"type": "boolean",
+					"default": true,
+					"description": "Align column header in the table when formatting"
+				}
+			}
 		}
 	},
 	"scripts": {

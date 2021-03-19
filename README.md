@@ -71,6 +71,7 @@ Key binding to `Shift + Alt + T`.
 Key binding to `Shift + Alt + F`.
 
 - **Auto format column width of all tables in current document**
+- Align data and column header (can be disabled by configuration)
     - ![formattable](images/format_table.gif)
 
 ### 2.6. Insert column
@@ -80,7 +81,10 @@ Key binding to `Shift + Alt + F`.
 
 ## 3. Extension Settings
 
-This extension has no settings.
+| Configuration ID                | Description                                      | Type    | Default |
+| :------------------------------ | :----------------------------------------------- | :------ | :------ |
+| markdowntable.alignColumnHeader | Align column header in the table when formatting | boolean | false   |
+| markdowntable.alignData         | Align data in the table when formatting          | boolean | false   |
 
 ## 4. Policy
 
@@ -95,18 +99,11 @@ What's focused on.
 
 ## 5. Release Notes
 
-### - 0.4.2 (2021/01/13)
+### - 0.5.0 (2021/03/19)
 
-- Change supported vscode version to "upper than 1.40.0" from "upper than 1.50.0"
-
-### - 0.4.1 (2020/11/05)
-
-- Readme update only
-
-### - 0.4.0 (2020/11/05)
-
-- [Add] Navigate next/prev cell without auto format command.
-- [Fix] Typo: "Insert Row" command should be "Insert Column".
+- [Add]
+    - Align data and column header when formatting table
+        - It can be disabled by configuration
 
 ## 6. Links
 
