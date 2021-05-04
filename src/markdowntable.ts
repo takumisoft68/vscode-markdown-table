@@ -182,22 +182,59 @@ export class MarkdownTable {
     public getLen(str :string) :number {
         let length = 0;
         for(let i=0; i<str.length; i++) {
-            let chr = str.charCodeAt(i);
-            if( (chr >= 0x00 && chr <= 0x80) ||
-                (chr >= 0xa0 && chr <= 0xff) ||
-                (chr === 0xf8f0) ||
-                (chr >= 0xff61 && chr <= 0xff9f) ||
-                (chr >= 0xf8f1 && chr <= 0xf8f3)){
-                //半角文字の場合は1を加算
-                length += 1;
-            }else{
-                //それ以外の文字の場合は2を加算
+            let chp = str.codePointAt(i);
+            if (chp === undefined) {
+                continue;
+            }
+            let chr = chp as number;
+            if (this.doesUse0Space(chr)) {
+                length += 0;
+            }
+            else if (this.doesUse2Spaces(chr)) {
+                // 全角文字の場合は2を加算
                 length += 2;
             }
+            else {
+                //それ以外の文字の場合は1を加算
+                length += 1;
+            }
+
+            // if( (chr >= 0x00 && chr <= 0x80) ||
+            //     (chr >= 0xa0 && chr <= 0xff) ||
+            //     (chr === 0xf8f0) ||
+            //     (chr >= 0xff61 && chr <= 0xff9f) ||
+            //     (chr >= 0xf8f1 && chr <= 0xf8f3)){
+            //     //半角文字の場合は1を加算
+            //     length += 1;
+            // }else{
+            //     //それ以外の文字の場合は2を加算
+            //     length += 2;
+            // }
         }
         //結果を返す
         return length;
     };
+
+    private doesUse0Space(charCode :number): boolean {
+        if ((charCode === 0x02DE) || 
+            (charCode >= 0x0300 && charCode <= 0x036F) ||
+            (charCode >= 0x0483 && charCode <= 0x0487) ||
+            (charCode >= 0x0590 && charCode <= 0x05CF) ) {
+            return true;
+        }
+        return false;
+    }
+
+    private doesUse2Spaces(charCode :number): boolean {
+        if ((charCode >= 0x2480 && charCode <= 0x24FF) ||
+            (charCode >= 0x2600 && charCode <= 0x27FF) ||
+            (charCode >= 0x2900 && charCode <= 0x2CFF) ||
+            (charCode >= 0x2E00 && charCode <= 0xFF60) ||
+            (charCode >= 0xFFA0) ) {
+            return true;
+        }
+        return false;
+    }
 
     public tableDataToFormatTableStr(tableData :TableData) :string {
         let alignData = <boolean> workspace.getConfiguration('markdowntable').get('alignData');
