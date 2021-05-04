@@ -190,6 +190,9 @@ export class MarkdownTable {
             if (this.doesUse0Space(chr)) {
                 length += 0;
             }
+            else if (this.doesUse3Spaces(chr)) {
+                length += 3;
+            }
             else if (this.doesUse2Spaces(chr)) {
                 // 全角文字の場合は2を加算
                 length += 2;
@@ -197,6 +200,12 @@ export class MarkdownTable {
             else {
                 //それ以外の文字の場合は1を加算
                 length += 1;
+            }
+
+            let chc = str.charCodeAt(i);
+            if (chc >= 0xD800 && chc <= 0xDBFF) {
+                // サロゲートペアの時は1文字読み飛ばす
+                i++;
             }
 
             // if( (chr >= 0x00 && chr <= 0x80) ||
@@ -231,6 +240,13 @@ export class MarkdownTable {
             (charCode >= 0x2900 && charCode <= 0x2CFF) ||
             (charCode >= 0x2E00 && charCode <= 0xFF60) ||
             (charCode >= 0xFFA0) ) {
+            return true;
+        }
+        return false;
+    }
+
+    private doesUse3Spaces(charCode :number): boolean {
+        if (charCode >= 0x1F300 && charCode <= 0x1FBFF) {
             return true;
         }
         return false;
