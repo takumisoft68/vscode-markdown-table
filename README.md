@@ -99,18 +99,14 @@ What's focused on.
 
 ## 5. Release Notes
 
-### - 0.5.1 (2021/03/19)
-
-- Fix Readme only
-    - Default value of configuration
-
-### - 0.5.0 (2021/03/19)
-
-- [Add]
-    - Align data and column header when formatting table
-        - It can be disabled by configuration
+- See [changelog](CHANGELOG.md).
 
 ## 6. Links
 
 - [Source Code](https://github.com/takumisoft68/vscode-markdown-table)
 - [Marketplace](https://marketplace.visualstudio.com/items?itemName=TakumiI.markdowntable)
+- [VSX]
+
+## 7. License
+
+Apache 2.0, See [LICENSE](LICENSE) for more information.
