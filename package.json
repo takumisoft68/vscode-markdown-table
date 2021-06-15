@@ -16,6 +16,7 @@
 	],
 	"activationEvents": [
 		"onLanguage:markdown",
+		"onLanguage:mdx",
 		"onCommand:markdowntable.tsvToTable",
 		"onCommand:markdowntable.format",
 		"onCommand:markdowntable.insertRight",
@@ -96,6 +97,26 @@
 				"command": "markdowntable.prevCell",
 				"key": "shift+tab",
 				"when": "editorLangId == markdown && editorTextFocus && !editorReadonly && !editorTabMovesFocus && !suggestWidgetMultipleSuggestions && !suggestWidgetVisible && !inSnippetMode"
+			},
+			{
+				"command": "markdowntable.format",
+				"key": "shift+alt+f",
+				"when": "editorLangId == mdx && editorTextFocus"
+			},
+			{
+				"command": "markdowntable.tsvToTable",
+				"key": "shift+alt+t",
+				"when": "editorLangId == mdx && editorTextFocus && editorHasSelection"
+			},
+			{
+				"command": "markdowntable.nextCell",
+				"key": "tab",
+				"when": "editorLangId == mdx && editorTextFocus && !editorReadonly && !editorTabMovesFocus && !suggestWidgetMultipleSuggestions && !suggestWidgetVisible && !inSnippetMode"
+			},
+			{
+				"command": "markdowntable.prevCell",
+				"key": "shift+tab",
+				"when": "editorLangId == mdx && editorTextFocus && !editorReadonly && !editorTabMovesFocus && !suggestWidgetMultipleSuggestions && !suggestWidgetVisible && !inSnippetMode"
 			}
 		],
 		"menus": {
@@ -132,6 +153,41 @@
 				},
 				{
 					"when": "editorLangId == markdown",
+					"command": "markdowntable.alignRight",
+					"group": "markdowntable@7"
+				},
+				{
+					"when": "editorLangId == mdx",
+					"command": "markdowntable.format",
+					"group": "markdowntable@1"
+				},
+				{
+					"when": "editorLangId == mdx && editorHasSelection",
+					"command": "markdowntable.tsvToTable",
+					"group": "markdowntable@2"
+				},
+				{
+					"when": "editorLangId == mdx && !editorHasSelection",
+					"command": "markdowntable.insertRight",
+					"group": "markdowntable@3"
+				},
+				{
+					"when": "editorLangId == mdx && !editorHasSelection",
+					"command": "markdowntable.insertLeft",
+					"group": "markdowntable@4"
+				},
+				{
+					"when": "editorLangId == mdx",
+					"command": "markdowntable.alignLeft",
+					"group": "markdowntable@5"
+				},
+				{
+					"when": "editorLangId == mdx",
+					"command": "markdowntable.alignCenter",
+					"group": "markdowntable@6"
+				},
+				{
+					"when": "editorLangId == mdx",
 					"command": "markdowntable.alignRight",
 					"group": "markdowntable@7"
 				}
