@@ -15,6 +15,7 @@
 		"Other"
 	],
 	"activationEvents": [
+		"onLanguage:markdown",
 		"onCommand:markdowntable.tsvToTable",
 		"onCommand:markdowntable.format",
 		"onCommand:markdowntable.insertRight",
