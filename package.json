@@ -31,12 +31,6 @@
 	],
 	"main": "./out/extension.js",
 	"contributes": {
-		"snippets": [
-			{
-				"language": "markdown",
-				"path": "./snippets/markdown.json"
-			}
-		],
 		"commands": [
 			{
 				"command": "markdowntable.format",

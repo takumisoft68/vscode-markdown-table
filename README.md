@@ -6,7 +6,6 @@ Markdown table features.
 
 | Title                                   | Command                             | Default Keybinding | In the Editor Right Click Menu      |
 | :-------------------------------------- | :---------------------------------- | :----------------- | :---------------------------------- |
-| Generate a simple table.                | **snippet**: `table`                |                    | No                                  |
 | Format all tables.                      | markdowntable.format                | Shift + Alt + F    | Yes                                 |
 | Convert TSV to table.                   | markdowntable.tsvToTable            | Shift + Alt + T    | Yes (only when selecting range)     |
 | Navigate to next cell.                  | markdowntable.nextCell              | Tab                | No                                  |
@@ -22,8 +21,6 @@ Markdown table features.
 ---
 
 ## 2. Demo
-
-Typing `table` to generate a simple table with snippet, and than go further.
 
 ### 2.1. Navigate to next cell (with auto format & auto insert row)
 
