@@ -2,6 +2,10 @@
 
 All notable changes to the "markdowntable" extension will be documented in this file.
 
+### 0.7.0 (2021/xx/xx)
+
+- [Add] snippet to generate simple table, typing `table` to trigger
+
 ### 0.6.0 (2021/06/15)
 
 - [Add] Support mdx
