@@ -6,7 +6,6 @@ Markdown table features.
 
 | Title                                   | Command                             | Default Keybinding | In the Editor Right Click Menu      |
 | :-------------------------------------- | :---------------------------------- | :----------------- | :---------------------------------- |
-| Generate a simple table.                | **snippet**: `table`                |                    | No                                  |
 | Format all tables.                      | markdowntable.format                | Shift + Alt + F    | Yes                                 |
 | Convert TSV to table.                   | markdowntable.tsvToTable            | Shift + Alt + T    | Yes (only when selecting range)     |
 | Navigate to next cell.                  | markdowntable.nextCell              | Tab                | No                                  |
@@ -22,8 +21,6 @@ Markdown table features.
 ---
 
 ## 2. Demo
-
-Typing `table` to generate a simple table with snippet, and than go further.
 
 ### 2.1. Navigate to next cell (with auto format & auto insert row)
 
@@ -89,7 +86,85 @@ Key binding to `Shift + Alt + F`.
 | markdowntable.alignColumnHeader | Align column header in the table when formatting | boolean | true    |
 | markdowntable.alignData         | Align data in the table when formatting          | boolean | true    |
 
-## 4. Policy
+## 4. Tips
+
+### 4.1. Add a snippet to create a simple table
+
+You can define user snippets.
+
+- References
+    - [Snippets in Visual Studio Code (Official document)](https://code.visualstudio.com/docs/editor/userdefinedsnippets)
+- Steps to add a snippet **table** to the global scope
+    1. Open snippet file
+        1. Select User Snippets under File > Preferences (Code > Preferences on macOS)
+        1. Select markdown.json or markdown under New Global Snippets file
+    1. Add the following, and save file
+
+        ```json
+        {
+            "Insert a simple table": {
+                "prefix": "table",
+                "body": [
+                    "|${0:title} |  |",
+                    "| - | - |",
+                    "|   |   |"
+                ],
+                "description": "Insert a simple table"
+            }
+        }
+        ```
+
+- Step to add a snippet **table** to the project scope
+    1. Create ".vscode/markdown.code-snippets" in your project directory
+    1. Add the following, and save file
+        - Syntax is almost the same as global, scope option is additional
+
+        ```json
+        {
+            "Insert a simple table": {
+                "prefix": "table",
+                "scope": "markdown",
+                "body": [
+                    "|${0:title} |  |",
+                    "| - | - |",
+                    "|   |   |"
+                ],
+                "description": "Insert a simple table"
+            }    
+        }
+        ```
+
+### 4.2. Enable snippets suggestion
+
+By default, the snippets suggestion is disabled in markdown.
+You need to enable it to use.
+
+- References
+    - [User and Workspace Settings (Official document)](https://code.visualstudio.com/docs/getstarted/settings)
+- Step to enable snippets suggestion to the global scope
+    1. Open user settings file
+        - Windows %APPDATA%\Code\User\settings.json
+        - macOS $HOME/Library/Application Support/Code/User/settings.json
+        - Linux $HOME/.config/Code/User/settings.json
+    1. Add the following, and save file
+
+        ```json
+            "[markdown]": {
+                "editor.quickSuggestions": true
+            }
+        ```
+
+- Step to enable snippets suggestion to the project stope
+    1. Create (or open if already exist) ".vscode/settings.json" in your project directory
+    1. Add the following, and save file
+
+        ```json
+            "[markdown]": {
+                "editor.quickSuggestions": true
+            }
+        ```
+
+## 5. Policy
 
 What's focused on.
 
@@ -100,16 +175,16 @@ What's focused on.
 - Support full-width characters
     - Because author is Japanese
 
-## 5. Release Notes
+## 6. Release Notes
 
 - See [changelog](CHANGELOG.md).
 
-## 6. Links
+## 7. Links
 
 - [Source Code](https://github.com/takumisoft68/vscode-markdown-table)
 - [Marketplace](https://marketplace.visualstudio.com/items?itemName=TakumiI.markdowntable)
 - [VSX]
 
-## 7. License
+## 8. License
 
 Apache 2.0, See [LICENSE](LICENSE) for more information.

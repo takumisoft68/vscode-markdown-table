@@ -2,9 +2,9 @@
 
 All notable changes to the "markdowntable" extension will be documented in this file.
 
-### 0.7.0 (2021/xx/xx)
+### 0.7.0 (2021/09/11)
 
-- [Add] snippet to generate simple table, typing `table` to trigger
+- [Add] Add tips for snippet suggestion to generate simple table
 
 ### 0.6.0 (2021/06/15)
 
