@@ -282,13 +282,13 @@ export function activate(context: vscode.ExtensionContext) {
         const editor = vscode.window.activeTextEditor as vscode.TextEditor;
         // ドキュメント取得
         const doc = editor.document;
-        // ドキュメント全てを取得する
-        const all_selection = new vscode.Selection(
-            new vscode.Position(0, 0),
-            new vscode.Position(doc.lineCount - 1, 10000));
+        // // ドキュメント全てを取得する
+        // const all_selection = new vscode.Selection(
+        //     new vscode.Position(0, 0),
+        //     new vscode.Position(doc.lineCount - 1, 10000));
 
-        const text = doc.getText(all_selection); //取得されたテキスト
-        const lines = text.split(/\r\n|\n|\r/);
+        // const text = doc.getText(all_selection); //取得されたテキスト
+        // const lines = text.split(/\r\n|\n|\r/);
 
         // 変換のリスト
         let format_list = [] as [vscode.Selection, string][];
@@ -299,27 +299,27 @@ export function activate(context: vscode.ExtensionContext) {
 
         // 表を探す
         let preSearchedLine = -1;
-        for (let line = 0; line < lines.length; line++) {
+        for (let line = 0; line < doc.lineCount; line++) {
             if (line <= preSearchedLine) {
                 continue;
             }
-            if (!lines[line].trim().startsWith('|')) {
+            if (!doc.lineAt(line).text.trim().startsWith('|')) {
                 continue;
             }
             let startLine = line;
             let endLine = line;
 
             // 表の終わり行を探す
-            while (endLine + 1 < lines.length && lines[endLine + 1].trim().startsWith('|')) {
+            while (endLine + 1 < doc.lineCount && doc.lineAt(endLine + 1).text.trim().startsWith('|')) {
                 endLine++;
-                if (endLine >= lines.length) {
+                if (endLine >= doc.lineCount) {
                     break;
                 }
             }
             // 表のテキストを取得
             const table_selection = new vscode.Selection(
                 new vscode.Position(startLine, 0),
-                new vscode.Position(endLine, lines[endLine].length));
+                new vscode.Position(endLine, doc.lineAt(endLine).text.length));
             const table_text = doc.getText(table_selection);
 
             // 表をフォーマットする
