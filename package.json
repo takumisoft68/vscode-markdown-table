@@ -194,7 +194,7 @@
 			]
 		},
 		"configuration": {
-			"title": "Markdown Table Configuration",
+			"title": "Markdown Table",
 			"properties": {
 				"markdowntable.alignData": {
 					"type": "boolean",
