@@ -3,7 +3,7 @@
 	"publisher": "TakumiI",
 	"displayName": "Markdown Table",
 	"description": "A minimal extension for markdown table. Add features to edit markdown table.",
-	"version": "0.7.0",
+	"version": "0.7.1",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/takumisoft68/vscode-markdown-table"
@@ -218,16 +218,16 @@
 		"test": "node ./out/test/runTest.js"
 	},
 	"devDependencies": {
-		"@types/glob": "^7.1.1",
-		"@types/mocha": "^8.2.1",
-		"@types/node": "^15.12.2",
-		"@types/vscode": "^1.40.0",
-		"@typescript-eslint/eslint-plugin": "^4.18.0",
-		"@typescript-eslint/parser": "^4.18.0",
-		"eslint": "^7.22.0",
-		"glob": "^7.1.6",
-		"mocha": "^9.0.0",
-		"typescript": "^4.2.3",
-		"vscode-test": "^1.3.0"
+		"@types/glob": "^7.2.0",
+		"@types/mocha": "^8.2.3",
+		"@types/node": "^15.14.9",
+		"@types/vscode": "^1.62.0",
+		"@typescript-eslint/eslint-plugin": "^4.33.0",
+		"@typescript-eslint/parser": "^4.33.0",
+		"eslint": "^7.32.0",
+		"glob": "^7.2.0",
+		"mocha": "^9.1.3",
+		"typescript": "^4.5.2",
+		"vscode-test": "^1.6.1"
 	}
 }
