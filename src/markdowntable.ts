@@ -25,6 +25,7 @@ export class MarkdownTable {
         // 行文字列をセルデータ配列に分解する
         // datasNumMin に指定したデータ数に満たない行は '' で埋める
         let splitline = (linestr: string, datasNumMin :number, fillstr :string = '') => {
+            // 先頭と末尾の|を削除
             linestr = linestr.trim();
             if (linestr.startsWith('|')) {
                 linestr = linestr.slice(1);
@@ -32,7 +33,53 @@ export class MarkdownTable {
             if (linestr.endsWith('|')) {
                 linestr = linestr.slice(0, -1);
             }
-            let linedatas = linestr.split('|');
+
+            // |で分割
+            let linedatas : string[] = [];
+            let startindex = 0;
+            let endindex = 0;
+            let isEscaping = false;
+            let isInInlineCode = false;
+            for (let i = 0; i < linestr.length; ++i) {
+                const chara = linestr.charAt(i);
+                if(chara === '\\') {
+                    // \はエスケープ文字
+                    isEscaping = true;
+                    endindex++;
+                    continue;
+                }
+                if(isEscaping) {
+                    // エスケープ文字の次の文字は|かどうか判定しない
+                    isEscaping = false;
+                    endindex++;
+                    continue;
+                }
+
+                if(chara === '\`') {
+                    // `の間はインラインコード
+                    isInInlineCode = !isInInlineCode;
+                    endindex++;
+                    continue;
+                }
+                if(isInInlineCode) {
+                    // インラインコード中は|かどうか判定しない
+                    endindex++;
+                    continue;
+                }
+
+                if(chara !== '|') {
+                    // | 以外だったら継続
+                    endindex++;
+                    continue;
+                }
+
+                // | だったら分割
+                let cellstr = linestr.slice(startindex, endindex);
+                linedatas.push(cellstr);
+                startindex = i+1;
+                endindex = i+1;
+            }
+            linedatas.push(linestr.slice(startindex));
 
             // 最低データ数分を''で埋めておく
             let datas : string[] = new Array(datasNumMin).fill(fillstr);
