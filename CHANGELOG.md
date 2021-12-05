@@ -4,7 +4,7 @@ All notable changes to the "markdowntable" extension will be documented in this 
 
 ### 0.7.1 (2021/12/05)
 
-- [Fix] Allow inline code `\` and escaped \| in table.
+- [Fix] Allow inline code `\` and escaped \\\| in table.
 - [Change] Shorten config title. "Markdown Table Configuration" -> "Markdown Table"
 - [Fix] Improve processing, don't get the full text.
 - [Fix] Update npm packages.
