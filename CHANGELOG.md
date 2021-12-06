@@ -2,6 +2,10 @@
 
 All notable changes to the "markdowntable" extension will be documented in this file.
 
+### 0.7.2 (2021/12/06)
+
+- [Fix] Navigation slippage while a escaped or inline-coded pipe character is in table.
+
 ### 0.7.1 (2021/12/05)
 
 - [Fix] Allow inline code `\` and escaped \\\| in table.
