@@ -67,7 +67,7 @@ export function activate(context: vscode.ExtensionContext) {
         const table_selection = new vscode.Selection(
             new vscode.Position(startLine, 0),
             new vscode.Position(endLine, 10000));
-        let table_text = doc.getText(table_selection);
+        const table_text = doc.getText(table_selection);
 
 
         // テーブルの変形処理クラス
@@ -75,13 +75,15 @@ export function activate(context: vscode.ExtensionContext) {
 
         // 元のカーソル位置を取得
         const [prevline, prevcharacter] = [cur_selection.active.line - startLine, cur_selection.active.character];
-        const [prevRow, prevColumn] = mdt.getCellAtPosition(table_text, prevline, prevcharacter);
 
         // テーブルをTableDataにシリアライズ
         let tableData = mdt.stringToTableData(table_text);
         if (tableData.aligns[0][0] === undefined) {
             return;
         }
+
+        // 元のカーソル位置のセルを取得
+        const [prevRow, prevColumn] = tableData.getCellAtPosition(prevline, prevcharacter, false);
 
         // 次のセルが新しい行になるかどうか
         const isNextRow = (prevColumn + 1 >= tableData.columns.length);
@@ -92,40 +94,25 @@ export function activate(context: vscode.ExtensionContext) {
             (isNextRow && prevRow >= tableData.cells.length + 1)
         );
 
-        if (withFormat) {
-            // 次の行が必要なら追加する
-            if (isInsertNewRow === true) {
-                tableData = mdt.insertRow(tableData, tableData.cells.length);
-            }
 
-            // テーブルをフォーマット
-            table_text = mdt.tableDataToFormatTableStr(tableData);
+        // 次の行が必要なら追加する
+        if (isInsertNewRow === true) {
+            tableData = mdt.insertRow(tableData, tableData.cells.length);
         }
-        else {
-            // 次の行が必要なら追加する
-            if (isInsertNewRow === true) {
-                table_text += '\n' + tableData.indent + '|' + '  |'.repeat(tableData.columns.length);
-            }
 
-            // | が足りていないときは追加する
-            if (currentLineText.split('|').length < tableData.columns.length + 2) {
-                let table_text_lines = table_text.split(/\r\n|\n|\r/);
-                const cursorRow = cur_selection.active.line - startLine;
-                table_text_lines[cursorRow] += '|';
-                table_text = table_text_lines.join('\r\n');
-            }
-        }
+        // テーブルをフォーマットしたテキストを取得
+        let formatted_text = withFormat ? tableData.toFormatTableStr() : tableData.toString();
 
         //エディタ選択範囲にテキストを反映
         editor.edit(edit => {
-            edit.replace(table_selection, table_text);
+            edit.replace(table_selection, formatted_text);
         });
 
         // 新しいカーソル位置を計算
         // character の +1 は表セル内の|とデータの間の半角スペース分
         const newColumn = (isNextRow === true) ? 0 : prevColumn + 1;
-        const newRow = (isNextRow === true) ? prevRow + 1 : prevRow;
-        const [newline, newcharacter] = mdt.getPositionOfCell(table_text, newRow, newColumn);
+        const newRow = (isNextRow === true) ? prevRow + 1 : prevRow;    
+        const [newline, newcharacter] = tableData.getPositionOfCell(newRow, newColumn, withFormat);
         const newPosition = new vscode.Position(
             table_selection.start.line + newline,
             table_selection.start.character + newcharacter + 1);
@@ -190,12 +177,6 @@ export function activate(context: vscode.ExtensionContext) {
 
         // 元のカーソル位置を取得
         const [prevline, prevcharacter] = [cur_selection.active.line - startLine, cur_selection.active.character];
-        const [prevRow, prevColumn] = mdt.getCellAtPosition(table_text, prevline, prevcharacter);
-
-        // 先頭セルだったら何もしない
-        if (prevColumn <= 0 && prevRow <= 0) {
-            return;
-        }
 
         // テーブルをTableDataにシリアライズ
         let tableData = mdt.stringToTableData(table_text);
@@ -203,26 +184,31 @@ export function activate(context: vscode.ExtensionContext) {
             return;
         }
 
-        if (withFormat) {
-            // テーブルをフォーマット
-            table_text = mdt.tableDataToFormatTableStr(tableData);
-            //エディタ選択範囲にテキストを反映
-            editor.edit(edit => {
-                edit.replace(table_selection, table_text);
-            });
+        // 元のカーソル位置のセルを取得
+        const [prevRow, prevColumn] = tableData.getCellAtPosition(prevline, prevcharacter, false);
+        // 先頭セルだったら何もしない
+        if (prevColumn <= 0 && prevRow <= 0) {
+            return;
         }
+
+        // テーブルをフォーマットしたテキストを取得
+        let formatted_text = withFormat ? tableData.toFormatTableStr() : tableData.toString();
+
+        //エディタ選択範囲にテキストを反映
+        editor.edit(edit => {
+            edit.replace(table_selection, formatted_text);
+        });
 
         // 新しいカーソル位置を計算
         // character の +1 は表セル内の|とデータの間の半角スペース分
         const newColumn = (prevColumn > 0) ? prevColumn - 1 : tableData.columns.length - 1;
         const newRow = (prevColumn > 0) ? prevRow : prevRow -1;
-        const [newline, newcharacter] = mdt.getPositionOfCell(table_text, newRow, newColumn);
+        const [newline, newcharacter] = tableData.getPositionOfCell(newRow, newColumn, withFormat);
         let newPosition = new vscode.Position(
             table_selection.start.line + newline,
             table_selection.start.character + newcharacter);
-        if( doc.getText(new vscode.Selection(
-            table_selection.start.line + newline, table_selection.start.character + newcharacter, 
-            table_selection.start.line + newline, table_selection.start.character + newcharacter + 1)) === ' ') {
+        if( withFormat ||
+            tableData.getCellData(newRow, newColumn).startsWith(' ')) {
                 newPosition = new vscode.Position(
                     table_selection.start.line + newline,
                     table_selection.start.character + newcharacter + 1);
@@ -266,8 +252,7 @@ export function activate(context: vscode.ExtensionContext) {
 
         const mdt = new markdowntable.MarkdownTable();
         const tableData = mdt.tsvToTableData(text);
-        //const tableStr = mdt.tableDataToTableStr(tableData);
-        const newTableStr = mdt.tableDataToFormatTableStr(tableData);
+        const newTableStr = tableData.toFormatTableStr();
 
         //エディタ選択範囲にテキストを反映
         editor.edit(edit => {
@@ -291,7 +276,7 @@ export function activate(context: vscode.ExtensionContext) {
         // const lines = text.split(/\r\n|\n|\r/);
 
         // 変換のリスト
-        let format_list = [] as [vscode.Selection, string][];
+        let format_list = [] as [vscode.Selection, markdowntable.TableData][];
 
         // テーブルの変形処理クラス
         const mdt = new markdowntable.MarkdownTable();
@@ -324,10 +309,9 @@ export function activate(context: vscode.ExtensionContext) {
 
             // 表をフォーマットする
             const tableData = mdt.stringToTableData(table_text);
-            const tableStrFormatted = mdt.tableDataToFormatTableStr(tableData);
 
             // 変換内容をリストに保持する
-            format_list.push([table_selection, tableStrFormatted]);
+            format_list.push([table_selection, tableData]);
 
             preSearchedLine = endLine;
         }
@@ -338,22 +322,21 @@ export function activate(context: vscode.ExtensionContext) {
         //エディタ選択範囲にテキストを反映
         editor.edit(edit => {
             for (let i = 0; i < format_list.length; i++) {
-                const [selection, text] = format_list[i] as [vscode.Selection, string];
+                const [selection, tableData] = format_list[i] as [vscode.Selection, markdowntable.TableData];
 
                 // カーソルを元のセルと同じ位置にするためにカーソル位置を特定しておく
                 if (selection.contains(editor.selection.active)) {
                     // テーブルの変形処理クラス
-                    const mdt = new markdowntable.MarkdownTable();
-                    const prevText = doc.getText(selection);
                     const [prevline, prevcharacter] = [editor.selection.active.line - selection.start.line, editor.selection.active.character];
-                    const [prevRow, prevColumn] = mdt.getCellAtPosition(prevText, prevline, prevcharacter);
+                    const [prevRow, prevColumn] = tableData.getCellAtPosition(prevline, prevcharacter, false);
 
                     // テキストを置換
-                    edit.replace(selection, text);
+                    const tableStrFormatted = tableData.toFormatTableStr();
+                    edit.replace(selection, tableStrFormatted);
 
                     // 新しいカーソル位置を計算
                     // character の +1 は表セル内の|とデータの間の半角スペース分
-                    const [newline, newcharacter] = mdt.getPositionOfCell(text, prevRow, prevColumn);
+                    const [newline, newcharacter] = tableData.getPositionOfCell(prevRow, prevColumn, true);
                     const newPosition = new vscode.Position(
                         selection.start.line + newline,
                         selection.start.character + newcharacter + 1);
@@ -361,7 +344,7 @@ export function activate(context: vscode.ExtensionContext) {
                 }
                 else {
                     // テキストを置換
-                    edit.replace(selection, text);
+                    edit.replace(selection, tableData.toFormatTableStr());
                 }
             }
         });
@@ -419,15 +402,18 @@ export function activate(context: vscode.ExtensionContext) {
 
         // 元のカーソル位置を取得
         const [prevline, prevcharacter] = [cur_selection.active.line - startLine, cur_selection.active.character];
-        const [prevRow, prevColumn] = mdt.getCellAtPosition(table_text, prevline, prevcharacter);
+
+        // テーブルをフォーマット
+        const tableData = mdt.stringToTableData(table_text);
+
+        // 元のカーソル位置のセルを取得
+        const [prevRow, prevColumn] = tableData.getCellAtPosition(prevline, prevcharacter, false);
 
         // 挿入位置
         const insertPosition = isLeft ? prevColumn : prevColumn + 1;
 
-        // テーブルをフォーマット
-        const tableData = mdt.stringToTableData(table_text);
         const newTableData = mdt.insertColumn(tableData, insertPosition);
-        const newTableText = mdt.tableDataToFormatTableStr(newTableData);
+        const newTableText = newTableData.toFormatTableStr();
 
         //エディタ選択範囲にテキストを反映
         editor.edit(edit => {
@@ -437,7 +423,7 @@ export function activate(context: vscode.ExtensionContext) {
         // 新しいカーソル位置を計算
         // character の +1 は表セル内の|とデータの間の半角スペース分
         const newColumn = insertPosition;
-        const [newline, newcharacter] = mdt.getPositionOfCell(newTableText, prevRow, newColumn);
+        const [newline, newcharacter] = newTableData.getPositionOfCell(prevRow, newColumn, true);
         const newPosition = new vscode.Position(
             table_selection.start.line + newline,
             table_selection.start.character + newcharacter + 1);
@@ -512,17 +498,17 @@ export function activate(context: vscode.ExtensionContext) {
         // テーブルの変形処理クラス
         const mdt = new markdowntable.MarkdownTable();
 
-        // 選択セルを取得
-        const [startline, startcharacter] = [cur_selection.start.line - startLine, cur_selection.start.character];
-        const [startRow, startColumn] = mdt.getCellAtPosition(table_text, startline, startcharacter);
-        const [endline, endcharacter] = [cur_selection.end.line - startLine, cur_selection.end.character];
-        const [endRow, endColumn] = mdt.getCellAtPosition(table_text, endline, endcharacter);
-
         // テーブルをTableDataにシリアライズ
         let tableData = mdt.stringToTableData(table_text);
         if (tableData.aligns[0][0] === undefined) {
             return;
         }
+
+        // 選択セルを取得
+        const [startline, startcharacter] = [cur_selection.start.line - startLine, cur_selection.start.character];
+        const [startRow, startColumn] = tableData.getCellAtPosition(startline, startcharacter, false);
+        const [endline, endcharacter] = [cur_selection.end.line - startLine, cur_selection.end.character];
+        const [endRow, endColumn] = tableData.getCellAtPosition(endline, endcharacter, false);
 
         // 選択範囲の列のAlignを変更する
         if (startRow === endRow) {
@@ -547,8 +533,8 @@ export function activate(context: vscode.ExtensionContext) {
             }
         }
 
-        // テーブルをフォーマット
-        const newTableText = mdt.tableDataToFormatTableStr(tableData);
+        // テーブルをフォーマットした文字列を取得
+        const newTableText = tableData.toFormatTableStr();
 
         //エディタ選択範囲にテキストを反映
         editor.edit(edit => {
@@ -557,10 +543,11 @@ export function activate(context: vscode.ExtensionContext) {
 
         // 元のカーソル選択位置を計算
         const [anchorline, anchorcharacter] = [cur_selection.anchor.line - startLine, cur_selection.anchor.character];
-        const [anchorRow, anchorColumn] = mdt.getCellAtPosition(table_text, anchorline, anchorcharacter);
+        // 元のカーソル選択位置のセルを取得
+        const [anchorRow, anchorColumn] = tableData.getCellAtPosition(anchorline, anchorcharacter, false);
 
         // 新しいカーソル位置をフォーマット後のテキストから計算
-        const [newline, newcharacter] = mdt.getPositionOfCell(newTableText, anchorRow, anchorColumn);
+        const [newline, newcharacter] = tableData.getPositionOfCell(anchorRow, anchorColumn, true);
         const newPosition = new vscode.Position(
             table_selection.start.line + newline,
             table_selection.start.character + newcharacter + 1);
