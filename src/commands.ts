@@ -26,15 +26,15 @@ export function updateContextKey(statusBar :vscode.StatusBarItem) {
     if (inTable) {
         vscode.commands.executeCommand('setContext', 'selectionInMarkdownTable', true);
 
-        statusBar.text = `$(circle-large-filled) in the table`;
-        statusBar.tooltip = `cursor is in the table`;
-        statusBar.show();
+        // statusBar.text = `$(circle-large-filled) in the table`;
+        // statusBar.tooltip = `cursor is in the table`;
+        // statusBar.show();
     } else {
         vscode.commands.executeCommand('setContext', 'selectionInMarkdownTable', false);
 
-        statusBar.text = `$(circle-slash) out of table`;
-        statusBar.tooltip = `cursor is out of table`;
-        statusBar.show();
+        // statusBar.text = `$(circle-slash) out of table`;
+        // statusBar.tooltip = `cursor is out of table`;
+        // statusBar.show();
     }
 }
 
