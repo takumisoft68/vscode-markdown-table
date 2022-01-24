@@ -24,10 +24,14 @@ export function updateContextKey(statusBar :vscode.StatusBarItem) {
     }
 
     if (inTable) {
+        vscode.commands.executeCommand('setContext', 'selectionInMarkdownTable', true);
+
         statusBar.text = `$(circle-large-filled) in the table`;
         statusBar.tooltip = `cursor is in the table`;
         statusBar.show();
     } else {
+        vscode.commands.executeCommand('setContext', 'selectionInMarkdownTable', false);
+
         statusBar.text = `$(circle-slash) out of table`;
         statusBar.tooltip = `cursor is out of table`;
         statusBar.show();
@@ -36,23 +40,14 @@ export function updateContextKey(statusBar :vscode.StatusBarItem) {
 
 
 export function navigateNextCell(withFormat: boolean) {
+    console.log('navigateNextCell called!');
+
     // エディタ取得
     const editor = vscode.window.activeTextEditor as vscode.TextEditor;
     // ドキュメント取得
     const doc = editor.document;
     // 選択範囲取得
     const cur_selection = editor.selection;
-    // カーソル行
-    const currentLine = new vscode.Selection(
-        new vscode.Position(cur_selection.active.line, 0),
-        new vscode.Position(cur_selection.active.line, 10000));
-    const currentLineText = doc.getText(currentLine);
-    // テーブル内ではなかったら終了
-    if (!text.isInTable(currentLineText)) {
-        // 通常のインデント
-        vscode.commands.executeCommand('tab');
-        return;
-    }
 
     // 表を探す
     let startLine = cur_selection.anchor.line;
@@ -134,22 +129,14 @@ export function navigateNextCell(withFormat: boolean) {
 };
 
 export function navigatePrevCell(withFormat: boolean) {
+    console.log('navigatePrevCell called!');
+
     // エディタ取得
     const editor = vscode.window.activeTextEditor as vscode.TextEditor;
     // ドキュメント取得
     const doc = editor.document;
     // 選択範囲取得
     const cur_selection = editor.selection;
-    // カーソル行
-    const currentLine = doc.getText(new vscode.Selection(
-        new vscode.Position(cur_selection.active.line, 0),
-        new vscode.Position(cur_selection.active.line, 10000)));
-    // テーブル内ではなかったら終了
-    if (!currentLine.trim().startsWith('|')) {
-        // 通常のアウトデント
-        vscode.commands.executeCommand('outdent');
-        return;
-    }
 
     // 表を探す
     let startLine = cur_selection.anchor.line;

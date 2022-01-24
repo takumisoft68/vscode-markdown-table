@@ -19,6 +19,8 @@ export function activate(context: vscode.ExtensionContext) {
     // Now provide the implementation of the command with registerCommand
     // The commandId parameter must match the command field in package.json
 
+    vscode.commands.executeCommand('setContext', 'selectionInMarkdownTable', false);
+
     function registerCommandNice(commandId: string, run: (...args: any[]) => void): void {
         let command = vscode.commands.registerCommand(commandId, run);
         context.subscriptions.push(command);
