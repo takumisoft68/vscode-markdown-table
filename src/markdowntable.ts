@@ -113,7 +113,7 @@ export function tsvToTableData(tsvText: string): MarkdownTableData {
 
 
 /**
- * MarkdownTableData に
+ * MarkdownTableData に行を追加
  * @param tableData 
  * @param insertAt 
  * @returns 

@@ -1,6 +1,39 @@
 ﻿import * as vscode from 'vscode';
 import * as mdt from './markdowntable';
 import MarkdownTableData from './markdownTableData';
+import * as text from './textUtility';
+
+
+
+export function updateContextKey(statusBar :vscode.StatusBarItem) {
+    // エディタ取得
+    const editor = vscode.window.activeTextEditor as vscode.TextEditor;
+    // ドキュメント取得
+    const doc = editor.document;
+    // 選択範囲取得
+    const cur_selection = editor.selection;
+    let inTable :boolean = true;
+    for(let linenum = cur_selection.start.line; linenum <= cur_selection.end.line; linenum++) {
+        const line_text = doc.getText(new vscode.Selection(
+            new vscode.Position(linenum, 0), 
+            new vscode.Position(linenum, 10000)));
+        if(!text.isInTable(line_text)){
+            inTable = false;
+            break;
+        }
+    }
+
+    if (inTable) {
+        statusBar.text = `$(circle-large-filled) in the table`;
+        statusBar.tooltip = `cursor is in the table`;
+        statusBar.show();
+    } else {
+        statusBar.text = `$(circle-slash) out of table`;
+        statusBar.tooltip = `cursor is out of table`;
+        statusBar.show();
+    }
+}
+
 
 export function navigateNextCell(withFormat: boolean) {
     // エディタ取得
@@ -15,7 +48,7 @@ export function navigateNextCell(withFormat: boolean) {
         new vscode.Position(cur_selection.active.line, 10000));
     const currentLineText = doc.getText(currentLine);
     // テーブル内ではなかったら終了
-    if (!currentLineText.trim().startsWith('|')) {
+    if (!text.isInTable(currentLineText)) {
         // 通常のインデント
         vscode.commands.executeCommand('tab');
         return;
@@ -30,7 +63,7 @@ export function navigateNextCell(withFormat: boolean) {
             new vscode.Position(startLine - 1, 10000));
 
         const line_text = doc.getText(line_selection);
-        if (!line_text.trim().startsWith('|')) {
+        if (!text.isInTable(line_text)) {
             break;
         }
         startLine--;
@@ -41,7 +74,7 @@ export function navigateNextCell(withFormat: boolean) {
             new vscode.Position(endLine + 1, 10000));
 
         const line_text = doc.getText(line_selection);
-        if (!line_text.trim().startsWith('|')) {
+        if (!text.isInTable(line_text)) {
             break;
         }
         endLine++;
@@ -127,7 +160,7 @@ export function navigatePrevCell(withFormat: boolean) {
             new vscode.Position(startLine - 1, 10000));
 
         const line_text = doc.getText(line_selection);
-        if (!line_text.trim().startsWith('|')) {
+        if (!text.isInTable(line_text)) {
             break;
         }
         startLine--;
@@ -138,7 +171,7 @@ export function navigatePrevCell(withFormat: boolean) {
             new vscode.Position(endLine + 1, 10000));
 
         const line_text = doc.getText(line_selection);
-        if (!line_text.trim().startsWith('|')) {
+        if (!text.isInTable(line_text)) {
             break;
         }
         endLine++;
@@ -324,7 +357,7 @@ export function insertColumn(isLeft: boolean) {
             new vscode.Position(startLine - 1, 10000));
 
         const line_text = doc.getText(line_selection);
-        if (!line_text.trim().startsWith('|')) {
+        if (!text.isInTable(line_text)) {
             break;
         }
         startLine--;
@@ -335,7 +368,7 @@ export function insertColumn(isLeft: boolean) {
             new vscode.Position(endLine + 1, 10000));
 
         const line_text = doc.getText(line_selection);
-        if (!line_text.trim().startsWith('|')) {
+        if (!text.isInTable(line_text)) {
             break;
         }
         endLine++;
@@ -405,7 +438,7 @@ export function alignColumns(alignMark: [string, string]) {
             new vscode.Position(startLine - 1, 10000));
 
         const line_text = doc.getText(line_selection);
-        if (!line_text.trim().startsWith('|')) {
+        if (!text.isInTable(line_text)) {
             break;
         }
         startLine--;
@@ -416,7 +449,7 @@ export function alignColumns(alignMark: [string, string]) {
             new vscode.Position(endLine + 1, 10000));
 
         const line_text = doc.getText(line_selection);
-        if (!line_text.trim().startsWith('|')) {
+        if (!text.isInTable(line_text)) {
             break;
         }
         endLine++;

@@ -3,6 +3,10 @@
 import * as vscode from 'vscode';
 import * as commands from './commands';
 
+
+let myStatusBarItem: vscode.StatusBarItem;
+
+
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
@@ -63,7 +67,24 @@ export function activate(context: vscode.ExtensionContext) {
     registerCommandNice('markdowntable.alignRight', () => {
         commands.alignColumns(['-', ':']);
     });
+
+    // create a new status bar item that we can now manage
+    myStatusBarItem = vscode.window.createStatusBarItem(
+        vscode.StatusBarAlignment.Left,
+        10000
+    );
+    context.subscriptions.push(myStatusBarItem);
+
+    // register some listener that make sure the status bar
+    // item always up-to-date
+    context.subscriptions.push(
+        vscode.window.onDidChangeActiveTextEditor(() => commands.updateContextKey(myStatusBarItem))
+    );
+    context.subscriptions.push(
+        vscode.window.onDidChangeTextEditorSelection(() => commands.updateContextKey(myStatusBarItem))
+    );
 }
+
 
 // this method is called when your extension is deactivated
 export function deactivate() { }
