@@ -19,71 +19,31 @@ export function activate(context: vscode.ExtensionContext) {
     // Now provide the implementation of the command with registerCommand
     // The commandId parameter must match the command field in package.json
 
+    // set a custom context key
     vscode.commands.executeCommand('setContext', 'selectionInMarkdownTable', false);
-
-    function registerCommandNice(commandId: string, run: (...args: any[]) => void): void {
-        let command = vscode.commands.registerCommand(commandId, run);
-        context.subscriptions.push(command);
-    }
-
-    registerCommandNice('markdowntable.nextCell', () => {
-        commands.navigateNextCell(true);
-    });
-
-    registerCommandNice('markdowntable.prevCell', () => {
-        commands.navigatePrevCell(true);
-    });
-
-    registerCommandNice('markdowntable.nextCellWithoutFormat', () => {
-        commands.navigateNextCell(false);
-    });
-
-    registerCommandNice('markdowntable.prevCellWithoutFormat', () => {
-        commands.navigatePrevCell(false);
-    });
-
-    registerCommandNice('markdowntable.tsvToTable', () => {
-        commands.tsvToTable();
-    });
-
-    registerCommandNice('markdowntable.format', () => {
-        commands.formatAll();
-    });
-
-    registerCommandNice('markdowntable.insertRight', () => {
-        commands.insertColumn(false);
-    });
-
-    registerCommandNice('markdowntable.insertLeft', () => {
-        commands.insertColumn(true);
-    });
-
-    registerCommandNice('markdowntable.alignLeft', () => {
-        commands.alignColumns([':', '-']);
-    });
-
-    registerCommandNice('markdowntable.alignCenter', () => {
-        commands.alignColumns([':', ':']);
-    });
-
-    registerCommandNice('markdowntable.alignRight', () => {
-        commands.alignColumns(['-', ':']);
-    });
+    // subscribe custome handlers updating context key status 
+    context.subscriptions.push(
+        vscode.window.onDidChangeActiveTextEditor(() => commands.updateContextKey(myStatusBarItem)),
+        vscode.window.onDidChangeTextEditorSelection(() => commands.updateContextKey(myStatusBarItem))
+    );
 
     // create a new status bar item that we can now manage
-    myStatusBarItem = vscode.window.createStatusBarItem(
-        vscode.StatusBarAlignment.Left,
-        10000
-    );
+    myStatusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 10000);
     context.subscriptions.push(myStatusBarItem);
-
-    // register some listener that make sure the status bar
-    // item always up-to-date
+    
+    // subscribe command handlers
     context.subscriptions.push(
-        vscode.window.onDidChangeActiveTextEditor(() => commands.updateContextKey(myStatusBarItem))
-    );
-    context.subscriptions.push(
-        vscode.window.onDidChangeTextEditorSelection(() => commands.updateContextKey(myStatusBarItem))
+        vscode.commands.registerCommand('markdowntable.nextCell', () => commands.navigateNextCell(true)),
+        vscode.commands.registerCommand('markdowntable.prevCell', () => commands.navigatePrevCell(true)),
+        vscode.commands.registerCommand('markdowntable.nextCellWithoutFormat', () => commands.navigateNextCell(false)),
+        vscode.commands.registerCommand('markdowntable.prevCellWithoutFormat', () => commands.navigatePrevCell(false)),
+        vscode.commands.registerCommand('markdowntable.tsvToTable', () => commands.tsvToTable()),
+        vscode.commands.registerCommand('markdowntable.format', () => commands.formatAll()),
+        vscode.commands.registerCommand('markdowntable.insertRight', () => commands.insertColumn(false)),
+        vscode.commands.registerCommand('markdowntable.insertLeft', () => commands.insertColumn(true)),
+        vscode.commands.registerCommand('markdowntable.alignLeft', () => commands.alignColumns([':', '-'])),
+        vscode.commands.registerCommand('markdowntable.alignCenter', () => commands.alignColumns([':', ':'])),
+        vscode.commands.registerCommand('markdowntable.alignRight', () => commands.alignColumns(['-', ':']))
     );
 }
 
