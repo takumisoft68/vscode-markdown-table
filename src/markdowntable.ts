@@ -311,10 +311,10 @@ export function toFormatTableStr(tableData: MarkdownTableData): string {
 
 
 // return [line, character]
-export function getPositionOfCell(tableData: MarkdownTableData, cellRow: number, cellColumn: number, isInFormatedStr: boolean): [number, number] {
+export function getPositionOfCell(tableData: MarkdownTableData, cellRow: number, cellColumn: number): [number, number] {
     let line = (cellRow <= 0) ? 0 : cellRow;
 
-    let lines = isInFormatedStr ? toFormatTableStr(tableData).split(/\r\n|\n|\r/) : tableData.originalText.split(/\r\n|\n|\r/);
+    let lines = tableData.originalText.split(/\r\n|\n|\r/);
     let linestr = lines[cellRow];
 
     let cells = Utility.splitline(linestr, tableData.columns.length);
@@ -331,10 +331,10 @@ export function getPositionOfCell(tableData: MarkdownTableData, cellRow: number,
 }
 
 // return [row, column]
-export function getCellAtPosition(tableData: MarkdownTableData, line: number, character: number, isInFormatedStr: boolean): [number, number] {
+export function getCellAtPosition(tableData: MarkdownTableData, line: number, character: number): [number, number] {
     let row = (line <= 0) ? 0 : line;
 
-    let lines = isInFormatedStr ? toFormatTableStr(tableData).split(/\r\n|\n|\r/) : tableData.originalText.split(/\r\n|\n|\r/);
+    let lines = tableData.originalText.split(/\r\n|\n|\r/);
     let linestr = lines[row];
 
     let cells = Utility.splitline(linestr, tableData.columns.length);
