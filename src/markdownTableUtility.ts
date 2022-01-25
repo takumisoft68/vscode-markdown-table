@@ -24,13 +24,6 @@ export function splitline(linestr: string, columnNum: number, fillstr: string = 
     let isEscaping = false;
     let isInInlineCode = false;
     for (let i = 0; i < linestr.length; ++i) {
-        const chara = linestr.charAt(i);
-        if (chara === '\\') {
-            // \はエスケープ文字
-            isEscaping = true;
-            endindex++;
-            continue;
-        }
         if (isEscaping) {
             // エスケープ文字の次の文字は|かどうか判定しない
             isEscaping = false;
@@ -38,6 +31,7 @@ export function splitline(linestr: string, columnNum: number, fillstr: string = 
             continue;
         }
 
+        const chara = linestr.charAt(i);
         if (chara === '\`') {
             // `の間はインラインコード
             isInInlineCode = !isInInlineCode;
@@ -46,6 +40,13 @@ export function splitline(linestr: string, columnNum: number, fillstr: string = 
         }
         if (isInInlineCode) {
             // インラインコード中は|かどうか判定しない
+            endindex++;
+            continue;
+        }
+
+        if (chara === '\\') {
+            // \はエスケープ文字
+            isEscaping = true;
             endindex++;
             continue;
         }
