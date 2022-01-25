@@ -1,6 +1,14 @@
 # Change Log
 
-All notable changes to the "markdowntable" extension will be documented in this file.
+## All notable changes to the "markdowntable" extension will be documented in this file.
+
+### 0.8.0 (2022/1/25)
+
+- [Fix] Rearranged the order of escape judgment and inline code judgment (fix #36)
+- [Fix] Add custom context key for nextCell/prevCell command's key binding
+    - To improve "when" assign of commands to be more suitable.
+    - To resolve Tab key confliction with other extensions.
+- [Fix] When nextCell/prevCell is called in 2nd row of table, cursol doesn't go next/prev cell correctoly.
 
 ### 0.7.2 (2021/12/06)
 
