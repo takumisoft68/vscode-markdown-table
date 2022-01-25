@@ -129,7 +129,7 @@ export function insertRow(tableData: MarkdownTableData, insertAt: number): Markd
     cells.splice(insertAt, 0, Array.from({ length: column_num }, () => '  '));
     leftovers.splice(insertAt, 0, '');
 
-    const text = tableData.toString() + '\n' + tableData.indent + '|' + '  |'.repeat(tableData.columns.length);
+    const text = tableData.originalText + '\n' + tableData.indent + '|' + '  |'.repeat(tableData.columns.length);
 
     return new MarkdownTableData(text, aligns, columns, cells, leftovers, indent);
 }
@@ -314,7 +314,7 @@ export function toFormatTableStr(tableData: MarkdownTableData): string {
 export function getPositionOfCell(tableData: MarkdownTableData, cellRow: number, cellColumn: number, isInFormatedStr: boolean): [number, number] {
     let line = (cellRow <= 0) ? 0 : cellRow;
 
-    let lines = isInFormatedStr ? toFormatTableStr(tableData).split(/\r\n|\n|\r/) : tableData.toString().split(/\r\n|\n|\r/);
+    let lines = isInFormatedStr ? toFormatTableStr(tableData).split(/\r\n|\n|\r/) : tableData.originalText.split(/\r\n|\n|\r/);
     let linestr = lines[cellRow];
 
     let cells = Utility.splitline(linestr, tableData.columns.length);
@@ -334,7 +334,7 @@ export function getPositionOfCell(tableData: MarkdownTableData, cellRow: number,
 export function getCellAtPosition(tableData: MarkdownTableData, line: number, character: number, isInFormatedStr: boolean): [number, number] {
     let row = (line <= 0) ? 0 : line;
 
-    let lines = isInFormatedStr ? toFormatTableStr(tableData).split(/\r\n|\n|\r/) : tableData.toString().split(/\r\n|\n|\r/);
+    let lines = isInFormatedStr ? toFormatTableStr(tableData).split(/\r\n|\n|\r/) : tableData.originalText.split(/\r\n|\n|\r/);
     let linestr = lines[row];
 
     let cells = Utility.splitline(linestr, tableData.columns.length);

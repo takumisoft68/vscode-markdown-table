@@ -107,7 +107,7 @@ export function navigateNextCell(withFormat: boolean) {
     }
 
     // テーブルをフォーマットしたテキストを取得
-    let formatted_text = withFormat ? mdt.toFormatTableStr(tableData) : tableData.toString();
+    let formatted_text = withFormat ? mdt.toFormatTableStr(tableData) : tableData.originalText;
 
     //エディタ選択範囲にテキストを反映
     editor.edit(edit => {
@@ -186,7 +186,7 @@ export function navigatePrevCell(withFormat: boolean) {
     }
 
     // テーブルをフォーマットしたテキストを取得
-    let formatted_text = withFormat ? mdt.toFormatTableStr(tableData) : tableData.toString();
+    let formatted_text = withFormat ? mdt.toFormatTableStr(tableData) : tableData.originalText;
 
     //エディタ選択範囲にテキストを反映
     editor.edit(edit => {
