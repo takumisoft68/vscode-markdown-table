@@ -132,27 +132,27 @@
 					"group": "markdowntable@2"
 				},
 				{
-					"when": "editorLangId == markdown && !editorHasSelection",
+					"when": "editorLangId == markdown && !editorHasSelection && markdowntable.contextkey.selection.InMarkdownTable",
 					"command": "markdowntable.insertRight",
 					"group": "markdowntable@3"
 				},
 				{
-					"when": "editorLangId == markdown && !editorHasSelection",
+					"when": "editorLangId == markdown && !editorHasSelection && markdowntable.contextkey.selection.InMarkdownTable",
 					"command": "markdowntable.insertLeft",
 					"group": "markdowntable@4"
 				},
 				{
-					"when": "editorLangId == markdown",
+					"when": "editorLangId == markdown && markdowntable.contextkey.selection.InMarkdownTable",
 					"command": "markdowntable.alignLeft",
 					"group": "markdowntable@5"
 				},
 				{
-					"when": "editorLangId == markdown",
+					"when": "editorLangId == markdown && markdowntable.contextkey.selection.InMarkdownTable",
 					"command": "markdowntable.alignCenter",
 					"group": "markdowntable@6"
 				},
 				{
-					"when": "editorLangId == markdown",
+					"when": "editorLangId == markdown && markdowntable.contextkey.selection.InMarkdownTable",
 					"command": "markdowntable.alignRight",
 					"group": "markdowntable@7"
 				},
@@ -167,27 +167,27 @@
 					"group": "markdowntable@2"
 				},
 				{
-					"when": "editorLangId == mdx && !editorHasSelection",
+					"when": "editorLangId == mdx && !editorHasSelection && markdowntable.contextkey.selection.InMarkdownTable",
 					"command": "markdowntable.insertRight",
 					"group": "markdowntable@3"
 				},
 				{
-					"when": "editorLangId == mdx && !editorHasSelection",
+					"when": "editorLangId == mdx && !editorHasSelection && markdowntable.contextkey.selection.InMarkdownTable",
 					"command": "markdowntable.insertLeft",
 					"group": "markdowntable@4"
 				},
 				{
-					"when": "editorLangId == mdx",
+					"when": "editorLangId == mdx && markdowntable.contextkey.selection.InMarkdownTable",
 					"command": "markdowntable.alignLeft",
 					"group": "markdowntable@5"
 				},
 				{
-					"when": "editorLangId == mdx",
+					"when": "editorLangId == mdx && markdowntable.contextkey.selection.InMarkdownTable",
 					"command": "markdowntable.alignCenter",
 					"group": "markdowntable@6"
 				},
 				{
-					"when": "editorLangId == mdx",
+					"when": "editorLangId == mdx && markdowntable.contextkey.selection.InMarkdownTable",
 					"command": "markdowntable.alignRight",
 					"group": "markdowntable@7"
 				}
