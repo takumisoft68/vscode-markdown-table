@@ -2,6 +2,13 @@
 
 ## All notable changes to the "markdowntable" extension will be documented in this file.
 
+### 0.9.0 (2022/3/11)
+
+- [Update] Added contributor section in readme
+- [Fix] Shorten the way to get text in cursor line
+- [Fix] Added context key to context menu
+    - Hidding context menu when the cursor is not in table region
+
 ### 0.8.0 (2022/1/25)
 
 - [Fix] Rearranged the order of escape judgment and inline code judgment (fix #36)
