@@ -91,12 +91,12 @@
 			{
 				"command": "markdowntable.nextCell",
 				"key": "tab",
-				"when": "editorLangId == markdown && editorTextFocus && !editorReadonly && !editorTabMovesFocus && !suggestWidgetMultipleSuggestions && !suggestWidgetVisible && !inSnippetMode && selectionInMarkdownTable"
+				"when": "editorLangId == markdown && editorTextFocus && !editorReadonly && !editorTabMovesFocus && !suggestWidgetMultipleSuggestions && !suggestWidgetVisible && !inSnippetMode && markdowntable.contextkey.selection.InMarkdownTable"
 			},
 			{
 				"command": "markdowntable.prevCell",
 				"key": "shift+tab",
-				"when": "editorLangId == markdown && editorTextFocus && !editorReadonly && !editorTabMovesFocus && !suggestWidgetMultipleSuggestions && !suggestWidgetVisible && !inSnippetMode && selectionInMarkdownTable"
+				"when": "editorLangId == markdown && editorTextFocus && !editorReadonly && !editorTabMovesFocus && !suggestWidgetMultipleSuggestions && !suggestWidgetVisible && !inSnippetMode && markdowntable.contextkey.selection.InMarkdownTable"
 			},
 			{
 				"command": "markdowntable.format",
@@ -111,12 +111,12 @@
 			{
 				"command": "markdowntable.nextCell",
 				"key": "tab",
-				"when": "editorLangId == mdx && editorTextFocus && !editorReadonly && !editorTabMovesFocus && !suggestWidgetMultipleSuggestions && !suggestWidgetVisible && !inSnippetMode && selectionInMarkdownTable"
+				"when": "editorLangId == mdx && editorTextFocus && !editorReadonly && !editorTabMovesFocus && !suggestWidgetMultipleSuggestions && !suggestWidgetVisible && !inSnippetMode && markdowntable.contextkey.selection.InMarkdownTable"
 			},
 			{
 				"command": "markdowntable.prevCell",
 				"key": "shift+tab",
-				"when": "editorLangId == mdx && editorTextFocus && !editorReadonly && !editorTabMovesFocus && !suggestWidgetMultipleSuggestions && !suggestWidgetVisible && !inSnippetMode && selectionInMarkdownTable"
+				"when": "editorLangId == mdx && editorTextFocus && !editorReadonly && !editorTabMovesFocus && !suggestWidgetMultipleSuggestions && !suggestWidgetVisible && !inSnippetMode && markdowntable.contextkey.selection.InMarkdownTable"
 			}
 		],
 		"menus": {
