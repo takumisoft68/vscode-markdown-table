@@ -3,7 +3,7 @@
 	"publisher": "TakumiI",
 	"displayName": "Markdown Table",
 	"description": "A minimal extension for markdown table. Add features to edit markdown table.",
-	"version": "0.8.0",
+	"version": "0.9.0",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/takumisoft68/vscode-markdown-table"
