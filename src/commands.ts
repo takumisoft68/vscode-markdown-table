@@ -14,9 +14,7 @@ export function updateContextKey(statusBar :vscode.StatusBarItem) {
     const cur_selection = editor.selection;
     let inTable :boolean = true;
     for(let linenum = cur_selection.start.line; linenum <= cur_selection.end.line; linenum++) {
-        const line_text = doc.getText(new vscode.Selection(
-            new vscode.Position(linenum, 0), 
-            new vscode.Position(linenum, 10000)));
+        const line_text = doc.lineAt(linenum).text;
         if(!text.isInTable(line_text)){
             inTable = false;
             break;
@@ -24,17 +22,17 @@ export function updateContextKey(statusBar :vscode.StatusBarItem) {
     }
 
     if (inTable) {
-        vscode.commands.executeCommand('setContext', 'selectionInMarkdownTable', true);
+        vscode.commands.executeCommand('setContext', 'markdowntable.contextkey.selection.InMarkdownTable', true);
 
-        // statusBar.text = `$(circle-large-filled) in the table`;
-        // statusBar.tooltip = `cursor is in the table`;
-        // statusBar.show();
+        statusBar.text = `$(circle-large-filled) in the table`;
+        statusBar.tooltip = `cursor is in the table`;
+        statusBar.show();
     } else {
-        vscode.commands.executeCommand('setContext', 'selectionInMarkdownTable', false);
+        vscode.commands.executeCommand('setContext', 'markdowntable.contextkey.selection.InMarkdownTable', false);
 
-        // statusBar.text = `$(circle-slash) out of table`;
-        // statusBar.tooltip = `cursor is out of table`;
-        // statusBar.show();
+        statusBar.text = `$(circle-slash) out of table`;
+        statusBar.tooltip = `cursor is out of table`;
+        statusBar.show();
     }
 }
 
@@ -53,30 +51,20 @@ export function navigateNextCell(withFormat: boolean) {
     let startLine = cur_selection.anchor.line;
     let endLine = cur_selection.anchor.line;
     while (startLine - 1 >= 0) {
-        const line_selection = new vscode.Selection(
-            new vscode.Position(startLine - 1, 0),
-            new vscode.Position(startLine - 1, 10000));
-
-        const line_text = doc.getText(line_selection);
+        const line_text = doc.lineAt(startLine - 1).text;
         if (!text.isInTable(line_text)) {
             break;
         }
         startLine--;
     }
     while (endLine + 1 < doc.lineCount) {
-        const line_selection = new vscode.Selection(
-            new vscode.Position(endLine + 1, 0),
-            new vscode.Position(endLine + 1, 10000));
-
-        const line_text = doc.getText(line_selection);
+        const line_text = doc.lineAt(endLine + 1).text;
         if (!text.isInTable(line_text)) {
             break;
         }
         endLine++;
     }
-    const table_selection = new vscode.Selection(
-        new vscode.Position(startLine, 0),
-        new vscode.Position(endLine, 10000));
+    const table_selection = new vscode.Selection(startLine, 0, endLine, 10000);
     const table_text = doc.getText(table_selection);
 
     // 元のカーソル位置を取得
@@ -143,32 +131,21 @@ export function navigatePrevCell(withFormat: boolean) {
     let startLine = cur_selection.anchor.line;
     let endLine = cur_selection.anchor.line;
     while (startLine - 1 >= 0) {
-        const line_selection = new vscode.Selection(
-            new vscode.Position(startLine - 1, 0),
-            new vscode.Position(startLine - 1, 10000));
-
-        const line_text = doc.getText(line_selection);
+        const line_text = doc.lineAt(startLine - 1).text;
         if (!text.isInTable(line_text)) {
             break;
         }
         startLine--;
     }
     while (endLine + 1 < doc.lineCount) {
-        const line_selection = new vscode.Selection(
-            new vscode.Position(endLine + 1, 0),
-            new vscode.Position(endLine + 1, 10000));
-
-        const line_text = doc.getText(line_selection);
+        const line_text = doc.lineAt(endLine + 1).text;
         if (!text.isInTable(line_text)) {
             break;
         }
         endLine++;
     }
-    const table_selection = new vscode.Selection(
-        new vscode.Position(startLine, 0),
-        new vscode.Position(endLine, 10000));
-    let table_text = doc.getText(table_selection);
-
+    const table_selection = new vscode.Selection(startLine, 0, endLine, 10000);
+    const table_text = doc.getText(table_selection);
 
     // 元のカーソル位置を取得
     const [prevline, prevcharacter] = [cur_selection.active.line - startLine, cur_selection.active.character];
@@ -220,17 +197,8 @@ export function formatAll() {
     const editor = vscode.window.activeTextEditor as vscode.TextEditor;
     // ドキュメント取得
     const doc = editor.document;
-    // // ドキュメント全てを取得する
-    // const all_selection = new vscode.Selection(
-    //     new vscode.Position(0, 0),
-    //     new vscode.Position(doc.lineCount - 1, 10000));
-
-    // const text = doc.getText(all_selection); //取得されたテキスト
-    // const lines = text.split(/\r\n|\n|\r/);
-
     // 変換のリスト
     let format_list = [] as [vscode.Selection, MarkdownTableData][];
-
 
     // 表を探す
     let preSearchedLine = -1;
@@ -252,9 +220,7 @@ export function formatAll() {
             }
         }
         // 表のテキストを取得
-        const table_selection = new vscode.Selection(
-            new vscode.Position(startLine, 0),
-            new vscode.Position(endLine, doc.lineAt(endLine).text.length));
+        const table_selection = new vscode.Selection(startLine, 0, endLine, doc.lineAt(endLine).text.length);
         const table_text = doc.getText(table_selection);
 
         // 表をフォーマットする
@@ -343,30 +309,20 @@ export function insertColumn(isLeft: boolean) {
     let startLine = cur_selection.anchor.line;
     let endLine = cur_selection.anchor.line;
     while (startLine - 1 >= 0) {
-        const line_selection = new vscode.Selection(
-            new vscode.Position(startLine - 1, 0),
-            new vscode.Position(startLine - 1, 10000));
-
-        const line_text = doc.getText(line_selection);
+        const line_text = doc.lineAt(startLine - 1).text;
         if (!text.isInTable(line_text)) {
             break;
         }
         startLine--;
     }
     while (endLine + 1 < doc.lineCount) {
-        const line_selection = new vscode.Selection(
-            new vscode.Position(endLine + 1, 0),
-            new vscode.Position(endLine + 1, 10000));
-
-        const line_text = doc.getText(line_selection);
+        const line_text = doc.lineAt(endLine + 1).text;
         if (!text.isInTable(line_text)) {
             break;
         }
         endLine++;
     }
-    const table_selection = new vscode.Selection(
-        new vscode.Position(startLine, 0),
-        new vscode.Position(endLine, 10000));
+    const table_selection = new vscode.Selection(startLine, 0, endLine, 10000);
     const table_text = doc.getText(table_selection);
 
 
@@ -412,9 +368,8 @@ export function alignColumns(alignMark: [string, string]) {
     // 選択範囲取得
     const cur_selection = editor.selection;
     // 選択範囲の始まり行
-    const currentLine = doc.getText(new vscode.Selection(
-        new vscode.Position(cur_selection.start.line, 0),
-        new vscode.Position(cur_selection.start.line, 10000)));
+    const currentLine = doc.lineAt(cur_selection.start.line).text;
+
     // テーブル内ではなかったら終了
     if (!currentLine.trim().startsWith('|')) {
         vscode.window.showErrorMessage('Markdown Table : Align command failed, because your selection is not starting from inside of a table.');
@@ -425,22 +380,14 @@ export function alignColumns(alignMark: [string, string]) {
     let startLine = cur_selection.start.line;
     let endLine = cur_selection.start.line;
     while (startLine - 1 >= 0) {
-        const line_selection = new vscode.Selection(
-            new vscode.Position(startLine - 1, 0),
-            new vscode.Position(startLine - 1, 10000));
-
-        const line_text = doc.getText(line_selection);
+        const line_text = doc.lineAt(startLine - 1).text;
         if (!text.isInTable(line_text)) {
             break;
         }
         startLine--;
     }
     while (endLine + 1 < doc.lineCount) {
-        const line_selection = new vscode.Selection(
-            new vscode.Position(endLine + 1, 0),
-            new vscode.Position(endLine + 1, 10000));
-
-        const line_text = doc.getText(line_selection);
+        const line_text = doc.lineAt(endLine + 1).text;
         if (!text.isInTable(line_text)) {
             break;
         }
@@ -450,9 +397,7 @@ export function alignColumns(alignMark: [string, string]) {
         vscode.window.showErrorMessage('Markdown Table : Align command failed, because your selection is hanging out of the table.');
         return;
     }
-    const table_selection = new vscode.Selection(
-        new vscode.Position(startLine, 0),
-        new vscode.Position(endLine, 10000));
+    const table_selection = new vscode.Selection(startLine, 0, endLine, 10000);
     const table_text = doc.getText(table_selection);
 
 

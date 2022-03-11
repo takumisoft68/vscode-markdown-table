@@ -175,6 +175,13 @@ What's focused on.
 - Support full-width characters
     - Because author is Japanese
 
+## Thanks
+
+Special thanks to contributors.
+
+- [Mark Ferrall](https://github.com/mferrall)
+- [heartacker](https://github.com/heartacker)
+
 ## 6. Release Notes
 
 - See [changelog](CHANGELOG.md).

@@ -20,7 +20,7 @@ export function activate(context: vscode.ExtensionContext) {
     // The commandId parameter must match the command field in package.json
 
     // set a custom context key
-    vscode.commands.executeCommand('setContext', 'selectionInMarkdownTable', false);
+    vscode.commands.executeCommand('setContext', 'markdowntable.contextkey.selection.InMarkdownTable', false);
     // subscribe custome handlers updating context key status 
     context.subscriptions.push(
         vscode.window.onDidChangeActiveTextEditor(() => commands.updateContextKey(myStatusBarItem)),
