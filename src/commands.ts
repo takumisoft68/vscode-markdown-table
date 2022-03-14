@@ -5,18 +5,21 @@ import * as text from './textUtility';
 
 const isDebugMode = () => process.env.VSCODE_DEBUG_MODE === "true";
 
-
-export function updateContextKey(statusBar :vscode.StatusBarItem) {
+export function updateContextKey(statusBar: vscode.StatusBarItem) {
     // エディタ取得
     const editor = vscode.window.activeTextEditor as vscode.TextEditor;
     // ドキュメント取得
     const doc = editor.document;
+    if(doc.languageId !== 'markdown' && doc.languageId !== 'mdx') {
+        return;
+    }
+
     // 選択範囲取得
     const cur_selection = editor.selection;
-    let inTable :boolean = true;
-    for(let linenum = cur_selection.start.line; linenum <= cur_selection.end.line; linenum++) {
+    let inTable: boolean = true;
+    for (let linenum = cur_selection.start.line; linenum <= cur_selection.end.line; linenum++) {
         const line_text = doc.lineAt(linenum).text;
-        if(!text.isInTable(line_text)){
+        if (!text.isInTable(line_text)) {
             inTable = false;
             break;
         }
