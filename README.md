@@ -164,7 +164,20 @@ You need to enable it to use.
             }
         ```
 
-## 5. Policy
+## 5. Notice
+
+- Tables have to be consisted by using GFM spec
+    - a header row, a delimiter row, and zero or more data rows
+- leading pipe is needed in each rows
+    - NOT support following style
+
+        ```markdown
+        abc | defghi
+        --- | :--------
+        bar | baz 
+        ```
+
+## 6. Policy
 
 What's focused on.
 
@@ -175,23 +188,23 @@ What's focused on.
 - Support full-width characters
     - Because author is Japanese
 
-## Thanks
+## 7. Thanks
 
 Special thanks to contributors.
 
 - [Mark Ferrall](https://github.com/mferrall)
 - [heartacker](https://github.com/heartacker)
 
-## 6. Release Notes
+## 8. Release Notes
 
 - See [changelog](CHANGELOG.md).
 
-## 7. Links
+## 9. Links
 
 - [Source Code](https://github.com/takumisoft68/vscode-markdown-table)
 - [Marketplace](https://marketplace.visualstudio.com/items?itemName=TakumiI.markdowntable)
 - [VSX]
 
-## 8. License
+## 10. License
 
 Apache 2.0, See [LICENSE](LICENSE) for more information.
