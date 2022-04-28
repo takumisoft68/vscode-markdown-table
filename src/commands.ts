@@ -6,11 +6,24 @@ import * as text from './textUtility';
 const isDebugMode = () => process.env.VSCODE_DEBUG_MODE === "true";
 
 export function updateContextKey(statusBar: vscode.StatusBarItem) {
+    if(vscode.window.activeTextEditor === undefined) {
+        vscode.commands.executeCommand('setContext', 'markdowntable.contextkey.selection.InMarkdownTable', false);
+        return;
+    }
     // エディタ取得
     const editor = vscode.window.activeTextEditor as vscode.TextEditor;
     // ドキュメント取得
     const doc = editor.document;
+    if(doc === null) {
+        vscode.commands.executeCommand('setContext', 'markdowntable.contextkey.selection.InMarkdownTable', false);
+        return;
+    }
+    if(doc.languageId === null) {
+        vscode.commands.executeCommand('setContext', 'markdowntable.contextkey.selection.InMarkdownTable', false);
+        return;
+    }
     if(doc.languageId !== 'markdown' && doc.languageId !== 'mdx') {
+        vscode.commands.executeCommand('setContext', 'markdowntable.contextkey.selection.InMarkdownTable', false);
         return;
     }
 
