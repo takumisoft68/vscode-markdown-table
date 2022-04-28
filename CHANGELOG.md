@@ -2,7 +2,13 @@
 
 ## All notable changes to the "markdowntable" extension will be documented in this file.
 
-### 0.9.0 (2022/3/14)
+### 0.9.2 (2022/4/13)
+
+- [Fix] Add notice in readme (fix #43)
+- [Fix] Update packages
+- [Fix] Add null check (fix #44)
+
+### 0.9.1 (2022/3/14)
 
 - [Fix] Bug: Status message for debug is found out in status bar
 
