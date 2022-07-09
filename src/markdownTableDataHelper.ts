@@ -1,3 +1,4 @@
+import { table } from "console";
 import { workspace } from "vscode";
 import MarkdownTableData from './markdownTableData';
 import * as Utility from './markdownTableUtility';
@@ -8,7 +9,7 @@ import * as Utility from './markdownTableUtility';
 * @param tableText テーブルを表すマークダウンテキスト
 */
 export function stringToTableData(tableText: string): MarkdownTableData {
-    let lines = tableText.split(/\r\n|\n|\r/);
+    const lines = tableText.split(/\r\n|\n|\r/);
 
     let getIndent = (linestr: string) => {
         if (linestr.trim().startsWith('|')) {
@@ -21,37 +22,47 @@ export function stringToTableData(tableText: string): MarkdownTableData {
     };
 
     // 1行目
-    let columns = Utility.splitline(lines[0], 0);
-    let columnNum = columns.length;
-    let indent = getIndent(lines[0]);
+    const columns = Utility.splitline(lines[0], 0);
+    const columnNum = columns.length;
+    const indent = getIndent(lines[0]);
 
     // 2行目の寄せ記号
     let aligns: [string, string][] = new Array();
-    let aligndatas = Utility.splitline(lines[1], columnNum, '---').map((v) => v.trim());
+    let alignTexts: string[] = new Array();
+    const aligndatas = Utility.splitline(lines[1], columnNum, '---');
     for (let i = 0; i < columnNum; i++) {
-        let celldata = aligndatas[i];
+        alignTexts[i] = aligndatas[i];
+        let celldata = aligndatas[i].trim();
         aligns[i] = [celldata[0], celldata.slice(-1)];
     }
 
     // セルの値を取得
-    let cells: string[][] = new Array();
-    let leftovers: string[] = new Array();
+    const cells: string[][] = new Array();
+    const leftovers: string[] = new Array();
     let cellrow = -1;
     for (let row = 2; row < lines.length; row++) {
         cellrow++;
 
-        let linedatas = Utility.splitline(lines[row], columnNum);
+        const linedatas = Utility.splitline(lines[row], columnNum);
         cells[cellrow] = linedatas.slice(0, columnNum);
 
         // あまりデータを収集する
         leftovers[cellrow] = '';
         if (linedatas.length > columnNum) {
-            let leftoverdatas = linedatas.slice(columnNum, linedatas.length);
+            const leftoverdatas = linedatas.slice(columnNum, linedatas.length);
             leftovers[cellrow] = leftoverdatas.join('|');
         }
     }
 
-    return new MarkdownTableData(tableText, aligns, columns, cells, leftovers, indent);
+    return new MarkdownTableData(tableText, aligns, alignTexts, columns, cells, leftovers, indent);
+}
+
+function CreateMarkdownTableData(_text: string, _aligns: [string, string][], _columns: string[], _cells: string[][], _leftovers: string[], _indent: string): MarkdownTableData {
+    let alignTexts: string[] = new Array();
+    for (let column = 0; column < _aligns.length; column++) {
+        alignTexts[column] = _aligns[column][0] + '-' + _aligns[column][1];
+    }
+    return new MarkdownTableData(_text, _aligns, alignTexts, _columns, _cells, _leftovers, _indent);
 }
 
 /**
@@ -107,8 +118,8 @@ export function tsvToTableData(tsvText: string): MarkdownTableData {
         aligns[column] = [':', '-'];
     }
 
-    const table = new MarkdownTableData("", aligns, columns, cells, leftovers, '');
-    return new MarkdownTableData(toFormatTableStr(table), aligns, columns, cells, leftovers, '');
+    const table = CreateMarkdownTableData("", aligns, columns, cells, leftovers, '');
+    return CreateMarkdownTableData(toFormatTableStr(table), aligns, columns, cells, leftovers, '');
 }
 
 
@@ -131,7 +142,7 @@ export function insertRow(tableData: MarkdownTableData, insertAt: number): Markd
 
     const text = tableData.originalText + '\n' + tableData.indent + '|' + '  |'.repeat(tableData.columns.length);
 
-    return new MarkdownTableData(text, aligns, columns, cells, leftovers, indent);
+    return CreateMarkdownTableData(text, aligns, columns, cells, leftovers, indent);
 }
 
 export function insertColumn(tableData: MarkdownTableData, insertAt: number): MarkdownTableData {
@@ -148,15 +159,16 @@ export function insertColumn(tableData: MarkdownTableData, insertAt: number): Ma
         cells[i].splice(insertAt, 0, '');
     }
 
-    const table = new MarkdownTableData("", aligns, columns, cells, leftovers, indent);
-    return new MarkdownTableData(toFormatTableStr(table), aligns, columns, cells, leftovers, indent);
+    const table = CreateMarkdownTableData("", aligns, columns, cells, leftovers, indent);
+    return CreateMarkdownTableData(toFormatTableStr(table), aligns, columns, cells, leftovers, indent);
 }
 
-
-
-export function toFormatTableStr(tableData: MarkdownTableData): string {
-    let alignData = <boolean>workspace.getConfiguration('markdowntable').get('alignData');
-    let alignHeader = <boolean>workspace.getConfiguration('markdowntable').get('alignColumnHeader');
+/**
+ * 各列の最大文字数を調べる
+ * @param tableData テーブルデータ
+ * @returns 
+ */
+export function getColumnMaxWidths(tableData: MarkdownTableData): number[] {
     let columnNum = tableData.columns.length;
 
     // 各列の最大文字数を調べる
@@ -177,19 +189,32 @@ export function toFormatTableStr(tableData: MarkdownTableData): string {
         }
     }
 
-    let formatted: string[] = new Array();
+    return maxWidths;
+}
+
+export function toFormatTableStr(tableData: MarkdownTableData): string {
+    const alignData = <boolean>workspace.getConfiguration('markdowntable').get('alignData');
+    const alignHeader = <boolean>workspace.getConfiguration('markdowntable').get('alignColumnHeader');
+
+    // 各列の最大文字数を調べる
+    const maxWidths = getColumnMaxWidths(tableData);
+
+
+
+    const columnNum = tableData.columns.length;
+    const formatted: string[] = new Array();
 
     // 列幅をそろえていく
     for (let row = 0; row < tableData.cells.length; row++) {
         formatted[row] = '';
         formatted[row] += tableData.indent;
-        let cells = tableData.cells[row];
+        const cells = tableData.cells[row];
         for (let i = 0; i < columnNum; i++) {
             let celldata = '';
             if (i < cells.length) {
                 celldata = cells[i].trim();
             }
-            let celldata_length = Utility.getLen(celldata);
+            const celldata_length = Utility.getLen(celldata);
 
             // | の後にスペースを入れる
             formatted[row] += '| ';
@@ -248,7 +273,7 @@ export function toFormatTableStr(tableData: MarkdownTableData): string {
 
         columnHeader += '| ';
         if (alignHeader) {
-            let [front, end] = tableData.aligns[i];
+            const [front, end] = tableData.aligns[i];
             if (front === ':' && end === ':') {
                 // 中央ぞろえ
                 for (let n = 0; n < (maxWidths[i] - columnHeader_length) / 2 - 0.5; n++) {
@@ -288,17 +313,20 @@ export function toFormatTableStr(tableData: MarkdownTableData): string {
 
 
     // 2行目を成形する
-    let tablemark = '';
-    tablemark += tableData.indent;
     for (let i = 0; i < columnNum; i++) {
-        let [front, end] = tableData.aligns[i];
-        tablemark += '| ' + front;
-
+        const [front, end] = tableData.aligns[i];
+        tableData.alignTexts[i] = ' ' + front;
         // 余白を-で埋める
         for (let n = 1; n < maxWidths[i] - 1; n++) {
-            tablemark += '-';
+            tableData.alignTexts[i] += '-';
         }
-        tablemark += end + ' ';
+        tableData.alignTexts[i] += end + ' ';
+    }
+    let tablemark = '';
+    tablemark += tableData.indent;
+    for (let i = 0; i < tableData.alignTexts.length; i++) {
+        const alignText = tableData.alignTexts[i];
+        tablemark += '|' + alignText;
     }
     tablemark += '|';
 
@@ -312,12 +340,12 @@ export function toFormatTableStr(tableData: MarkdownTableData): string {
 
 // return [line, character]
 export function getPositionOfCell(tableData: MarkdownTableData, cellRow: number, cellColumn: number): [number, number] {
-    let line = (cellRow <= 0) ? 0 : cellRow;
+    const line = (cellRow <= 0) ? 0 : cellRow;
 
-    let lines = tableData.originalText.split(/\r\n|\n|\r/);
-    let linestr = lines[cellRow];
+    const lines = tableData.originalText.split(/\r\n|\n|\r/);
+    const linestr = lines[cellRow];
 
-    let cells = Utility.splitline(linestr, tableData.columns.length);
+    const cells = Utility.splitline(linestr, tableData.columns.length);
 
     let character = 0;
     character += tableData.indent.length;
@@ -332,12 +360,12 @@ export function getPositionOfCell(tableData: MarkdownTableData, cellRow: number,
 
 // return [row, column]
 export function getCellAtPosition(tableData: MarkdownTableData, line: number, character: number): [number, number] {
-    let row = (line <= 0) ? 0 : line;
+    const row = (line <= 0) ? 0 : line;
 
-    let lines = tableData.originalText.split(/\r\n|\n|\r/);
-    let linestr = lines[row];
+    const lines = tableData.originalText.split(/\r\n|\n|\r/);
+    const linestr = lines[row];
 
-    let cells = Utility.splitline(linestr, tableData.columns.length);
+    const cells = Utility.splitline(linestr, tableData.columns.length);
 
     let column = -1;
     let cell_end = tableData.indent.length;
@@ -358,11 +386,7 @@ export function getCellData(tableData: MarkdownTableData, cellRow: number, cellC
         return (tableData.columns.length > cellColumn) ? tableData.columns[cellColumn] : "";
     }
     if (cellRow === 1) {
-        if (tableData.aligns.length <= cellColumn) {
-            return "---";
-        }
-        let [front, end] = tableData.aligns[cellColumn];
-        return ' ' + front + '-' + end + ' ';
+        return (tableData.alignTexts.length > cellColumn) ? tableData.alignTexts[cellColumn] : "";
     }
     if (cellRow >= tableData.cells.length + 2) {
         return "";

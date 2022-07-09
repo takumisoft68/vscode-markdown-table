@@ -2,6 +2,7 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 import * as commands from './commands';
+import * as contextService from './contextService';
 
 
 let myStatusBarItem: vscode.StatusBarItem;
@@ -23,8 +24,8 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.commands.executeCommand('setContext', 'markdowntable.contextkey.selection.InMarkdownTable', false);
     // subscribe custome handlers updating context key status 
     context.subscriptions.push(
-        vscode.window.onDidChangeActiveTextEditor(() => commands.updateContextKey(myStatusBarItem)),
-        vscode.window.onDidChangeTextEditorSelection(() => commands.updateContextKey(myStatusBarItem))
+        vscode.window.onDidChangeActiveTextEditor(() => contextService.updateContextKey(myStatusBarItem)),
+        vscode.window.onDidChangeTextEditorSelection(() => contextService.updateContextKey(myStatusBarItem))
     );
 
     // create a new status bar item that we can now manage

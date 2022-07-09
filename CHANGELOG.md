@@ -2,6 +2,10 @@
 
 ## All notable changes to the "markdowntable" extension will be documented in this file.
 
+### 0.10.0 (2022/7/9)
+
+- [Change] Select all text in cell when "Tab" or "Shift+Tab" navigation (fix #48)
+
 ### 0.9.2 (2022/4/13)
 
 - [Fix] Add notice in readme (fix #43)
