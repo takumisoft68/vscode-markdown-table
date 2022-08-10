@@ -3,7 +3,7 @@
 	"publisher": "TakumiI",
 	"displayName": "Markdown Table",
 	"description": "Add features to edit markdown table.",
-	"version": "0.10.0",
+	"version": "0.10.1",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/takumisoft68/vscode-markdown-table"
@@ -79,16 +79,6 @@
 		],
 		"keybindings": [
 			{
-				"command": "markdowntable.format",
-				"key": "shift+alt+f",
-				"when": "editorLangId == markdown && editorTextFocus"
-			},
-			{
-				"command": "markdowntable.tsvToTable",
-				"key": "shift+alt+t",
-				"when": "editorLangId == markdown && editorTextFocus && editorHasSelection"
-			},
-			{
 				"command": "markdowntable.nextCell",
 				"key": "tab",
 				"when": "editorLangId == markdown && editorTextFocus && !editorReadonly && !editorTabMovesFocus && !suggestWidgetMultipleSuggestions && !suggestWidgetVisible && !inSnippetMode && markdowntable.contextkey.selection.InMarkdownTable"
@@ -97,16 +87,6 @@
 				"command": "markdowntable.prevCell",
 				"key": "shift+tab",
 				"when": "editorLangId == markdown && editorTextFocus && !editorReadonly && !editorTabMovesFocus && !suggestWidgetMultipleSuggestions && !suggestWidgetVisible && !inSnippetMode && markdowntable.contextkey.selection.InMarkdownTable"
-			},
-			{
-				"command": "markdowntable.format",
-				"key": "shift+alt+f",
-				"when": "editorLangId == mdx && editorTextFocus"
-			},
-			{
-				"command": "markdowntable.tsvToTable",
-				"key": "shift+alt+t",
-				"when": "editorLangId == mdx && editorTextFocus && editorHasSelection"
 			},
 			{
 				"command": "markdowntable.nextCell",

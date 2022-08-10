@@ -1,22 +1,22 @@
 # Markdown Table
 
-Markdown table features.
+Add features to edit markdown table.
 
 ## 1. Features
 
 | Title                                   | Command                             | Default Keybinding | In the Editor Right Click Menu      |
 | :-------------------------------------- | :---------------------------------- | :----------------- | :---------------------------------- |
-| Format all tables.                      | markdowntable.format                | Shift + Alt + F    | Yes                                 |
-| Convert TSV to table.                   | markdowntable.tsvToTable            | Shift + Alt + T    | Yes (only when selecting range)     |
 | Navigate to next cell.                  | markdowntable.nextCell              | Tab                | No                                  |
 | Navigate to previous cell.              | markdowntable.prevCell              | Shift + Tab        | No                                  |
 | Navigate to next cell (w/o format).     | markdowntable.nextCellWithoutFormat |                    | No                                  |
 | Navigate to previous cell (w/o format). | markdowntable.prevCellWithoutFormat |                    | No                                  |
+| Convert TSV to table.                   | markdowntable.tsvToTable            |                    | Yes (only when selecting range)     |
 | Insert column in the right.             | markdowntable.insertRight           |                    | Yes (only when not selecting range) |
 | Insert column in the left.              | markdowntable.insertLeft            |                    | Yes (only when not selecting range) |
 | Align to Left.                          | markdowntable.alignLeft             |                    | Yes                                 |
 | Align to Center.                        | markdowntable.alignCenter           |                    | Yes                                 |
 | Align to Right.                         | markdowntable.alignRight            |                    | Yes                                 |
+| Format all tables.                      | markdowntable.format                |                    | Yes                                 |
 
 ---
 
@@ -32,7 +32,7 @@ Key binding to `Tab`.
 - with auto format
     - ![navigate](images/navigate_next_cell.gif)
 
-#### 2.1.1 Without auto format
+#### 2.1.1. If you want to use it without auto format
 
 - Use markdowntable.nextCellWithoutFormat command
 - If you want, you need to assign this command to some key binding by yourself.
@@ -46,19 +46,22 @@ Key binding to `Shift`+`Tab`.
 - with auto format
     - ![navigate_prev](images/navigate_prev_cell.gif)
 
-#### 2.2.1 Without auto format
+#### 2.2.1. If you want to use it without auto format
 
 - Use markdowntable.prevCellWithoutFormat command
 - If you want, you need to assign this command to some key binding by yourself.
 
 ### 2.3. Convert to table from TSV text
 
-Key binding to `Shift + Alt + T`.
-
 - **Tips: This feature is supposed to make table from excel cells.**
     - ![convert](images/table_from_excel.gif)
 
-### 2.4. Align column/columns
+### 2.4. Insert column
+
+- Add context menu to insert column
+    - ![insert](images/insert.gif)
+
+### 2.5. Align column/columns
 
 - **Align column to left/center/right.**
     - ![align](images/align_column.gif)
@@ -66,18 +69,11 @@ Key binding to `Shift + Alt + T`.
 - **Align selected multi columns at once.**
     - ![align](images/align_columns_at_once.gif)
 
-### 2.5. Format table
-
-Key binding to `Shift + Alt + F`.
+### 2.6. Format table
 
 - **Auto format column width of all tables in current document**
 - Align data and column header (can be disabled by configuration)
     - ![formattable](images/format_table.gif)
-
-### 2.6. Insert column
-
-- Add context menu to insert column
-    - ![insert](images/insert.gif)
 
 ## 3. Extension Configurations
 

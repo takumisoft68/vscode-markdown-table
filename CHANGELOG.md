@@ -1,6 +1,11 @@
 # Change Log
 
-## All notable changes to the "markdowntable" extension will be documented in this file.
+## All notable changes to the "markdowntable" extension will be documented in this file
+
+### 0.10.1 (2022/8/10)
+
+- [Change] Remove key binding `Shift+Alt+F` (for markdowntable.format)
+- [Change] Remove key binding `Shift+Alt+T` (for markdowntable.tsvToTable)
 
 ### 0.10.0 (2022/7/9)
 
