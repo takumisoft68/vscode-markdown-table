@@ -4,19 +4,19 @@ Add features to edit markdown table.
 
 ## 1. Features
 
-| Title                                   | Command                             | Default Keybinding | In the Editor Right Click Menu      |
-| :-------------------------------------- | :---------------------------------- | :----------------- | :---------------------------------- |
-| Navigate to next cell.                  | markdowntable.nextCell              | Tab                | No                                  |
-| Navigate to previous cell.              | markdowntable.prevCell              | Shift + Tab        | No                                  |
-| Navigate to next cell (w/o format).     | markdowntable.nextCellWithoutFormat |                    | No                                  |
-| Navigate to previous cell (w/o format). | markdowntable.prevCellWithoutFormat |                    | No                                  |
-| Convert TSV to table.                   | markdowntable.tsvToTable            |                    | Yes (only when selecting range)     |
-| Insert column in the right.             | markdowntable.insertRight           |                    | Yes (only when not selecting range) |
-| Insert column in the left.              | markdowntable.insertLeft            |                    | Yes (only when not selecting range) |
-| Align to Left.                          | markdowntable.alignLeft             |                    | Yes                                 |
-| Align to Center.                        | markdowntable.alignCenter           |                    | Yes                                 |
-| Align to Right.                         | markdowntable.alignRight            |                    | Yes                                 |
-| Format all tables.                      | markdowntable.format                |                    | Yes                                 |
+| Title                                   | Command                             | Default Keybinding | In the Editor Right Click Menu  |
+| :-------------------------------------- | :---------------------------------- | :----------------- | :------------------------------ |
+| Navigate to next cell.                  | markdowntable.nextCell              | Tab                | No                              |
+| Navigate to previous cell.              | markdowntable.prevCell              | Shift + Tab        | No                              |
+| Navigate to next cell (w/o format).     | markdowntable.nextCellWithoutFormat |                    | No                              |
+| Navigate to previous cell (w/o format). | markdowntable.prevCellWithoutFormat |                    | No                              |
+| Convert TSV to table.                   | markdowntable.tsvToTable            |                    | Yes (only when selecting range) |
+| Insert column in the right.             | markdowntable.insertRight           |                    | Yes                             |
+| Insert column in the left.              | markdowntable.insertLeft            |                    | Yes                             |
+| Align to Left.                          | markdowntable.alignLeft             |                    | Yes                             |
+| Align to Center.                        | markdowntable.alignCenter           |                    | Yes                             |
+| Align to Right.                         | markdowntable.alignRight            |                    | Yes                             |
+| Format all tables.                      | markdowntable.format                |                    | Yes                             |
 
 ---
 

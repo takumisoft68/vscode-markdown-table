@@ -300,14 +300,10 @@ export function insertColumn(isLeft: boolean) {
     const doc = editor.document;
     // 選択範囲取得
     const cur_selection = editor.selection;
-    if (!editor.selection.isEmpty) {
-        vscode.window.showErrorMessage('Markdown Table : Insert command doesn\'t allowed range selection.');
-        return;
-    }
 
     // 表を探す
-    let startLine = cur_selection.anchor.line;
-    let endLine = cur_selection.anchor.line;
+    let startLine = cur_selection.active.line;
+    let endLine = cur_selection.active.line;
     while (startLine - 1 >= 0) {
         const line_text = doc.lineAt(startLine - 1).text;
         if (!text.isInTable(line_text)) {
