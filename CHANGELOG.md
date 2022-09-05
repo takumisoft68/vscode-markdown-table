@@ -2,6 +2,11 @@
 
 ## All notable changes to the "markdowntable" extension will be documented in this file
 
+### 0.10.2 (2022/9/5)
+
+- [Change] Reduce requirement for insert commands
+    - Allow selecting range
+
 ### 0.10.1 (2022/8/10)
 
 - [Change] Remove key binding `Shift+Alt+F` (for markdowntable.format)
