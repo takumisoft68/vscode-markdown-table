@@ -188,6 +188,7 @@ What's focused on.
 
 Special thanks to contributors.
 
+- M.A
 - [Mark Ferrall](https://github.com/mferrall)
 - [heartacker](https://github.com/heartacker)
 

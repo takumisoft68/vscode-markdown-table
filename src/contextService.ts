@@ -7,6 +7,7 @@ const isDebugMode = () => process.env.VSCODE_DEBUG_MODE === "true";
 export function updateContextKey(statusBar: vscode.StatusBarItem) {
     if(vscode.window.activeTextEditor === undefined) {
         vscode.commands.executeCommand('setContext', 'markdowntable.contextkey.selection.InMarkdownTable', false);
+        vscode.commands.executeCommand('setContext', 'markdowntable.contextkey.active.IsSupportedLanguage', false);
         return;
     }
     // エディタ取得
@@ -15,17 +16,22 @@ export function updateContextKey(statusBar: vscode.StatusBarItem) {
     const doc = editor.document;
     if(doc === null) {
         vscode.commands.executeCommand('setContext', 'markdowntable.contextkey.selection.InMarkdownTable', false);
+        vscode.commands.executeCommand('setContext', 'markdowntable.contextkey.active.IsSupportedLanguage', false);
         return;
     }
     if(doc.languageId === null) {
         vscode.commands.executeCommand('setContext', 'markdowntable.contextkey.selection.InMarkdownTable', false);
+        vscode.commands.executeCommand('setContext', 'markdowntable.contextkey.active.IsSupportedLanguage', false);
         return;
     }
 
     if(doc.languageId !== 'markdown' && doc.languageId !== 'mdx' && doc.languageId !== 'quarto') {
         vscode.commands.executeCommand('setContext', 'markdowntable.contextkey.selection.InMarkdownTable', false);
+        vscode.commands.executeCommand('setContext', 'markdowntable.contextkey.active.IsSupportedLanguage', false);
         return;
     }
+
+    vscode.commands.executeCommand('setContext', 'markdowntable.contextkey.active.IsSupportedLanguage', true);
 
     // 選択範囲取得
     const cur_selection = editor.selection;

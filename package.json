@@ -83,138 +83,48 @@
             {
                 "command": "markdowntable.nextCell",
                 "key": "tab",
-                "when": "editorLangId == markdown && editorTextFocus && !editorReadonly && !editorTabMovesFocus && !suggestWidgetMultipleSuggestions && !suggestWidgetVisible && !inSnippetMode && markdowntable.contextkey.selection.InMarkdownTable"
+                "when": "editorTextFocus && !editorReadonly && !editorTabMovesFocus && !suggestWidgetMultipleSuggestions && !suggestWidgetVisible && !inSnippetMode && markdowntable.contextkey.selection.InMarkdownTable"
             },
             {
                 "command": "markdowntable.prevCell",
                 "key": "shift+tab",
-                "when": "editorLangId == markdown && editorTextFocus && !editorReadonly && !editorTabMovesFocus && !suggestWidgetMultipleSuggestions && !suggestWidgetVisible && !inSnippetMode && markdowntable.contextkey.selection.InMarkdownTable"
-            },
-            {
-                "command": "markdowntable.nextCell",
-                "key": "tab",
-                "when": "editorLangId == mdx && editorTextFocus && !editorReadonly && !editorTabMovesFocus && !suggestWidgetMultipleSuggestions && !suggestWidgetVisible && !inSnippetMode && markdowntable.contextkey.selection.InMarkdownTable"
-            },
-            {
-                "command": "markdowntable.prevCell",
-                "key": "shift+tab",
-                "when": "editorLangId == mdx && editorTextFocus && !editorReadonly && !editorTabMovesFocus && !suggestWidgetMultipleSuggestions && !suggestWidgetVisible && !inSnippetMode && markdowntable.contextkey.selection.InMarkdownTable"
-            },
-            {
-                "command": "markdowntable.nextCell",
-                "key": "tab",
-                "when": "editorLangId == quarto && editorTextFocus && !editorReadonly && !editorTabMovesFocus && !suggestWidgetMultipleSuggestions && !suggestWidgetVisible && !inSnippetMode && markdowntable.contextkey.selection.InMarkdownTable"
-            },
-            {
-                "command": "markdowntable.prevCell",
-                "key": "shift+tab",
-                "when": "editorLangId == quarto && editorTextFocus && !editorReadonly && !editorTabMovesFocus && !suggestWidgetMultipleSuggestions && !suggestWidgetVisible && !inSnippetMode && markdowntable.contextkey.selection.InMarkdownTable"
+                "when": "editorTextFocus && !editorReadonly && !editorTabMovesFocus && !suggestWidgetMultipleSuggestions && !suggestWidgetVisible && !inSnippetMode && markdowntable.contextkey.selection.InMarkdownTable"
             }
         ],
         "menus": {
             "editor/context": [
                 {
-                    "when": "editorLangId == markdown",
+                    "when": "markdowntable.contextkey.active.IsSupportedLanguage",
                     "command": "markdowntable.format",
                     "group": "markdowntable@1"
                 },
                 {
-                    "when": "editorLangId == markdown && editorHasSelection",
+                    "when": "markdowntable.contextkey.active.IsSupportedLanguage && editorHasSelection",
                     "command": "markdowntable.tsvToTable",
                     "group": "markdowntable@2"
                 },
                 {
-                    "when": "editorLangId == markdown && markdowntable.contextkey.selection.InMarkdownTable",
+                    "when": "markdowntable.contextkey.active.IsSupportedLanguage && markdowntable.contextkey.selection.InMarkdownTable",
                     "command": "markdowntable.insertRight",
                     "group": "markdowntable@3"
                 },
                 {
-                    "when": "editorLangId == markdown && markdowntable.contextkey.selection.InMarkdownTable",
+                    "when": "markdowntable.contextkey.active.IsSupportedLanguage && markdowntable.contextkey.selection.InMarkdownTable",
                     "command": "markdowntable.insertLeft",
                     "group": "markdowntable@4"
                 },
                 {
-                    "when": "editorLangId == markdown && markdowntable.contextkey.selection.InMarkdownTable",
+                    "when": "markdowntable.contextkey.active.IsSupportedLanguage && markdowntable.contextkey.selection.InMarkdownTable",
                     "command": "markdowntable.alignLeft",
                     "group": "markdowntable@5"
                 },
                 {
-                    "when": "editorLangId == markdown && markdowntable.contextkey.selection.InMarkdownTable",
+                    "when": "markdowntable.contextkey.active.IsSupportedLanguage && markdowntable.contextkey.selection.InMarkdownTable",
                     "command": "markdowntable.alignCenter",
                     "group": "markdowntable@6"
                 },
                 {
-                    "when": "editorLangId == markdown && markdowntable.contextkey.selection.InMarkdownTable",
-                    "command": "markdowntable.alignRight",
-                    "group": "markdowntable@7"
-                },
-                {
-                    "when": "editorLangId == mdx",
-                    "command": "markdowntable.format",
-                    "group": "markdowntable@1"
-                },
-                {
-                    "when": "editorLangId == mdx && editorHasSelection",
-                    "command": "markdowntable.tsvToTable",
-                    "group": "markdowntable@2"
-                },
-                {
-                    "when": "editorLangId == mdx && markdowntable.contextkey.selection.InMarkdownTable",
-                    "command": "markdowntable.insertRight",
-                    "group": "markdowntable@3"
-                },
-                {
-                    "when": "editorLangId == mdx && markdowntable.contextkey.selection.InMarkdownTable",
-                    "command": "markdowntable.insertLeft",
-                    "group": "markdowntable@4"
-                },
-                {
-                    "when": "editorLangId == mdx && markdowntable.contextkey.selection.InMarkdownTable",
-                    "command": "markdowntable.alignLeft",
-                    "group": "markdowntable@5"
-                },
-                {
-                    "when": "editorLangId == mdx && markdowntable.contextkey.selection.InMarkdownTable",
-                    "command": "markdowntable.alignCenter",
-                    "group": "markdowntable@6"
-                },
-                {
-                    "when": "editorLangId == mdx && markdowntable.contextkey.selection.InMarkdownTable",
-                    "command": "markdowntable.alignRight",
-                    "group": "markdowntable@7"
-                },
-                {
-                    "when": "editorLangId == quarto",
-                    "command": "markdowntable.format",
-                    "group": "markdowntable@1"
-                },
-                {
-                    "when": "editorLangId == quarto && editorHasSelection",
-                    "command": "markdowntable.tsvToTable",
-                    "group": "markdowntable@2"
-                },
-                {
-                    "when": "editorLangId == quarto && markdowntable.contextkey.selection.InMarkdownTable",
-                    "command": "markdowntable.insertRight",
-                    "group": "markdowntable@3"
-                },
-                {
-                    "when": "editorLangId == quarto && markdowntable.contextkey.selection.InMarkdownTable",
-                    "command": "markdowntable.insertLeft",
-                    "group": "markdowntable@4"
-                },
-                {
-                    "when": "editorLangId == quarto && markdowntable.contextkey.selection.InMarkdownTable",
-                    "command": "markdowntable.alignLeft",
-                    "group": "markdowntable@5"
-                },
-                {
-                    "when": "editorLangId == quarto && markdowntable.contextkey.selection.InMarkdownTable",
-                    "command": "markdowntable.alignCenter",
-                    "group": "markdowntable@6"
-                },
-                {
-                    "when": "editorLangId == quarto && markdowntable.contextkey.selection.InMarkdownTable",
+                    "when": "markdowntable.contextkey.active.IsSupportedLanguage && markdowntable.contextkey.selection.InMarkdownTable",
                     "command": "markdowntable.alignRight",
                     "group": "markdowntable@7"
                 }
