@@ -21,7 +21,8 @@ export function updateContextKey(statusBar: vscode.StatusBarItem) {
         vscode.commands.executeCommand('setContext', 'markdowntable.contextkey.selection.InMarkdownTable', false);
         return;
     }
-    if(doc.languageId !== 'markdown' && doc.languageId !== 'mdx') {
+
+    if(doc.languageId !== 'markdown' && doc.languageId !== 'mdx' && doc.languageId !== 'quarto') {
         vscode.commands.executeCommand('setContext', 'markdowntable.contextkey.selection.InMarkdownTable', false);
         return;
     }
@@ -41,7 +42,7 @@ export function updateContextKey(statusBar: vscode.StatusBarItem) {
         vscode.commands.executeCommand('setContext', 'markdowntable.contextkey.selection.InMarkdownTable', true);
 
         if (isDebugMode()) {
-            statusBar.text = `$(circle-large-filled) in the table`;
+            statusBar.text = `$(circle-large-filled) in the table, doc.languageId is ` + doc.languageId;
             statusBar.tooltip = `cursor is in the table`;
             statusBar.show();
         }
@@ -49,7 +50,7 @@ export function updateContextKey(statusBar: vscode.StatusBarItem) {
         vscode.commands.executeCommand('setContext', 'markdowntable.contextkey.selection.InMarkdownTable', false);
 
         if (isDebugMode()) {
-            statusBar.text = `$(circle-slash) out of table`;
+            statusBar.text = `$(circle-slash) out of table, doc.languageId is ` + doc.languageId;
             statusBar.tooltip = `cursor is out of table`;
             statusBar.show();
         }

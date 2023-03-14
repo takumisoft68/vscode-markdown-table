@@ -18,6 +18,7 @@
     "activationEvents": [
         "onLanguage:markdown",
         "onLanguage:mdx",
+        "onLanguage:quarto",
         "onCommand:markdowntable.tsvToTable",
         "onCommand:markdowntable.format",
         "onCommand:markdowntable.insertRight",
@@ -98,6 +99,16 @@
                 "command": "markdowntable.prevCell",
                 "key": "shift+tab",
                 "when": "editorLangId == mdx && editorTextFocus && !editorReadonly && !editorTabMovesFocus && !suggestWidgetMultipleSuggestions && !suggestWidgetVisible && !inSnippetMode && markdowntable.contextkey.selection.InMarkdownTable"
+            },
+            {
+                "command": "markdowntable.nextCell",
+                "key": "tab",
+                "when": "editorLangId == quarto && editorTextFocus && !editorReadonly && !editorTabMovesFocus && !suggestWidgetMultipleSuggestions && !suggestWidgetVisible && !inSnippetMode && markdowntable.contextkey.selection.InMarkdownTable"
+            },
+            {
+                "command": "markdowntable.prevCell",
+                "key": "shift+tab",
+                "when": "editorLangId == quarto && editorTextFocus && !editorReadonly && !editorTabMovesFocus && !suggestWidgetMultipleSuggestions && !suggestWidgetVisible && !inSnippetMode && markdowntable.contextkey.selection.InMarkdownTable"
             }
         ],
         "menus": {
@@ -148,12 +159,12 @@
                     "group": "markdowntable@2"
                 },
                 {
-                    "when": "editorLangId == mdx && !editorHasSelection && markdowntable.contextkey.selection.InMarkdownTable",
+                    "when": "editorLangId == mdx && markdowntable.contextkey.selection.InMarkdownTable",
                     "command": "markdowntable.insertRight",
                     "group": "markdowntable@3"
                 },
                 {
-                    "when": "editorLangId == mdx && !editorHasSelection && markdowntable.contextkey.selection.InMarkdownTable",
+                    "when": "editorLangId == mdx && markdowntable.contextkey.selection.InMarkdownTable",
                     "command": "markdowntable.insertLeft",
                     "group": "markdowntable@4"
                 },
@@ -169,6 +180,41 @@
                 },
                 {
                     "when": "editorLangId == mdx && markdowntable.contextkey.selection.InMarkdownTable",
+                    "command": "markdowntable.alignRight",
+                    "group": "markdowntable@7"
+                },
+                {
+                    "when": "editorLangId == quarto",
+                    "command": "markdowntable.format",
+                    "group": "markdowntable@1"
+                },
+                {
+                    "when": "editorLangId == quarto && editorHasSelection",
+                    "command": "markdowntable.tsvToTable",
+                    "group": "markdowntable@2"
+                },
+                {
+                    "when": "editorLangId == quarto && markdowntable.contextkey.selection.InMarkdownTable",
+                    "command": "markdowntable.insertRight",
+                    "group": "markdowntable@3"
+                },
+                {
+                    "when": "editorLangId == quarto && markdowntable.contextkey.selection.InMarkdownTable",
+                    "command": "markdowntable.insertLeft",
+                    "group": "markdowntable@4"
+                },
+                {
+                    "when": "editorLangId == quarto && markdowntable.contextkey.selection.InMarkdownTable",
+                    "command": "markdowntable.alignLeft",
+                    "group": "markdowntable@5"
+                },
+                {
+                    "when": "editorLangId == quarto && markdowntable.contextkey.selection.InMarkdownTable",
+                    "command": "markdowntable.alignCenter",
+                    "group": "markdowntable@6"
+                },
+                {
+                    "when": "editorLangId == quarto && markdowntable.contextkey.selection.InMarkdownTable",
                     "command": "markdowntable.alignRight",
                     "group": "markdowntable@7"
                 }
