@@ -199,7 +199,7 @@ Special thanks to contributors.
 
 - [Source Code](https://github.com/takumisoft68/vscode-markdown-table)
 - [Marketplace](https://marketplace.visualstudio.com/items?itemName=TakumiI.markdowntable)
-- [VSX]
+- [VSX Registry](https://open-vsx.org/extension/TakumiI/markdowntable)
 
 ## 10. License
 
