@@ -3,14 +3,14 @@
     "publisher": "TakumiI",
     "displayName": "Markdown Table",
     "description": "Add features to edit markdown table.",
-    "version": "0.10.3",
+    "version": "0.10.4",
     "icon": "icon.drawio.png",
     "repository": {
         "type": "git",
         "url": "https://github.com/takumisoft68/vscode-markdown-table"
     },
     "engines": {
-        "vscode": "^1.40.0"
+        "vscode": "^1.63.0"
     },
     "categories": [
         "Other"

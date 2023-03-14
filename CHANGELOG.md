@@ -2,6 +2,12 @@
 
 ## All notable changes to the "markdowntable" extension will be documented in this file
 
+### 0.10.4 and 0.10.3-PreRelease  (2023/3/15)
+
+- [Add] Extention Icon
+- [Add] Quarto support (.qmd)
+- [Change] Vscode engine up to 1.63.0
+
 ### 0.10.2 (2022/9/5)
 
 - [Change] Reduce requirement for insert commands
