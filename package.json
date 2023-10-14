@@ -10,7 +10,7 @@
         "url": "https://github.com/takumisoft68/vscode-markdown-table"
     },
     "engines": {
-        "vscode": "^1.63.0"
+        "vscode": "^1.80.0"
     },
     "categories": [
         "Other"
@@ -18,18 +18,7 @@
     "activationEvents": [
         "onLanguage:markdown",
         "onLanguage:mdx",
-        "onLanguage:quarto",
-        "onCommand:markdowntable.tsvToTable",
-        "onCommand:markdowntable.format",
-        "onCommand:markdowntable.insertRight",
-        "onCommand:markdowntable.insertLeft",
-        "onCommand:markdowntable.nextCell",
-        "onCommand:markdowntable.prevCell",
-        "onCommand:markdowntable.nextCellWithoutFormat",
-        "onCommand:markdowntable.prevCellWithoutFormat",
-        "onCommand:markdowntable.alignLeft",
-        "onCommand:markdowntable.alignCenter",
-        "onCommand:markdowntable.alignRight"
+        "onLanguage:quarto"
     ],
     "main": "./out/extension.js",
     "contributes": {
