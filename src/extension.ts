@@ -2,10 +2,7 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 import * as commands from './commands';
-import * as contextService from './contextService';
-
-
-let myStatusBarItem: vscode.StatusBarItem;
+import { TextEditorContextServiceManager } from "./contextServices/textEditorContextServiceManager";
 
 
 // this method is called when your extension is activated
@@ -20,17 +17,14 @@ export function activate(context: vscode.ExtensionContext) {
     // Now provide the implementation of the command with registerCommand
     // The commandId parameter must match the command field in package.json
 
-    // set a custom context key
-    vscode.commands.executeCommand('setContext', 'markdowntable.contextkey.selection.InMarkdownTable', false);
-    // subscribe custome handlers updating context key status 
+    // custom context key services
+    const textEditorContextServiceManager = new TextEditorContextServiceManager();
+    // subscribe custom context key services
     context.subscriptions.push(
-        vscode.window.onDidChangeActiveTextEditor(() => contextService.updateContextKey(myStatusBarItem)),
-        vscode.window.onDidChangeTextEditorSelection(() => contextService.updateContextKey(myStatusBarItem))
+        textEditorContextServiceManager,
     );
-
-    // create a new status bar item that we can now manage
-    myStatusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 10000);
-    context.subscriptions.push(myStatusBarItem);
+    // start custom context key services
+    textEditorContextServiceManager.activate(context);
     
     // subscribe command handlers
     context.subscriptions.push(
