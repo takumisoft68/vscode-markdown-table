@@ -4,19 +4,21 @@ Add features to edit markdown table.
 
 ## 1. Features
 
-| Title                                   | Command                             | Default Keybinding | In the Editor Right Click Menu  |
-| :-------------------------------------- | :---------------------------------- | :----------------- | :------------------------------ |
-| Navigate to next cell.                  | markdowntable.nextCell              | Tab                | No                              |
-| Navigate to previous cell.              | markdowntable.prevCell              | Shift + Tab        | No                              |
-| Navigate to next cell (w/o format).     | markdowntable.nextCellWithoutFormat |                    | No                              |
-| Navigate to previous cell (w/o format). | markdowntable.prevCellWithoutFormat |                    | No                              |
-| Convert TSV to table.                   | markdowntable.tsvToTable            |                    | Yes (only when selecting range) |
-| Insert column in the right.             | markdowntable.insertRight           |                    | Yes                             |
-| Insert column in the left.              | markdowntable.insertLeft            |                    | Yes                             |
-| Align to Left.                          | markdowntable.alignLeft             |                    | Yes                             |
-| Align to Center.                        | markdowntable.alignCenter           |                    | Yes                             |
-| Align to Right.                         | markdowntable.alignRight            |                    | Yes                             |
-| Format all tables.                      | markdowntable.format                |                    | Yes                             |
+| Title                                   | Command                             | Keybinding  | In the Editor Right Click Menu       |
+| :-------------------------------------- | :---------------------------------- | :---------- | :----------------------------------- |
+| Navigate to next cell.                  | markdowntable.nextCell              | Tab         | No                                   |
+| Navigate to previous cell.              | markdowntable.prevCell              | Shift + Tab | No                                   |
+| Navigate to next cell (w/o format).     | markdowntable.nextCellWithoutFormat |             | No                                   |
+| Navigate to previous cell (w/o format). | markdowntable.prevCellWithoutFormat |             | No                                   |
+| Convert TSV to table.                   | markdowntable.tsvToTable            |             | Yes (only when selecting range) (*1) |
+| Insert column in the right.             | markdowntable.insertRight           |             | Yes (*1)                             |
+| Insert column in the left.              | markdowntable.insertLeft            |             | Yes (*1)                             |
+| Align to Left.                          | markdowntable.alignLeft             |             | Yes (*1)                             |
+| Align to Center.                        | markdowntable.alignCenter           |             | Yes (*1)                             |
+| Align to Right.                         | markdowntable.alignRight            |             | Yes (*1)                             |
+| Format all tables.                      | markdowntable.format                |             | Yes (*1)                             |
+
+(*1) You can hide menu item by configuration.
 
 ---
 
@@ -77,10 +79,17 @@ Key binding to `Shift`+`Tab`.
 
 ## 3. Extension Configurations
 
-| Configuration ID                | Description                                      | Type    | Default |
-| :------------------------------ | :----------------------------------------------- | :------ | :------ |
-| markdowntable.alignColumnHeader | Align column header in the table when formatting | boolean | true    |
-| markdowntable.alignData         | Align data in the table when formatting          | boolean | true    |
+| Configuration ID                   | Description                                                | Type    | Default |
+| :--------------------------------- | :--------------------------------------------------------- | :------ | :------ |
+| markdowntable.alignColumnHeader    | Align column header in the table when formatting           | boolean | true    |
+| markdowntable.alignData            | Align data in the table when formatting                    | boolean | true    |
+| markdowntable.showMenu.format      | Show command in context menu, "Format all tables"          | boolean | true    |
+| markdowntable.showMenu.tsvToTable  | Show command in context menu, "Convert TSV to table"       | boolean | true    |
+| markdowntable.showMenu.insertRight | Show command in context menu, "Insert column to the right" | boolean | true    |
+| markdowntable.showMenu.insertLeft  | Show command in context menu, "Insert column to the left"  | boolean | true    |
+| markdowntable.showMenu.alignLeft   | Show command in context menu, "Align to Left"              | boolean | true    |
+| markdowntable.showMenu.alignCenter | Show command in context menu, "Align to Center"            | boolean | true    |
+| markdowntable.showMenu.alignRight  | Show command in context menu, "Align to Right"             | boolean | true    |
 
 ## 4. Tips
 

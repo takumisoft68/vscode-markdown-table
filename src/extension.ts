@@ -2,7 +2,7 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 import * as commands from './commands';
-import { TextEditorContextServiceManager } from "./contextServices/textEditorContextServiceManager";
+import { ContextServiceManager } from "./contextServices/contextServiceManager";
 
 
 // this method is called when your extension is activated
@@ -18,13 +18,13 @@ export function activate(context: vscode.ExtensionContext) {
     // The commandId parameter must match the command field in package.json
 
     // custom context key services
-    const textEditorContextServiceManager = new TextEditorContextServiceManager();
+    const contextServiceManager = new ContextServiceManager();
     // subscribe custom context key services
     context.subscriptions.push(
-        textEditorContextServiceManager,
+        contextServiceManager
     );
     // start custom context key services
-    textEditorContextServiceManager.activate(context);
+    contextServiceManager.activate(context);
     
     // subscribe command handlers
     context.subscriptions.push(

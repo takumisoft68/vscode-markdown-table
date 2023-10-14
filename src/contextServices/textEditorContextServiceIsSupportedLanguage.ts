@@ -1,12 +1,20 @@
-﻿import { ExtensionContext, Selection, TextDocument, window, StatusBarItem, StatusBarAlignment } from 'vscode';
-import { AbsTextEditorContextService } from "./iTextEditorContextService";
+﻿import { ExtensionContext, Selection, TextDocument, window, StatusBarItem, StatusBarAlignment, TextEditor, TextEditorSelectionChangeEvent } from 'vscode';
+import { ContextService } from "./contextService";
 
-export class TextEditorContextServiceIsSupportedLanguage extends AbsTextEditorContextService {
+export class TextEditorContextServiceIsSupportedLanguage extends ContextService {
     private statusBarItem: StatusBarItem | undefined;
+    private readonly defaultVal: boolean;
+
+    constructor(contextName: string, defaultVal: boolean) {
+        super(contextName);
+        this.defaultVal = defaultVal;
+    }
 
     public onActivate(context: ExtensionContext) {
+        super.onActivate(context);
+
         // set initial state of context
-        this.setState(false);
+        this.setState(this.defaultVal);
 
         if(this.isDebugMode()) {
             // create a new status bar item that we can now manage
@@ -15,21 +23,22 @@ export class TextEditorContextServiceIsSupportedLanguage extends AbsTextEditorCo
         }
     }
 
-    public dispose(): void { }
-
-    public onDidChangeActiveTextEditor(document: TextDocument | undefined, selection: Selection | undefined) {
-        this.updateContextState(document, selection);
+    public onDidChangeActiveTextEditor(editor: TextEditor | undefined): void {
+        super.onDidChangeActiveTextEditor(editor);
+        this.updateContextState(editor);
     }
 
-    public onDidChangeTextEditorSelection(document: TextDocument | undefined, selection: Selection | undefined) {
-        this.updateContextState(document, selection);
+    public onDidChangeTextEditorSelection(event: TextEditorSelectionChangeEvent): void {
+        super.onDidChangeTextEditorSelection(event);
+        this.updateContextState(event.textEditor);
     }
 
     private isDebugMode(): boolean {
         return process.env.VSCODE_DEBUG_MODE === "true";
     }
 
-    private updateContextState(document: TextDocument | undefined, selection: Selection | undefined) {
+    private updateContextState(editor: TextEditor | undefined) {
+        const document = editor?.document;
         var isSupported = this.isSupportedLanguage(document);
 
         if (isSupported) {

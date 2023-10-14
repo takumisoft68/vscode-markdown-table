@@ -2,6 +2,11 @@
 
 ## All notable changes to the "markdowntable" extension will be documented in this file
 
+### 0.11.0
+
+- [Change] VSCode engine to 1.80.0
+- [Add] Configurations to hide menu items in right click menu
+
 ### 0.10.4 and 0.10.3-PreRelease  (2023/3/15)
 
 - [Add] Extention Icon

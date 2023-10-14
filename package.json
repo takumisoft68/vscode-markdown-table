@@ -83,37 +83,37 @@
         "menus": {
             "editor/context": [
                 {
-                    "when": "markdowntable.contextkey.active.IsSupportedLanguage",
+                    "when": "markdowntable.contextkey.active.IsSupportedLanguage && markdowntable.contextkey.config.showMenu.format",
                     "command": "markdowntable.format",
                     "group": "markdowntable@1"
                 },
                 {
-                    "when": "markdowntable.contextkey.active.IsSupportedLanguage && editorHasSelection",
+                    "when": "markdowntable.contextkey.active.IsSupportedLanguage && editorHasSelection && markdowntable.contextkey.config.showMenu.tsvToTable",
                     "command": "markdowntable.tsvToTable",
                     "group": "markdowntable@2"
                 },
                 {
-                    "when": "markdowntable.contextkey.active.IsSupportedLanguage && markdowntable.contextkey.selection.InMarkdownTable",
+                    "when": "markdowntable.contextkey.active.IsSupportedLanguage && markdowntable.contextkey.selection.InMarkdownTable && markdowntable.contextkey.config.showMenu.insertRight",
                     "command": "markdowntable.insertRight",
                     "group": "markdowntable@3"
                 },
                 {
-                    "when": "markdowntable.contextkey.active.IsSupportedLanguage && markdowntable.contextkey.selection.InMarkdownTable",
+                    "when": "markdowntable.contextkey.active.IsSupportedLanguage && markdowntable.contextkey.selection.InMarkdownTable && markdowntable.contextkey.config.showMenu.insertLeft",
                     "command": "markdowntable.insertLeft",
                     "group": "markdowntable@4"
                 },
                 {
-                    "when": "markdowntable.contextkey.active.IsSupportedLanguage && markdowntable.contextkey.selection.InMarkdownTable",
+                    "when": "markdowntable.contextkey.active.IsSupportedLanguage && markdowntable.contextkey.selection.InMarkdownTable && markdowntable.contextkey.config.showMenu.alignLeft",
                     "command": "markdowntable.alignLeft",
                     "group": "markdowntable@5"
                 },
                 {
-                    "when": "markdowntable.contextkey.active.IsSupportedLanguage && markdowntable.contextkey.selection.InMarkdownTable",
+                    "when": "markdowntable.contextkey.active.IsSupportedLanguage && markdowntable.contextkey.selection.InMarkdownTable && markdowntable.contextkey.config.showMenu.alignCenter",
                     "command": "markdowntable.alignCenter",
                     "group": "markdowntable@6"
                 },
                 {
-                    "when": "markdowntable.contextkey.active.IsSupportedLanguage && markdowntable.contextkey.selection.InMarkdownTable",
+                    "when": "markdowntable.contextkey.active.IsSupportedLanguage && markdowntable.contextkey.selection.InMarkdownTable && markdowntable.contextkey.config.showMenu.alignRight",
                     "command": "markdowntable.alignRight",
                     "group": "markdowntable@7"
                 }
@@ -131,6 +131,41 @@
                     "type": "boolean",
                     "default": true,
                     "description": "Align column header in the table when formatting"
+                },
+                "markdowntable.showMenu.format": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Show command in context menu: \"Format all tables\"."
+                },
+                "markdowntable.showMenu.tsvToTable": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Show command in context menu: \"Convert TSV to table\"."
+                },
+                "markdowntable.showMenu.insertRight": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Show command in context menu: \"Insert column to the right\"."
+                },
+                "markdowntable.showMenu.insertLeft": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Show command in context menu: \"Insert column to the left\"."
+                },
+                "markdowntable.showMenu.alignLeft": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Show command in context menu: \"Align to Left\"."
+                },
+                "markdowntable.showMenu.alignCenter": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Show command in context menu: \"Align to Center\"."
+                },
+                "markdowntable.showMenu.alignRight": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Show command in context menu: \"Align to Right\"."
                 }
             }
         }
