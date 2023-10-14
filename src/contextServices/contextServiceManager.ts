@@ -20,6 +20,8 @@ export class ContextServiceManager implements Disposable {
             new WorkspaceBooleanConfigurationContextService("markdowntable.contextkey.config.showMenu.alignLeft", 'markdowntable.showMenu.alignLeft'),
             new WorkspaceBooleanConfigurationContextService("markdowntable.contextkey.config.showMenu.alignCenter", 'markdowntable.showMenu.alignCenter'),
             new WorkspaceBooleanConfigurationContextService("markdowntable.contextkey.config.showMenu.alignRight", 'markdowntable.showMenu.alignRight'),
+            new WorkspaceBooleanConfigurationContextService("markdowntable.contextkey.config.showMenu.moveLeft", 'markdowntable.showMenu.moveLeft'),
+            new WorkspaceBooleanConfigurationContextService("markdowntable.contextkey.config.showMenu.moveRight", 'markdowntable.showMenu.moveRight'),
         );
     }
 

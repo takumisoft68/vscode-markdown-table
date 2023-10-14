@@ -9,6 +9,7 @@
 - [Add] Configuration to switch ignore or not ignore tables in codeblock
 - [Add] Configurations to hide menu items in right click menu
 - [Add] Convert CSV to table command
+- [Add] Commands to move columns to right/left
 
 ### 0.10.4 and 0.10.3-PreRelease  (2023/3/15)
 

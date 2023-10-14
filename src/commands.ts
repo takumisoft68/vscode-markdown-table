@@ -73,7 +73,7 @@ export function navigateNextCell(withFormat: boolean) {
             table_selection.start.line + newCellLineAt,
             table_selection.start.character + newCellCharacterAt + nextCellData.length - 1);
         const newSelection = new vscode.Selection(newPositionEnd, newPositionStart);
-    
+
         // カーソル位置を移動
         editor.selection = newSelection;
     }
@@ -86,7 +86,7 @@ export function navigateNextCell(withFormat: boolean) {
             table_selection.start.line + newCellLineAt,
             table_selection.start.character + newCellCharacterAt + leftSpaceNum + nextCellData.trim().length);
         const newSelection = new vscode.Selection(newPositionEnd, newPositionStart);
-    
+
         // カーソル位置を移動
         editor.selection = newSelection;
     }
@@ -150,7 +150,7 @@ export function navigatePrevCell(withFormat: boolean) {
             table_selection.start.line + newCellLineAt,
             table_selection.start.character + newCellCharacterAt + nextCellData.length - 1);
         const newSelection = new vscode.Selection(newPositionEnd, newPositionStart);
-    
+
         // カーソル位置を移動
         editor.selection = newSelection;
     }
@@ -163,7 +163,7 @@ export function navigatePrevCell(withFormat: boolean) {
             table_selection.start.line + newCellLineAt,
             table_selection.start.character + newCellCharacterAt + leftSpaceNum + nextCellData.trim().length);
         const newSelection = new vscode.Selection(newPositionEnd, newPositionStart);
-    
+
         // カーソル位置を移動
         editor.selection = newSelection;
     }
@@ -185,7 +185,7 @@ export function formatAll() {
         if (line <= preSearchedLine) {
             continue;
         }
-        if(!text.isInTable(alltext, line, line)) {
+        if (!text.isInTable(alltext, line, line)) {
             continue;
         }
 
@@ -195,7 +195,7 @@ export function formatAll() {
             continue;
         }
         const [startLine, endLine] = tableRange;
-    
+
         // 表のテキストを取得
         const table_selection = new vscode.Selection(startLine, 0, endLine, doc.lineAt(endLine).text.length);
         const table_text = doc.getText(table_selection);
@@ -426,3 +426,91 @@ export function alignColumns(alignMark: [string, string]) {
     editor.selection = newSelection;
 };
 
+export function moveColumns(toLeft: boolean) {
+    // エディタ取得
+    const editor = vscode.window.activeTextEditor as vscode.TextEditor;
+    // ドキュメント取得
+    const doc = editor.document;
+    // 選択範囲取得
+    const cur_selection = editor.selection;
+
+    // 選択範囲を含むテーブルを探す
+    const tableRange = text.findTableRange(doc.getText(), cur_selection.start.line, cur_selection.start.line);
+    if (!tableRange) {
+        // テーブル内ではなかったら終了
+        vscode.window.showErrorMessage('Markdown Table : Move command failed, because your selection is not inside of a table.');
+        return;
+    }
+    const [startLine, endLine] = tableRange;
+    const table_selection = new vscode.Selection(startLine, 0, endLine, 10000);
+    const table_text = doc.getText(table_selection);
+
+    // テーブルをTableDataにシリアライズ
+    let tableData = mtdh.stringToTableData(table_text);
+    if (tableData.aligns[0][0] === undefined) {
+        return;
+    }
+
+    // 選択セルを取得
+    const [startline, startcharacter] = [cur_selection.start.line - startLine, cur_selection.start.character];
+    const [startRow, startColumn] = mtdh.getCellAtPosition(tableData, startline, startcharacter);
+    const [endline, endcharacter] = [cur_selection.end.line - startLine, cur_selection.end.character];
+    const [endRow, endColumn] = mtdh.getCellAtPosition(tableData, endline, endcharacter);
+
+    if (startRow !== endRow || (toLeft && startColumn <= 0) || (!toLeft && endColumn >= tableData.columns.length - 1)) {
+        // 選択範囲の開始位置と終了位置が同じ行内ではない場合
+        if (toLeft) {
+            vscode.window.showErrorMessage('Markdown Table : Move-Left command failed, because your selection is already in the left end.');
+        }
+        else {
+            vscode.window.showErrorMessage('Markdown Table : Move-Right command failed, because your selection is already in the right end.');
+        }
+        return;
+    }
+
+    // 配列中の1アイテムを別の位置に移動させるローカル関数
+    // 配列は参照で処理する
+    const moveArrayItem = (array: Array<any>, moveFrom: number, moveTo: number): void  => {
+        let itemMoved = array.slice(moveFrom, moveFrom + 1)[0];
+        array.splice(moveFrom, 1);
+        array.splice(moveTo, 0, itemMoved);
+    };
+
+    // 選択範囲の列を動かす
+    // 複数行を左に動かすのは、移動対象範囲の左の1セルのみを対象範囲の右に移動すると読み替える
+    // 複数行を右に動かすのは、移動対象範囲の右の1セルのみを対象範囲の左に移動すると読み替える
+    const moveFrom = toLeft ? startColumn - 1 : endColumn + 1;
+    const moveTo = toLeft ? endColumn : startColumn;
+    moveArrayItem(tableData.aligns, moveFrom, moveTo);
+    moveArrayItem(tableData.alignTexts, moveFrom, moveTo);
+    moveArrayItem(tableData.columns, moveFrom, moveTo);
+    tableData.cells.forEach(rowCells => {
+        moveArrayItem(rowCells, moveFrom, moveTo);
+    });
+
+    // テーブルをフォーマットした文字列を取得
+    const newTableText = mtdh.toFormatTableStr(tableData);
+
+    //エディタ選択範囲にテキストを反映
+    editor.edit(edit => {
+        edit.replace(table_selection, newTableText);
+    });
+
+    // 元のカーソル選択位置を計算
+    const [anchorline, anchorcharacter] = [cur_selection.anchor.line - startLine, cur_selection.anchor.character];
+    // 元のカーソル選択位置のセルを取得
+    const [anchorRow, anchorColumn] = mtdh.getCellAtPosition(tableData, anchorline, anchorcharacter,);
+
+    const tableStrFormatted = mtdh.toFormatTableStr(tableData);
+    const tableDataFormatted = mtdh.stringToTableData(tableStrFormatted);
+
+    // 新しいカーソル位置をフォーマット後のテキストから計算
+    const [newline, newcharacter] = mtdh.getPositionOfCell(tableDataFormatted, anchorRow, anchorColumn);
+    const newPosition = new vscode.Position(
+        table_selection.start.line + newline,
+        table_selection.start.character + newcharacter + 1);
+    const newSelection = new vscode.Selection(newPosition, newPosition);
+
+    // カーソル位置を移動
+    editor.selection = newSelection;
+};

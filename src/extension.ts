@@ -39,7 +39,9 @@ export function activate(context: vscode.ExtensionContext) {
         vscode.commands.registerCommand('markdowntable.insertLeft', () => commands.insertColumn(true)),
         vscode.commands.registerCommand('markdowntable.alignLeft', () => commands.alignColumns([':', '-'])),
         vscode.commands.registerCommand('markdowntable.alignCenter', () => commands.alignColumns([':', ':'])),
-        vscode.commands.registerCommand('markdowntable.alignRight', () => commands.alignColumns(['-', ':']))
+        vscode.commands.registerCommand('markdowntable.alignRight', () => commands.alignColumns(['-', ':'])),
+        vscode.commands.registerCommand('markdowntable.moveLeft', () => commands.moveColumns(true)),
+        vscode.commands.registerCommand('markdowntable.moveRight', () => commands.moveColumns(false))
     );
 }
 

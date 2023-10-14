@@ -70,6 +70,14 @@
             {
                 "command": "markdowntable.alignRight",
                 "title": "Markdown Table: Align to Right."
+            },
+            {
+                "command": "markdowntable.moveLeft",
+                "title": "Markdown Table: Move to Left."
+            },
+            {
+                "command": "markdowntable.moveRight",
+                "title": "Markdown Table: Move to Right."
             }
         ],
         "keybindings": [
@@ -125,6 +133,16 @@
                     "when": "markdowntable.contextkey.active.IsSupportedLanguage && markdowntable.contextkey.selection.InMarkdownTable && markdowntable.contextkey.config.showMenu.alignRight",
                     "command": "markdowntable.alignRight",
                     "group": "markdowntable@7"
+                },
+                {
+                    "when": "markdowntable.contextkey.active.IsSupportedLanguage && markdowntable.contextkey.selection.InMarkdownTable && markdowntable.contextkey.config.showMenu.moveLeft",
+                    "command": "markdowntable.moveLeft",
+                    "group": "markdowntable@8"
+                },
+                {
+                    "when": "markdowntable.contextkey.active.IsSupportedLanguage && markdowntable.contextkey.selection.InMarkdownTable && markdowntable.contextkey.config.showMenu.moveRight",
+                    "command": "markdowntable.moveRight",
+                    "group": "markdowntable@8"
                 }
             ]
         },
@@ -185,6 +203,16 @@
                     "type": "boolean",
                     "default": true,
                     "description": "Show command in context menu: \"Align to Right\"."
+                },
+                "markdowntable.showMenu.moveLeft": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Show command in context menu: \"Move to Left\"."
+                },
+                "markdowntable.showMenu.moveRight": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Show command in context menu: \"Move to Right\"."
                 }
             }
         }

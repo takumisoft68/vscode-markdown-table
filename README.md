@@ -10,6 +10,7 @@ Add features to edit markdown table.
 | Navigate to previous cell.              | markdowntable.prevCell              | Shift + Tab | No                                   |
 | Navigate to next cell (w/o format).     | markdowntable.nextCellWithoutFormat |             | No                                   |
 | Navigate to previous cell (w/o format). | markdowntable.prevCellWithoutFormat |             | No                                   |
+| Format all tables.                      | markdowntable.format                |             | Yes (*1)                             |
 | Convert TSV to table.                   | markdowntable.tsvToTable            |             | Yes (only when selecting range) (*1) |
 | Convert CSV to table.                   | markdowntable.csvToTable            |             | No (only when selecting range) (*1)  |
 | Insert column in the right.             | markdowntable.insertRight           |             | Yes (*1)                             |
@@ -17,7 +18,8 @@ Add features to edit markdown table.
 | Align to Left.                          | markdowntable.alignLeft             |             | Yes (*1)                             |
 | Align to Center.                        | markdowntable.alignCenter           |             | Yes (*1)                             |
 | Align to Right.                         | markdowntable.alignRight            |             | Yes (*1)                             |
-| Format all tables.                      | markdowntable.format                |             | Yes (*1)                             |
+| Move to Left.                           | markdowntable.moveLeft              |             | Yes (*1)                             |
+| Move to Right.                          | markdowntable.moveRight             |             | Yes (*1)                             |
 
 (*1) By using configuration, you can switch show or hide menu item.
 
@@ -68,6 +70,11 @@ Key binding to `Shift`+`Tab`.
 - Add context menu to insert column
     - ![insert](images/insert.gif)
 
+### 2.6. Move column/columns
+
+- **Move selected multi columns at once.**
+    - ![align](images/move_columns_at_once.gif)
+
 ### 2.5. Align column/columns
 
 - **Align column to left/center/right.**
@@ -76,7 +83,7 @@ Key binding to `Shift`+`Tab`.
 - **Align selected multi columns at once.**
     - ![align](images/align_columns_at_once.gif)
 
-### 2.6. Format table
+### 2.7. Format table
 
 - **Auto format column width of all tables in current document**
 - Align data and column header (can be disabled by configuration)
@@ -97,6 +104,8 @@ Key binding to `Shift`+`Tab`.
 | markdowntable.showMenu.alignLeft   | Show command in context menu, "Align to Left"              | boolean | true    |
 | markdowntable.showMenu.alignCenter | Show command in context menu, "Align to Center"            | boolean | true    |
 | markdowntable.showMenu.alignRight  | Show command in context menu, "Align to Right"             | boolean | true    |
+| markdowntable.showMenu.moveLeft    | Show command in context menu, "Move to Left"               | boolean | true    |
+| markdowntable.showMenu.moveRight   | Show command in context menu, "Move to Right"              | boolean | true    |
 
 ## 4. Tips
 

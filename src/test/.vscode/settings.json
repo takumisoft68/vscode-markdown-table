@@ -4,5 +4,6 @@
         
     },
     "markdowntable.showMenu.csvToTable": true,
-    "markdowntable.ignoreCodeblock": true
+    "markdowntable.ignoreCodeblock": true,
+    "markdowntable.showMenu.moveLeft": true
 }
