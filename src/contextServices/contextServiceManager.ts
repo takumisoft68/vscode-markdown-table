@@ -14,6 +14,7 @@ export class ContextServiceManager implements Disposable {
             new TextEditorContextServiceIsSupportedLanguage("markdowntable.contextkey.active.IsSupportedLanguage", false),
             new WorkspaceBooleanConfigurationContextService("markdowntable.contextkey.config.showMenu.format", 'markdowntable.showMenu.format'),
             new WorkspaceBooleanConfigurationContextService("markdowntable.contextkey.config.showMenu.tsvToTable", 'markdowntable.showMenu.tsvToTable'),
+            new WorkspaceBooleanConfigurationContextService("markdowntable.contextkey.config.showMenu.csvToTable", 'markdowntable.showMenu.csvToTable'),
             new WorkspaceBooleanConfigurationContextService("markdowntable.contextkey.config.showMenu.insertRight", 'markdowntable.showMenu.insertRight'),
             new WorkspaceBooleanConfigurationContextService("markdowntable.contextkey.config.showMenu.insertLeft", 'markdowntable.showMenu.insertLeft'),
             new WorkspaceBooleanConfigurationContextService("markdowntable.contextkey.config.showMenu.alignLeft", 'markdowntable.showMenu.alignLeft'),

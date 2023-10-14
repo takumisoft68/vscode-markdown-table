@@ -1,0 +1,7 @@
+{
+    "markdownlint.config": {
+        "MD012": false,
+        
+    },
+    "markdowntable.showMenu.csvToTable": true
+}

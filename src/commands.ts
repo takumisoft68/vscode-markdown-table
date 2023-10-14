@@ -293,6 +293,28 @@ export function tsvToTable() {
     });
 }
 
+export function csvToTable() {
+    // エディタ取得
+    const editor = vscode.window.activeTextEditor as vscode.TextEditor;
+    // ドキュメント取得
+    const doc = editor.document;
+    // 選択範囲取得
+    const cur_selection = editor.selection;
+    if (editor.selection.isEmpty) {
+        return;
+    }
+
+    const text = doc.getText(cur_selection); //取得されたテキスト
+
+    const tableData = mtdh.csvToTableData(text);
+    const newTableStr = mtdh.toFormatTableStr(tableData);
+
+    //エディタ選択範囲にテキストを反映
+    editor.edit(edit => {
+        edit.replace(cur_selection, newTableStr);
+    });
+}
+
 export function insertColumn(isLeft: boolean) {
     // エディタ取得
     const editor = vscode.window.activeTextEditor as vscode.TextEditor;

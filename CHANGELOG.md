@@ -6,6 +6,7 @@
 
 - [Change] VSCode engine to 1.80.0
 - [Add] Configurations to hide menu items in right click menu
+- [Add] Convert CSV to table command
 
 ### 0.10.4 and 0.10.3-PreRelease  (2023/3/15)
 

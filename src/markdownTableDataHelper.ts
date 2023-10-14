@@ -65,16 +65,12 @@ function CreateMarkdownTableData(_text: string, _aligns: [string, string][], _co
     return new MarkdownTableData(_text, _aligns, alignTexts, _columns, _cells, _leftovers, _indent);
 }
 
-/**
-* タブ区切りテキストを MarkdownTableData に変換する
-* @param tableText タブ区切りテキスト
-*/
-export function tsvToTableData(tsvText: string): MarkdownTableData {
+function convertSeparatedValuesToTableData(text: string, separater: string): MarkdownTableData {
     // 入力データを行ごとに分割する
-    let lines = tsvText.split(/\r\n|\n|\r/);
+    let lines = text.split(/\r\n|\n|\r/);
     // カラムデータ
     let columns: string[] = new Array();
-    let columntexts = lines[0].split('\t');
+    let columntexts = lines[0].split(separater);
     // カラム数
     let columnCount = columntexts.length;
 
@@ -98,13 +94,13 @@ export function tsvToTableData(tsvText: string): MarkdownTableData {
         leftovers[row - 1] = '';
 
         // 行データをタブで分割
-        let lineValues = lines[row].split('\t');
+        let lineValues = lines[row].split(separater);
 
         // 実際の値に置き換える
         for (let column = 0; column < lineValues.length; column++) {
             if (column >= columnCount) {
                 // カラムヘッダーよりも多い場合ははみ出しデータ配列に保存
-                leftovers[row - 1] += '\t' + lineValues[column];
+                leftovers[row - 1] += separater + lineValues[column];
                 continue;
             }
             cells[row - 1][column] = lineValues[column].trim();
@@ -122,6 +118,21 @@ export function tsvToTableData(tsvText: string): MarkdownTableData {
     return CreateMarkdownTableData(toFormatTableStr(table), aligns, columns, cells, leftovers, '');
 }
 
+/**
+* タブ区切りテキスト（TSV）を MarkdownTableData に変換する
+* @param tableText タブ区切りテキスト
+*/
+export function tsvToTableData(tsvText: string): MarkdownTableData {
+    return convertSeparatedValuesToTableData(tsvText, '\t');
+}
+
+/**
+* カンマ区切りテキスト（CSV）を MarkdownTableData に変換する
+* @param tableText タブ区切りテキスト
+*/
+export function csvToTableData(csvText: string): MarkdownTableData {
+    return convertSeparatedValuesToTableData(csvText, ',');
+}
 
 /**
  * MarkdownTableData に行を追加

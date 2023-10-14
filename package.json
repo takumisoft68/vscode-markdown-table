@@ -32,6 +32,10 @@
                 "title": "Markdown Table: Convert TSV to table."
             },
             {
+                "command": "markdowntable.csvToTable",
+                "title": "Markdown Table: Convert CSV to table."
+            },
+            {
                 "command": "markdowntable.insertRight",
                 "title": "Markdown Table: Insert column to the right."
             },
@@ -93,6 +97,11 @@
                     "group": "markdowntable@2"
                 },
                 {
+                    "when": "markdowntable.contextkey.active.IsSupportedLanguage && editorHasSelection && markdowntable.contextkey.config.showMenu.csvToTable",
+                    "command": "markdowntable.csvToTable",
+                    "group": "markdowntable@2"
+                },
+                {
                     "when": "markdowntable.contextkey.active.IsSupportedLanguage && markdowntable.contextkey.selection.InMarkdownTable && markdowntable.contextkey.config.showMenu.insertRight",
                     "command": "markdowntable.insertRight",
                     "group": "markdowntable@3"
@@ -141,6 +150,11 @@
                     "type": "boolean",
                     "default": true,
                     "description": "Show command in context menu: \"Convert TSV to table\"."
+                },
+                "markdowntable.showMenu.csvToTable": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Show command in context menu: \"Convert CSV to table\"."
                 },
                 "markdowntable.showMenu.insertRight": {
                     "type": "boolean",

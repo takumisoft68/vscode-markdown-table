@@ -33,6 +33,7 @@ export function activate(context: vscode.ExtensionContext) {
         vscode.commands.registerCommand('markdowntable.nextCellWithoutFormat', () => commands.navigateNextCell(false)),
         vscode.commands.registerCommand('markdowntable.prevCellWithoutFormat', () => commands.navigatePrevCell(false)),
         vscode.commands.registerCommand('markdowntable.tsvToTable', () => commands.tsvToTable()),
+        vscode.commands.registerCommand('markdowntable.csvToTable', () => commands.csvToTable()),
         vscode.commands.registerCommand('markdowntable.format', () => commands.formatAll()),
         vscode.commands.registerCommand('markdowntable.insertRight', () => commands.insertColumn(false)),
         vscode.commands.registerCommand('markdowntable.insertLeft', () => commands.insertColumn(true)),

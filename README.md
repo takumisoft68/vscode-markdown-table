@@ -11,6 +11,7 @@ Add features to edit markdown table.
 | Navigate to next cell (w/o format).     | markdowntable.nextCellWithoutFormat |             | No                                   |
 | Navigate to previous cell (w/o format). | markdowntable.prevCellWithoutFormat |             | No                                   |
 | Convert TSV to table.                   | markdowntable.tsvToTable            |             | Yes (only when selecting range) (*1) |
+| Convert CSV to table.                   | markdowntable.csvToTable            |             | No (only when selecting range) (*1)  |
 | Insert column in the right.             | markdowntable.insertRight           |             | Yes (*1)                             |
 | Insert column in the left.              | markdowntable.insertLeft            |             | Yes (*1)                             |
 | Align to Left.                          | markdowntable.alignLeft             |             | Yes (*1)                             |
@@ -18,7 +19,7 @@ Add features to edit markdown table.
 | Align to Right.                         | markdowntable.alignRight            |             | Yes (*1)                             |
 | Format all tables.                      | markdowntable.format                |             | Yes (*1)                             |
 
-(*1) You can hide menu item by configuration.
+(*1) By using configuration, you can switch show or hide menu item.
 
 ---
 
@@ -53,10 +54,14 @@ Key binding to `Shift`+`Tab`.
 - Use markdowntable.prevCellWithoutFormat command
 - If you want, you need to assign this command to some key binding by yourself.
 
-### 2.3. Convert to table from TSV text
+### 2.3. Convert from text to table
 
-- **Tips: This feature is supposed to make table from excel cells.**
+- Convert from TSV
+    - **Tips: This feature is supposed to make table from excel cells.**
     - ![convert](images/table_from_excel.gif)
+- Convert from CSV
+    - **Note: This menu item is hidden in default. You can show it by setting markdowntable.showMenu.csvToTable configuration as true.**
+    - ![convert](images/csv_to_table.gif)
 
 ### 2.4. Insert column
 
@@ -85,6 +90,7 @@ Key binding to `Shift`+`Tab`.
 | markdowntable.alignData            | Align data in the table when formatting                    | boolean | true    |
 | markdowntable.showMenu.format      | Show command in context menu, "Format all tables"          | boolean | true    |
 | markdowntable.showMenu.tsvToTable  | Show command in context menu, "Convert TSV to table"       | boolean | true    |
+| markdowntable.showMenu.csvToTable  | Show command in context menu, "Convert CSV to table"       | boolean | false   |
 | markdowntable.showMenu.insertRight | Show command in context menu, "Insert column to the right" | boolean | true    |
 | markdowntable.showMenu.insertLeft  | Show command in context menu, "Insert column to the left"  | boolean | true    |
 | markdowntable.showMenu.alignLeft   | Show command in context menu, "Align to Left"              | boolean | true    |

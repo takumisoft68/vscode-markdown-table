@@ -1,10 +1,10 @@
 ﻿
 # No.22
 
-| C1          | C2        |
-| ----------- | --------- |
-| 🧪         | Some text |
-| Another row | More text |
+| C1          | C2        | C3  |
+| ----------- | --------- | --- |
+| 🧪         | Some text |     |
+| Another row | More text |     |
 
 # No.20
 
