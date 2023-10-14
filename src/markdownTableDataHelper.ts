@@ -1,4 +1,3 @@
-import { table } from "console";
 import { workspace } from "vscode";
 import MarkdownTableData from './markdownTableData';
 import * as Utility from './markdownTableUtility';

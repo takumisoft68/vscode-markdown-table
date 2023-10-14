@@ -5,6 +5,8 @@
 ### 0.11.0
 
 - [Change] VSCode engine to 1.80.0
+- [Change] Ignore tables in codeblock
+- [Add] Configuration to switch ignore or not ignore tables in codeblock
 - [Add] Configurations to hide menu items in right click menu
 - [Add] Convert CSV to table command
 

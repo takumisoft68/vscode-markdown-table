@@ -15,22 +15,11 @@ export function navigateNextCell(withFormat: boolean) {
     const cur_selection = editor.selection;
 
     // 表を探す
-    let startLine = cur_selection.anchor.line;
-    let endLine = cur_selection.anchor.line;
-    while (startLine - 1 >= 0) {
-        const line_text = doc.lineAt(startLine - 1).text;
-        if (!text.isInTable(line_text)) {
-            break;
-        }
-        startLine--;
+    const tableRange = text.findTableRange(doc.getText(), cur_selection.anchor.line, cur_selection.anchor.line);
+    if (!tableRange) {
+        return;
     }
-    while (endLine + 1 < doc.lineCount) {
-        const line_text = doc.lineAt(endLine + 1).text;
-        if (!text.isInTable(line_text)) {
-            break;
-        }
-        endLine++;
-    }
+    const [startLine, endLine] = tableRange;
     const table_selection = new vscode.Selection(startLine, 0, endLine, 10000);
     const table_text = doc.getText(table_selection);
 
@@ -114,22 +103,11 @@ export function navigatePrevCell(withFormat: boolean) {
     const cur_selection = editor.selection;
 
     // 表を探す
-    let startLine = cur_selection.anchor.line;
-    let endLine = cur_selection.anchor.line;
-    while (startLine - 1 >= 0) {
-        const line_text = doc.lineAt(startLine - 1).text;
-        if (!text.isInTable(line_text)) {
-            break;
-        }
-        startLine--;
+    const tableRange = text.findTableRange(doc.getText(), cur_selection.anchor.line, cur_selection.anchor.line);
+    if (!tableRange) {
+        return;
     }
-    while (endLine + 1 < doc.lineCount) {
-        const line_text = doc.lineAt(endLine + 1).text;
-        if (!text.isInTable(line_text)) {
-            break;
-        }
-        endLine++;
-    }
+    const [startLine, endLine] = tableRange;
     const table_selection = new vscode.Selection(startLine, 0, endLine, 10000);
     const table_text = doc.getText(table_selection);
 
@@ -199,6 +177,7 @@ export function formatAll() {
     const doc = editor.document;
     // 変換のリスト
     let format_list = [] as [vscode.Selection, MarkdownTableData][];
+    const alltext = doc.getText();
 
     // 表を探す
     let preSearchedLine = -1;
@@ -206,19 +185,17 @@ export function formatAll() {
         if (line <= preSearchedLine) {
             continue;
         }
-        if (!doc.lineAt(line).text.trim().startsWith('|')) {
+        if(!text.isInTable(alltext, line, line)) {
             continue;
         }
-        let startLine = line;
-        let endLine = line;
 
         // 表の終わり行を探す
-        while (endLine + 1 < doc.lineCount && doc.lineAt(endLine + 1).text.trim().startsWith('|')) {
-            endLine++;
-            if (endLine >= doc.lineCount) {
-                break;
-            }
+        const tableRange = text.findTableRange(doc.getText(), line, line);
+        if (!tableRange) {
+            continue;
         }
+        const [startLine, endLine] = tableRange;
+    
         // 表のテキストを取得
         const table_selection = new vscode.Selection(startLine, 0, endLine, doc.lineAt(endLine).text.length);
         const table_text = doc.getText(table_selection);
@@ -324,22 +301,11 @@ export function insertColumn(isLeft: boolean) {
     const cur_selection = editor.selection;
 
     // 表を探す
-    let startLine = cur_selection.active.line;
-    let endLine = cur_selection.active.line;
-    while (startLine - 1 >= 0) {
-        const line_text = doc.lineAt(startLine - 1).text;
-        if (!text.isInTable(line_text)) {
-            break;
-        }
-        startLine--;
+    const tableRange = text.findTableRange(doc.getText(), cur_selection.active.line, cur_selection.active.line);
+    if (!tableRange) {
+        return;
     }
-    while (endLine + 1 < doc.lineCount) {
-        const line_text = doc.lineAt(endLine + 1).text;
-        if (!text.isInTable(line_text)) {
-            break;
-        }
-        endLine++;
-    }
+    const [startLine, endLine] = tableRange;
     const table_selection = new vscode.Selection(startLine, 0, endLine, 10000);
     const table_text = doc.getText(table_selection);
 
@@ -385,36 +351,15 @@ export function alignColumns(alignMark: [string, string]) {
     const doc = editor.document;
     // 選択範囲取得
     const cur_selection = editor.selection;
-    // 選択範囲の始まり行
-    const currentLine = doc.lineAt(cur_selection.start.line).text;
 
-    // テーブル内ではなかったら終了
-    if (!currentLine.trim().startsWith('|')) {
-        vscode.window.showErrorMessage('Markdown Table : Align command failed, because your selection is not starting from inside of a table.');
+    // 選択範囲を含むテーブルを探す
+    const tableRange = text.findTableRange(doc.getText(), cur_selection.start.line, cur_selection.start.line);
+    if (!tableRange) {
+        // テーブル内ではなかったら終了
+        vscode.window.showErrorMessage('Markdown Table : Align command failed, because your selection is not inside of a table.');
         return;
     }
-
-    // 表を探す
-    let startLine = cur_selection.start.line;
-    let endLine = cur_selection.start.line;
-    while (startLine - 1 >= 0) {
-        const line_text = doc.lineAt(startLine - 1).text;
-        if (!text.isInTable(line_text)) {
-            break;
-        }
-        startLine--;
-    }
-    while (endLine + 1 < doc.lineCount) {
-        const line_text = doc.lineAt(endLine + 1).text;
-        if (!text.isInTable(line_text)) {
-            break;
-        }
-        endLine++;
-    }
-    if (endLine < cur_selection.end.line) {
-        vscode.window.showErrorMessage('Markdown Table : Align command failed, because your selection is hanging out of the table.');
-        return;
-    }
+    const [startLine, endLine] = tableRange;
     const table_selection = new vscode.Selection(startLine, 0, endLine, 10000);
     const table_text = doc.getText(table_selection);
 

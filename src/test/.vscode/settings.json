@@ -3,5 +3,6 @@
         "MD012": false,
         
     },
-    "markdowntable.showMenu.csvToTable": true
+    "markdowntable.showMenu.csvToTable": true,
+    "markdowntable.ignoreCodeblock": true
 }

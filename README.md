@@ -88,6 +88,7 @@ Key binding to `Shift`+`Tab`.
 | :--------------------------------- | :--------------------------------------------------------- | :------ | :------ |
 | markdowntable.alignColumnHeader    | Align column header in the table when formatting           | boolean | true    |
 | markdowntable.alignData            | Align data in the table when formatting                    | boolean | true    |
+| markdowntable.ignoreCodeblock      | Ignore tables in code block                                | boolean | true    |
 | markdowntable.showMenu.format      | Show command in context menu, "Format all tables"          | boolean | true    |
 | markdowntable.showMenu.tsvToTable  | Show command in context menu, "Convert TSV to table"       | boolean | true    |
 | markdowntable.showMenu.csvToTable  | Show command in context menu, "Convert CSV to table"       | boolean | false   |

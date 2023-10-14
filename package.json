@@ -141,6 +141,11 @@
                     "default": true,
                     "description": "Align column header in the table when formatting"
                 },
+                "markdowntable.ignoreCodeblock": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Ignore tables in codeblock"
+                },
                 "markdowntable.showMenu.format": {
                     "type": "boolean",
                     "default": true,

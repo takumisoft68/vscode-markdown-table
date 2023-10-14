@@ -75,16 +75,8 @@ export class TextEditorContextServiceCursorInTable extends ContextService {
             return false;
         }
 
-        // 選択範囲取得
-        let inTable: boolean = true;
-        for (let linenum = selection.start.line; linenum <= selection.end.line; linenum++) {
-            const line_text = document.lineAt(linenum).text;
-            if (!textUtility.isInTable(line_text)) {
-                inTable = false;
-                break;
-            }
-        }
-
-        return inTable;
+        // 選択範囲がテーブル内か判定する
+        const isInTable = textUtility.isInTable(document.getText(), selection.start.line, selection.end.line);
+        return isInTable;
     }
 }
