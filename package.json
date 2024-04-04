@@ -18,7 +18,9 @@
     "activationEvents": [
         "onLanguage:markdown",
         "onLanguage:mdx",
-        "onLanguage:quarto"
+        "onLanguage:quarto",
+        "onLanguage:rmd",
+        "onLanguage:markdoc"
     ],
     "main": "./out/extension.js",
     "contributes": {
