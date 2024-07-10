@@ -3,6 +3,7 @@
 import * as vscode from 'vscode';
 import * as commands from './commands';
 import { ContextServiceManager } from "./contextServices/contextServiceManager";
+import { FormatOnSaveService } from './doOnSaveServices/formatOnSaveService';
 
 
 // this method is called when your extension is activated
@@ -25,6 +26,13 @@ export function activate(context: vscode.ExtensionContext) {
     );
     // start custom context key services
     contextServiceManager.activate(context);
+
+    // subscribe and activate formatOnSaveService
+    const formatOnSaveService = new FormatOnSaveService();
+    context.subscriptions.push(
+        formatOnSaveService
+    );
+    formatOnSaveService.activate(context);
     
     // subscribe command handlers
     context.subscriptions.push(

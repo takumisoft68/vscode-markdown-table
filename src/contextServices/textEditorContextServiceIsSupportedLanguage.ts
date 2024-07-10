@@ -1,5 +1,6 @@
 ﻿import { ExtensionContext, Selection, TextDocument, window, StatusBarItem, StatusBarAlignment, TextEditor, TextEditorSelectionChangeEvent } from 'vscode';
 import { ContextService } from "./contextService";
+import { SupportLanguage } from '../definitions/supportLanguage';
 
 export class TextEditorContextServiceIsSupportedLanguage extends ContextService {
     private statusBarItem: StatusBarItem | undefined;
@@ -39,7 +40,7 @@ export class TextEditorContextServiceIsSupportedLanguage extends ContextService 
 
     private updateContextState(editor: TextEditor | undefined) {
         const document = editor?.document;
-        var isSupported = this.isSupportedLanguage(document);
+        var isSupported = SupportLanguage.isSupportedLanguage(document);
 
         if (isSupported) {
             this.setState(true);
@@ -63,12 +64,5 @@ export class TextEditorContextServiceIsSupportedLanguage extends ContextService 
                 this.statusBarItem.show();
             }
         }
-    }
-
-    private isSupportedLanguage(document: TextDocument | undefined): boolean {
-        if(!document || document.languageId === null) {
-            return false;
-        }
-        return (document.languageId === 'markdown' || document.languageId === 'mdx' || document.languageId === 'quarto');
     }
 }

@@ -213,6 +213,11 @@
                     "type": "boolean",
                     "default": true,
                     "description": "Show command in context menu: \"Move to Right\"."
+                },
+                "markdowntable.formatOnSave": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Format all tables on save."
                 }
             }
         }

@@ -2,6 +2,10 @@
 
 ## All notable changes to the "markdowntable" extension will be documented in this file
 
+### 0.12.0
+
+- [Add] Configuration to format on save
+
 ### 0.11.0
 
 - [Change] VSCode engine to 1.80.0

@@ -106,6 +106,7 @@ Key binding to `Shift`+`Tab`.
 | markdowntable.showMenu.alignRight  | Show command in context menu, "Align to Right"             | boolean | true    |
 | markdowntable.showMenu.moveLeft    | Show command in context menu, "Move to Left"               | boolean | true    |
 | markdowntable.showMenu.moveRight   | Show command in context menu, "Move to Right"              | boolean | true    |
+| markdowntable.formatOnSave         | Format all tables on save                                  | boolean | false   |
 
 ## 4. Tips
 
