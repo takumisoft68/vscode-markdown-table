@@ -91,22 +91,23 @@ Key binding to `Shift`+`Tab`.
 
 ## 3. Extension Configurations
 
-| Configuration ID                   | Description                                                | Type    | Default |
-| :--------------------------------- | :--------------------------------------------------------- | :------ | :------ |
-| markdowntable.alignColumnHeader    | Align column header in the table when formatting           | boolean | true    |
-| markdowntable.alignData            | Align data in the table when formatting                    | boolean | true    |
-| markdowntable.ignoreCodeblock      | Ignore tables in code block                                | boolean | true    |
-| markdowntable.showMenu.format      | Show command in context menu, "Format all tables"          | boolean | true    |
-| markdowntable.showMenu.tsvToTable  | Show command in context menu, "Convert TSV to table"       | boolean | true    |
-| markdowntable.showMenu.csvToTable  | Show command in context menu, "Convert CSV to table"       | boolean | false   |
-| markdowntable.showMenu.insertRight | Show command in context menu, "Insert column to the right" | boolean | true    |
-| markdowntable.showMenu.insertLeft  | Show command in context menu, "Insert column to the left"  | boolean | true    |
-| markdowntable.showMenu.alignLeft   | Show command in context menu, "Align to Left"              | boolean | true    |
-| markdowntable.showMenu.alignCenter | Show command in context menu, "Align to Center"            | boolean | true    |
-| markdowntable.showMenu.alignRight  | Show command in context menu, "Align to Right"             | boolean | true    |
-| markdowntable.showMenu.moveLeft    | Show command in context menu, "Move to Left"               | boolean | true    |
-| markdowntable.showMenu.moveRight   | Show command in context menu, "Move to Right"              | boolean | true    |
-| markdowntable.formatOnSave         | Format all tables on save                                  | boolean | false   |
+| Configuration ID                      | Description                                                | Type    | Default |
+| :------------------------------------ | :--------------------------------------------------------- | :------ | :------ |
+| markdowntable.alignColumnHeader       | Align column header in the table when formatting           | boolean | true    |
+| markdowntable.alignData               | Align data in the table when formatting                    | boolean | true    |
+| markdowntable.ignoreCodeblock         | Ignore tables in code block                                | boolean | true    |
+| markdowntable.paddedDelimiterRowPipes | Add spaces around delimiter row pipes                      | boolean | true    |
+| markdowntable.showMenu.format         | Show command in context menu, "Format all tables"          | boolean | true    |
+| markdowntable.showMenu.tsvToTable     | Show command in context menu, "Convert TSV to table"       | boolean | true    |
+| markdowntable.showMenu.csvToTable     | Show command in context menu, "Convert CSV to table"       | boolean | false   |
+| markdowntable.showMenu.insertRight    | Show command in context menu, "Insert column to the right" | boolean | true    |
+| markdowntable.showMenu.insertLeft     | Show command in context menu, "Insert column to the left"  | boolean | true    |
+| markdowntable.showMenu.alignLeft      | Show command in context menu, "Align to Left"              | boolean | true    |
+| markdowntable.showMenu.alignCenter    | Show command in context menu, "Align to Center"            | boolean | true    |
+| markdowntable.showMenu.alignRight     | Show command in context menu, "Align to Right"             | boolean | true    |
+| markdowntable.showMenu.moveLeft       | Show command in context menu, "Move to Left"               | boolean | true    |
+| markdowntable.showMenu.moveRight      | Show command in context menu, "Move to Right"              | boolean | true    |
+| markdowntable.formatOnSave            | Format all tables on save                                  | boolean | false   |
 
 ## 4. Tips
 

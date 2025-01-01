@@ -164,6 +164,11 @@
                     "default": true,
                     "description": "Ignore tables in codeblock"
                 },
+                "markdowntable.paddedDelimiterRowPipes": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Add spaces around delimiter row pipes."
+                },
                 "markdowntable.showMenu.format": {
                     "type": "boolean",
                     "default": true,

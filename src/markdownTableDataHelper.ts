@@ -205,6 +205,7 @@ export function getColumnMaxWidths(tableData: MarkdownTableData): number[] {
 export function toFormatTableStr(tableData: MarkdownTableData): string {
     const alignData = <boolean>workspace.getConfiguration('markdowntable').get('alignData');
     const alignHeader = <boolean>workspace.getConfiguration('markdowntable').get('alignColumnHeader');
+    const paddedDelimiterRowPipes = <boolean>workspace.getConfiguration('markdowntable').get('paddedDelimiterRowPipes');
 
     // 各列の最大文字数を調べる
     const maxWidths = getColumnMaxWidths(tableData);
@@ -325,12 +326,20 @@ export function toFormatTableStr(tableData: MarkdownTableData): string {
     // 2行目を成形する
     for (let i = 0; i < columnNum; i++) {
         const [front, end] = tableData.aligns[i];
-        tableData.alignTexts[i] = ' ' + front;
+        if (paddedDelimiterRowPipes) {
+            tableData.alignTexts[i] = ' ' + front;
+        } else {
+            tableData.alignTexts[i] = front + '-';
+        }
         // 余白を-で埋める
         for (let n = 1; n < maxWidths[i] - 1; n++) {
             tableData.alignTexts[i] += '-';
         }
-        tableData.alignTexts[i] += end + ' ';
+        if (paddedDelimiterRowPipes) {
+            tableData.alignTexts[i] += end + ' ';
+        } else {
+            tableData.alignTexts[i] += '-' + end;
+        }
     }
     let tablemark = '';
     tablemark += tableData.indent;
