@@ -218,6 +218,7 @@ Special thanks to contributors.
 - M.A
 - [Mark Ferrall](https://github.com/mferrall)
 - [heartacker](https://github.com/heartacker)
+- [jimtng](https://github.com/jimtng)
 
 ## 8. Release Notes
 
